@@ -1,494 +1,255 @@
-/* ================================================================
-   Starry Night — Background Theme for BetterDiscord / Vencord
-   Port of: https://github.com/b-chen00/spicetify-themes/StarryNight
-   Focus: Animated starfield + Van Gogh swirl background
-   ================================================================ */
+/**
+ * @name Starry Night (Animated & Split)
+ * @author b-chen00 (Ported & Enhanced by Assistant)
+ * @version 3.0
+ * @description Exact Spicetify StarryNight replica with animated stars moving downwards.
+ */
 
+/* --- CORE COLORS --- */
 :root {
-  --starry-bg:       #070b1a;
-  --starry-bg-mid:   #0a1128;
-  --starry-bg-light: #0d1633;
-  --starry-gold:     #f0d060;
-  --starry-gold-dim: #c9a832;
-  --starry-teal:     #5bc0eb;
-  --starry-white:    #f5f0e0;
-  --starry-cloud:    rgba(100, 140, 220, 0.06);
-  --starry-glow:     rgba(240, 208, 96, 0.15);
+    /* Primary Background (Deepest Navy) */
+    --bg-deep: #101215;
+    --bg-deep-rgb: 16, 18, 21; /* RGB for rgba() transparency */
+
+    /* Secondary Background (Slightly Lighter for panels/hover) */
+    --bg-secondary: #15171b;
+    --bg-secondary-rgb: 21, 23, 27;
+
+    /* Tertiary Background (Cards, Modals, Input Fields) */
+    --bg-tertiary: #1c1f24;
+    --bg-tertiary-rgb: 28, 31, 36;
+    
+    /* The Electric Star Blue (Accents) */
+    --accent-blue: #4d9fff;
+    --accent-blue-hover: #3b8be0; /* Slightly darker for hover */
+
+    /* Text Colors */
+    --text-normal: #b9c1cd;
+    --text-muted: #6b7383;
+    --text-header: #ffffff; /* Brighter for headers */
+    
+    /* Borders */
+    --border-subtle: #282b33;
 }
 
-/* ============================================================
-   LAYER 1 — Base solid dark background on the entire app
-   ============================================================ */
-.appMount_ea7e85,
-.bg_f75ce0 {
-  background: var(--starry-bg) !important;
+/* --- 1. ANIMATED STAR BACKGROUND ENGINE --- */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Ensure it's behind everything */
+    
+    /* Layer 1: Base color for solid areas (will be overridden where transparency is needed) */
+    background-color: var(--bg-deep); 
+    
+    /* Layer 2, 3, 4: Generated Starfield using radial gradients */
+    background-image: 
+        radial-gradient(rgba(255,255,255,0.7) 0.5px, transparent 1.5px), /* Brighter, smaller stars */
+        radial-gradient(rgba(255,255,255,0.5) 1px, transparent 2px),    /* Medium stars */
+        radial-gradient(rgba(255,255,255,0.3) 1.5px, transparent 2.5px); /* Fainter, larger stars */
+        
+    /* Different background sizes for parallax effect */
+    background-size: 80px 80px, 120px 120px, 200px 200px;
+    
+    /* Animation for downward movement */
+    animation: starfall 60s linear infinite; /* Adjust duration for desired speed */
+    pointer-events: none; /* Allows clicks through the background */
 }
 
-/* ============================================================
-   LAYER 2 — The animated starfield canvas
-   Uses ::before on the chat content area
-   ============================================================ */
-
-/* Make the chat area a stacking context */
-.chatContent_f75ce0,
-.content_f75ce0,
-[class*="chatContent"] {
-  background: var(--starry-bg) !important;
-  position: relative !important;
+/* Keyframes for stars moving downwards */
+@keyframes starfall {
+    from {
+        background-position: 0 0, 20px 20px, 50px 50px;
+    }
+    to {
+        /* Move stars down by a large enough value to hide visible looping */
+        background-position: 0 1000px, 20px 1020px, 50px 1050px;
+    }
 }
 
-/* --- THE STARS --- */
-.chatContent_f75ce0::before,
-.content_f75ce0::before,
-[class*="chatContent"]::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 0;
+/* --- 2. DISCORD LAYOUT OVERRIDES (CRITICAL FOR SPLIT BACKGROUND) --- */
 
-  /*
-     Each radial-gradient = one star.
-     Format: radial-gradient(size size at X% Y%, color, transparent)
-     Sizes vary 0.5px to 2.5px for depth.
-     Colors: warm white, cool white, pale yellow, pale blue, gold.
-  */
-  background:
-    /* --- TIER 1: Tiny distant stars (0.5 - 0.8px) --- */
-    radial-gradient(0.6px 0.6px at 3.2% 8.7%,   #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 7.8% 14.3%,  rgba(245,240,224,0.8), transparent),
-    radial-gradient(0.7px 0.7px at 12.1% 5.6%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 16.9% 22.1%, rgba(245,240,224,0.7), transparent),
-    radial-gradient(0.6px 0.6px at 21.3% 9.4%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 25.7% 18.8%, rgba(200,220,255,0.6), transparent),
-    radial-gradient(0.8px 0.8px at 30.2% 4.2%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 34.6% 28.5%, rgba(245,240,224,0.7), transparent),
-    radial-gradient(0.6px 0.6px at 39.1% 11.3%, #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 43.8% 19.7%, rgba(245,240,224,0.6), transparent),
-    radial-gradient(0.7px 0.7px at 48.2% 6.8%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 52.5% 24.2%, rgba(200,220,255,0.7), transparent),
-    radial-gradient(0.6px 0.6px at 57.3% 13.6%, #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 61.7% 7.9%,  rgba(245,240,224,0.8), transparent),
-    radial-gradient(0.8px 0.8px at 66.4% 21.5%, #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 71.2% 9.1%,  rgba(245,240,224,0.6), transparent),
-    radial-gradient(0.6px 0.6px at 75.8% 26.3%, #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 80.1% 5.4%,  rgba(200,220,255,0.7), transparent),
-    radial-gradient(0.7px 0.7px at 84.5% 17.2%, #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 89.3% 10.8%, rgba(245,240,224,0.7), transparent),
-    radial-gradient(0.6px 0.6px at 93.7% 23.6%, #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 97.1% 8.3%,  rgba(245,240,224,0.8), transparent),
-
-    /* More tiny stars scattered */
-    radial-gradient(0.6px 0.6px at 4.5% 33.2%,  rgba(245,240,224,0.5), transparent),
-    radial-gradient(0.5px 0.5px at 9.3% 41.8%,  #fff8dc, transparent),
-    radial-gradient(0.7px 0.7px at 14.7% 36.5%, rgba(200,220,255,0.5), transparent),
-    radial-gradient(0.5px 0.5px at 19.2% 45.1%, rgba(245,240,224,0.6), transparent),
-    radial-gradient(0.6px 0.6px at 24.8% 38.7%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 29.4% 52.3%, rgba(245,240,224,0.5), transparent),
-    radial-gradient(0.8px 0.8px at 34.1% 43.9%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 38.6% 35.4%, rgba(200,220,255,0.6), transparent),
-    radial-gradient(0.6px 0.6px at 43.2% 48.6%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 47.9% 55.1%, rgba(245,240,224,0.5), transparent),
-    radial-gradient(0.7px 0.7px at 52.4% 40.3%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 56.8% 47.8%, rgba(245,240,224,0.7), transparent),
-    radial-gradient(0.6px 0.6px at 61.5% 34.6%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 66.2% 50.2%, rgba(200,220,255,0.5), transparent),
-    radial-gradient(0.8px 0.8px at 70.7% 39.4%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 75.3% 44.7%, rgba(245,240,224,0.6), transparent),
-    radial-gradient(0.6px 0.6px at 80.1% 53.8%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 84.8% 37.2%, rgba(245,240,224,0.5), transparent),
-    radial-gradient(0.7px 0.7px at 89.4% 46.5%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 94.1% 51.3%, rgba(200,220,255,0.7), transparent),
-    radial-gradient(0.6px 0.6px at 97.6% 42.8%,  #fff8dc, transparent),
-
-    /* Bottom half tiny stars */
-    radial-gradient(0.5px 0.5px at 5.1% 58.4%,  rgba(245,240,224,0.4), transparent),
-    radial-gradient(0.6px 0.6px at 10.6% 64.7%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 15.3% 71.2%, rgba(200,220,255,0.4), transparent),
-    radial-gradient(0.7px 0.7px at 20.8% 62.5%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 25.4% 76.8%, rgba(245,240,224,0.5), transparent),
-    radial-gradient(0.6px 0.6px at 30.9% 68.3%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 35.5% 59.1%, rgba(245,240,224,0.4), transparent),
-    radial-gradient(0.8px 0.8px at 40.2% 73.6%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 45.7% 66.9%, rgba(200,220,255,0.5), transparent),
-    radial-gradient(0.6px 0.6px at 50.3% 61.4%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 55.8% 78.2%, rgba(245,240,224,0.4), transparent),
-    radial-gradient(0.7px 0.7px at 60.4% 63.7%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 65.1% 70.5%, rgba(245,240,224,0.5), transparent),
-    radial-gradient(0.6px 0.6px at 70.6% 57.8%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 75.2% 82.1%, rgba(200,220,255,0.4), transparent),
-    radial-gradient(0.8px 0.8px at 80.7% 67.4%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 85.3% 74.9%, rgba(245,240,224,0.5), transparent),
-    radial-gradient(0.6px 0.6px at 90.1% 59.6%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 94.7% 72.3%, rgba(245,240,224,0.4), transparent),
-    radial-gradient(0.7px 0.7px at 98.2% 65.8%,  #fff8dc, transparent),
-
-    /* Far bottom */
-    radial-gradient(0.5px 0.5px at 6.2% 84.3%,  rgba(245,240,224,0.3), transparent),
-    radial-gradient(0.6px 0.6px at 11.8% 91.7%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 17.4% 87.2%, rgba(200,220,255,0.3), transparent),
-    radial-gradient(0.7px 0.7px at 22.9% 95.1%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 28.5% 83.6%, rgba(245,240,224,0.4), transparent),
-    radial-gradient(0.6px 0.6px at 33.1% 89.4%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 38.7% 96.8%, rgba(245,240,224,0.3), transparent),
-    radial-gradient(0.8px 0.8px at 44.3% 85.2%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 49.8% 92.6%, rgba(200,220,255,0.4), transparent),
-    radial-gradient(0.6px 0.6px at 55.4% 88.1%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 61.1% 94.3%, rgba(245,240,224,0.3), transparent),
-    radial-gradient(0.7px 0.7px at 66.7% 82.9%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 72.3% 90.7%, rgba(245,240,224,0.4), transparent),
-    radial-gradient(0.6px 0.6px at 77.9% 86.5%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 83.4% 97.1%, rgba(200,220,255,0.3), transparent),
-    radial-gradient(0.8px 0.8px at 89.1% 84.8%,  #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 94.6% 93.4%, rgba(245,240,224,0.4), transparent),
-
-    /* --- TIER 2: Medium stars (1px - 1.5px) --- */
-    radial-gradient(1px 1px at 8.4% 12.1%,    #ffe8a0, transparent),
-    radial-gradient(1.2px 1.2px at 18.7% 7.6%,  var(--starry-white), transparent),
-    radial-gradient(1px 1px at 27.3% 15.8%,   #ffe8a0, transparent),
-    radial-gradient(1.3px 1.3px at 36.9% 22.4%, var(--starry-teal), transparent),
-    radial-gradient(1px 1px at 44.5% 10.3%,   #ffe8a0, transparent),
-    radial-gradient(1.2px 1.2px at 53.8% 18.1%, var(--starry-white), transparent),
-    radial-gradient(1px 1px at 62.1% 6.7%,    #ffe8a0, transparent),
-    radial-gradient(1.4px 1.4px at 71.6% 14.5%, var(--starry-gold-dim), transparent),
-    radial-gradient(1px 1px at 80.3% 20.8%,   #ffe8a0, transparent),
-    radial-gradient(1.2px 1.2px at 88.9% 9.2%,  var(--starry-white), transparent),
-    radial-gradient(1px 1px at 95.4% 16.7%,   #ffe8a0, transparent),
-
-    radial-gradient(1.1px 1.1px at 6.8% 30.5%,  var(--starry-white), transparent),
-    radial-gradient(1px 1px at 15.2% 38.9%,   #ffe8a0, transparent),
-    radial-gradient(1.3px 1.3px at 23.6% 34.2%, var(--starry-teal), transparent),
-    radial-gradient(1px 1px at 32.4% 42.7%,   #ffe8a0, transparent),
-    radial-gradient(1.2px 1.2px at 41.8% 37.1%, var(--starry-white), transparent),
-    radial-gradient(1px 1px at 50.5% 44.8%,   #ffe8a0, transparent),
-    radial-gradient(1.4px 1.4px at 59.3% 32.6%, var(--starry-gold-dim), transparent),
-    radial-gradient(1px 1px at 68.7% 40.3%,   #ffe8a0, transparent),
-    radial-gradient(1.1px 1.1px at 77.4% 36.9%, var(--starry-white), transparent),
-    radial-gradient(1px 1px at 86.2% 43.5%,   #ffe8a0, transparent),
-    radial-gradient(1.3px 1.3px at 94.8% 31.2%, var(--starry-teal), transparent),
-
-    radial-gradient(1px 1px at 7.5% 52.8%,    #ffe8a0, transparent),
-    radial-gradient(1.2px 1.2px at 16.3% 60.4%, var(--starry-white), transparent),
-    radial-gradient(1px 1px at 25.1% 55.7%,   #ffe8a0, transparent),
-    radial-gradient(1.4px 1.4px at 34.7% 63.1%, var(--starry-gold-dim), transparent),
-    radial-gradient(1px 1px at 43.4% 57.9%,   #ffe8a0, transparent),
-    radial-gradient(1.1px 1.1px at 52.8% 65.3%, var(--starry-white), transparent),
-    radial-gradient(1px 1px at 61.6% 53.4%,   #ffe8a0, transparent),
-    radial-gradient(1.3px 1.3px at 70.2% 61.8%, var(--starry-teal), transparent),
-    radial-gradient(1px 1px at 79.5% 56.2%,   #ffe8a0, transparent),
-    radial-gradient(1.2px 1.2px at 88.1% 64.7%, var(--starry-white), transparent),
-    radial-gradient(1px 1px at 96.7% 58.3%,   #ffe8a0, transparent),
-
-    radial-gradient(1px 1px at 9.2% 72.6%,    #ffe8a0, transparent),
-    radial-gradient(1.3px 1.3px at 18.5% 79.1%, var(--starry-teal), transparent),
-    radial-gradient(1px 1px at 27.8% 85.4%,   #ffe8a0, transparent),
-    radial-gradient(1.2px 1.2px at 36.4% 73.8%, var(--starry-white), transparent),
-    radial-gradient(1px 1px at 45.9% 81.2%,   #ffe8a0, transparent),
-    radial-gradient(1.4px 1.4px at 54.7% 88.6%, var(--starry-gold-dim), transparent),
-    radial-gradient(1px 1px at 63.3% 76.5%,   #ffe8a0, transparent),
-    radial-gradient(1.1px 1.1px at 72.8% 83.9%, var(--starry-white), transparent),
-    radial-gradient(1px 1px at 81.6% 78.3%,   #ffe8a0, transparent),
-    radial-gradient(1.2px 1.2px at 90.4% 86.1%, var(--starry-white), transparent),
-    radial-gradient(1px 1px at 97.1% 74.9%,   #ffe8a0, transparent),
-
-    /* --- TIER 3: Bright/Gold stars (1.8px - 2.5px) — the "Van Gogh" stars --- */
-    radial-gradient(2.2px 2.2px at 10.5% 10.2%,  var(--starry-gold), transparent),
-    radial-gradient(2px 2px at 24.3% 6.8%,       var(--starry-gold), transparent),
-    radial-gradient(2.5px 2.5px at 42.7% 14.5%,  var(--starry-gold), transparent),
-    radial-gradient(2px 2px at 60.8% 8.3%,       var(--starry-gold), transparent),
-    radial-gradient(2.3px 2.3px at 78.4% 12.7%,  var(--starry-gold), transparent),
-    radial-gradient(2px 2px at 92.6% 7.1%,       var(--starry-gold), transparent),
-
-    radial-gradient(2px 2px at 15.8% 35.2%,      var(--starry-gold), transparent),
-    radial-gradient(2.4px 2.4px at 38.2% 40.6%,  var(--starry-gold), transparent),
-    radial-gradient(2px 2px at 56.5% 36.8%,      var(--starry-gold), transparent),
-    radial-gradient(2.2px 2.2px at 74.1% 42.3%,  var(--starry-gold), transparent),
-    radial-gradient(2px 2px at 88.9% 38.5%,      var(--starry-gold), transparent),
-
-    radial-gradient(2.5px 2.5px at 20.6% 68.4%,  var(--starry-gold), transparent),
-    radial-gradient(2px 2px at 46.3% 72.1%,      var(--starry-gold), transparent),
-    radial-gradient(2.3px 2.3px at 68.7% 66.8%,  var(--starry-gold), transparent),
-    radial-gradient(2px 2px at 85.2% 70.5%,      var(--starry-gold), transparent),
-
-    radial-gradient(2.1px 2.1px at 12.4% 90.3%,  var(--starry-gold), transparent),
-    radial-gradient(2px 2px at 52.1% 94.6%,      var(--starry-gold), transparent),
-    radial-gradient(2.4px 2.4px at 91.3% 88.7%,  var(--starry-gold), transparent);
-
-  animation: twinkle-stars 5s ease-in-out infinite alternate;
+/* Make main app layers transparent to reveal the global starfield */
+.appMount_16260, 
+.layers_a23bcc, 
+.layer_e5e116,
+.baseLayer_d9a8c6 {
+    background: transparent !important;
 }
 
-/* --- Twinkling animation --- */
-@keyframes twinkle-stars {
-  0%   { opacity: 0.55; transform: scale(1); }
-  30%  { opacity: 0.75; }
-  50%  { opacity: 1;    transform: scale(1.003); }
-  70%  { opacity: 0.8;  }
-  100% { opacity: 0.6;  transform: scale(0.998); }
+/* Leftmost - Server List (Solid Dark) */
+.guilds_a4d2d6 { /* Or .scroller_fea3ef for inner part */
+    background-color: var(--bg-deep) !important;
 }
 
-/* ============================================================
-   LAYER 3 — Van Gogh swirling clouds (the "Starry Night" look)
-   Uses ::after on the chat content area
-   ============================================================ */
-.chatContent_f75ce0::after,
-.content_f75ce0::after,
-[class*="chatContent"]::after {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 0;
-
-  /*
-     Large soft radial gradients mimicking the
-     swirling sky painting — blues, violets, hints of gold
-  */
-  background:
-    /* Main swirl band — upper sky */
-    radial-gradient(ellipse 600px 120px at 30% 12%,
-      rgba(50, 80, 160, 0.35), transparent),
-    radial-gradient(ellipse 500px 100px at 55% 8%,
-      rgba(40, 65, 140, 0.30), transparent),
-    radial-gradient(ellipse 700px 140px at 75% 14%,
-      rgba(55, 85, 170, 0.25), transparent),
-
-    /* Swirl — mid-upper sky, the main spiral */
-    radial-gradient(ellipse 450px 180px at 25% 22%,
-      rgba(35, 60, 130, 0.30), transparent),
-    radial-gradient(ellipse 350px 150px at 40% 18%,
-      rgba(60, 90, 170, 0.25), transparent),
-    radial-gradient(ellipse 550px 200px at 60% 25%,
-      rgba(45, 75, 155, 0.28), transparent),
-    radial-gradient(ellipse 400px 160px at 80% 20%,
-      rgba(50, 80, 165, 0.22), transparent),
-
-    /* Second swirl band */
-    radial-gradient(ellipse 500px 130px at 20% 35%,
-      rgba(40, 70, 150, 0.20), transparent),
-    radial-gradient(ellipse 600px 150px at 50% 32%,
-      rgba(30, 55, 130, 0.25), transparent),
-    radial-gradient(ellipse 450px 120px at 78% 36%,
-      rgba(45, 75, 160, 0.18), transparent),
-
-    /* Gold-glow halos around big stars */
-    radial-gradient(ellipse 80px 80px at 10.5% 10.2%,
-      rgba(240, 208, 96, 0.12), transparent),
-    radial-gradient(ellipse 70px 70px at 24.3% 6.8%,
-      rgba(240, 208, 96, 0.10), transparent),
-    radial-gradient(ellipse 90px 90px at 42.7% 14.5%,
-      rgba(240, 208, 96, 0.14), transparent),
-    radial-gradient(ellipse 75px 75px at 60.8% 8.3%,
-      rgba(240, 208, 96, 0.11), transparent),
-    radial-gradient(ellipse 85px 85px at 78.4% 12.7%,
-      rgba(240, 208, 96, 0.12), transparent),
-    radial-gradient(ellipse 70px 70px at 92.6% 7.1%,
-      rgba(240, 208, 96, 0.09), transparent),
-
-    /* Mid-star gold halos */
-    radial-gradient(ellipse 60px 60px at 15.8% 35.2%,
-      rgba(240, 208, 96, 0.08), transparent),
-    radial-gradient(ellipse 75px 75px at 38.2% 40.6%,
-      rgba(240, 208, 96, 0.10), transparent),
-    radial-gradient(ellipse 65px 65px at 56.5% 36.8%,
-      rgba(240, 208, 96, 0.09), transparent),
-    radial-gradient(ellipse 70px 70px at 74.1% 42.3%,
-      rgba(240, 208, 96, 0.08), transparent),
-
-    /* Lower sky — denser, darker swirls */
-    radial-gradient(ellipse 700px 200px at 30% 55%,
-      rgba(25, 45, 110, 0.20), transparent),
-    radial-gradient(ellipse 600px 180px at 60% 50%,
-      rgba(30, 50, 120, 0.22), transparent),
-    radial-gradient(ellipse 500px 160px at 85% 55%,
-      rgba(20, 40, 100, 0.18), transparent),
-
-    /* Cypress tree / horizon suggestion */
-    radial-gradient(ellipse 200px 400px at 8% 85%,
-      rgba(10, 20, 50, 0.40), transparent),
-    radial-gradient(ellipse 150px 350px at 15% 90%,
-      rgba(12, 22, 55, 0.35), transparent),
-    radial-gradient(ellipse 180px 380px at 92% 88%,
-      rgba(10, 20, 50, 0.30), transparent),
-
-    /* Horizon glow band */
-    radial-gradient(ellipse 120% 80px at 50% 100%,
-      rgba(15, 25, 60, 0.50), transparent);
-
-  animation: swirl-drift 30s linear infinite;
+/* Left Sidebar - Channel List (Solid Dark) */
+.sidebar_c4e278, /* Contains channels and user panel */
+.channels_da4aa7,
+.panels_f52e6e { /* User panel at bottom-left */
+    background-color: var(--bg-deep) !important;
 }
 
-/* Slow drifting rotation — like Van Gogh's sky is alive */
-@keyframes swirl-drift {
-  0%   {
-    opacity: 0.8;
-    transform: scale(1) rotate(0deg);
-  }
-  25%  {
-    opacity: 0.9;
-  }
-  50%  {
-    opacity: 1;
-    transform: scale(1.02) rotate(0.5deg);
-  }
-  75%  {
-    opacity: 0.85;
-  }
-  100% {
-    opacity: 0.8;
-    transform: scale(1) rotate(0deg);
-  }
+/* Right Sidebar - Member List (Semi-transparent with blur) */
+.membersWrap_f6e3c4,
+.members_f46f29 {
+    background-color: rgba(var(--bg-deep-rgb), 0.75) !important; /* Semi-transparent */
+    backdrop-filter: blur(3px) !important; /* Blur stars for readability */
+    border-left: 1px solid var(--border-subtle); /* Divider */
 }
 
-/* ============================================================
-   LAYER 4 — Second star layer on the SIDEBAR / guild list
-   so stars show everywhere, not just chat
-   ============================================================ */
-.guilds_c48ade,
-[class*="guilds"] {
-  position: relative !important;
-  background: var(--starry-bg) !important;
+/* Top Bar - Header (Semi-transparent with blur) */
+.header_f296d2,
+.title_f296d2 {
+    background-color: rgba(var(--bg-deep-rgb), 0.75) !important;
+    backdrop-filter: blur(3px) !important;
+    border-bottom: 1px solid var(--border-subtle);
 }
 
-.guilds_c48ade::before,
-[class*="guilds"]::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 0;
-  background:
-    radial-gradient(0.6px 0.6px at 2.1% 15.3%,  #fff8dc, transparent),
-    radial-gradient(0.8px 0.8px at 4.5% 38.7%,   var(--starry-gold), transparent),
-    radial-gradient(0.5px 0.5px at 1.8% 52.1%,  rgba(245,240,224,0.5), transparent),
-    radial-gradient(0.7px 0.7px at 3.2% 67.4%,   #fff8dc, transparent),
-    radial-gradient(0.5px 0.5px at 1.3% 81.9%,  rgba(200,220,255,0.4), transparent),
-    radial-gradient(1px 1px at 2.8% 90.5%,       var(--starry-gold), transparent),
-    radial-gradient(0.6px 0.6px at 4.1% 7.8%,   rgba(245,240,224,0.6), transparent),
-    radial-gradient(0.5px 0.5px at 1.5% 28.4%,  #fff8dc, transparent),
-    radial-gradient(1.2px 1.2px at 3.6% 44.9%,   var(--starry-gold), transparent),
-    radial-gradient(0.5px 0.5px at 2.4% 73.6%,  rgba(245,240,224,0.4), transparent);
-  animation: twinkle-stars 6s ease-in-out infinite alternate-reverse;
+/* Main Chat Area (Semi-transparent with blur) */
+.chat_d6aed9 {
+    background-color: rgba(var(--bg-deep-rgb), 0.75) !important;
+    backdrop-filter: blur(3px) !important;
 }
 
-/* Channel sidebar also gets a subtle glow */
-.sidebar_c48ade,
-[class*="sidebar"] {
-  position: relative !important;
-  background: linear-gradient(
-    180deg,
-    var(--starry-bg-mid) 0%,
-    var(--starry-bg) 100%
-  ) !important;
+/* Content within panels, e.g., messages, user cards */
+.messageContent_cbd271,
+.markup_e0f850 {
+    color: var(--text-normal) !important;
 }
 
-.sidebar_c48ade::before,
-[class*="sidebar"]::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background:
-    /* Faint nebula glow top-right corner of sidebar */
-    radial-gradient(ellipse 300px 200px at 100% 5%,
-      rgba(40, 65, 140, 0.15), transparent),
-    /* A few sidebar stars */
-    radial-gradient(0.8px 0.8px at 70% 10%, var(--starry-gold), transparent),
-    radial-gradient(0.6px 0.6px at 40% 25%, #fff8dc, transparent),
-    radial-gradient(1px 1px at 85% 45%, var(--starry-gold), transparent),
-    radial-gradient(0.5px 0.5px at 20% 60%, rgba(245,240,224,0.4), transparent),
-    radial-gradient(0.7px 0.7px at 60% 75%, #fff8dc, transparent),
-    radial-gradient(0.8px 0.8px at 30% 90%, var(--starry-gold), transparent);
-  animation: twinkle-stars 7s ease-in-out infinite alternate;
+/* Input Bar (Chatbox) */
+.channelTextArea_d6aed9 {
+    background-color: rgba(var(--bg-secondary-rgb), 0.8) !important;
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle) !important;
 }
 
-/* ============================================================
-   LAYER 5 — Bottom bar (user panel) darkened
-   ============================================================ */
-.panel_c48ade,
-[class*="panel"] {
-  background: linear-gradient(
-    180deg,
-    var(--starry-bg-mid) 0%,
-    var(--starry-bg) 100%
-  ) !important;
-  border-top: 1px solid rgba(80, 110, 180, 0.08) !important;
+/* Modals & Popouts (Slightly lighter, still with some transparency/blur if desired) */
+.modal_a2d314,
+.root_f9a4c9,
+.popout_b75d51 {
+    background-color: rgba(var(--bg-tertiary-rgb), 0.9) !important; /* Mostly opaque */
+    backdrop-filter: blur(5px) !important;
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle) !important;
 }
 
-/* ============================================================
-   LAYER 6 — Top header bar: frosted glass over stars
-   ============================================================ */
-.title_f75ce0,
-[class*="chatHeader"],
-[class*="title_"] {
-  background: rgba(7, 11, 26, 0.75) !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
-  border-bottom: 1px solid rgba(80, 110, 180, 0.06) !important;
+/* --- 3. TEXT & GENERAL STYLING --- */
+h1, h2, h3, h4, h5, h6,
+.headerText_f296d2,
+.nameTag_d6edd6,
+.subtext_d6edd6 {
+    color: var(--text-header) !important; /* Bright white headers */
 }
 
-/* ============================================================
-   LAYER 7 — Message input: frosted over stars
-   ============================================================ */
-.channelTextArea_f75ce0,
-[class*="channelTextArea"] {
-  background: rgba(13, 22, 51, 0.85) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  border: 1px solid rgba(80, 110, 180, 0.12) !important;
+/* Normal text */
+.messageContent_cbd271,
+.markup_e0f850,
+.wrapper_ef3116 { /* Server names */
+    color: var(--text-normal) !important;
 }
 
-/* ============================================================
-   LAYER 8 — Members sidebar
-   ============================================================ */
-.members_c48ade,
-[class*="membersWrap"] {
-  position: relative !important;
-  background: linear-gradient(
-    180deg,
-    var(--starry-bg-mid) 0%,
-    var(--starry-bg) 100%
-  ) !important;
+/* Muted text */
+.placeholder_f296d2,
+.text_cf8c0f, /* Channel topic text */
+.membersGroup_ee8149 { /* Member list headers */
+    color: var(--text-muted) !important;
 }
 
-.members_c48ade::before,
-[class*="membersWrap"]::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background:
-    radial-gradient(ellipse 250px 150px at 0% 10%,
-      rgba(40, 65, 140, 0.12), transparent),
-    radial-gradient(0.7px 0.7px at 30% 15%, var(--starry-gold), transparent),
-    radial-gradient(0.5px 0.5px at 60% 35%, #fff8dc, transparent),
-    radial-gradient(0.8px 0.8px at 80% 55%, var(--starry-gold), transparent),
-    radial-gradient(0.6px 0.6px at 25% 70%, rgba(245,240,224,0.4), transparent),
-    radial-gradient(0.5px 0.5px at 70% 85%, #fff8dc, transparent);
-  animation: twinkle-stars 8s ease-in-out infinite alternate-reverse;
+/* Links */
+.anchor_f8eabe,
+.channelName_f296d2 {
+    color: var(--accent-blue) !important;
+    text-decoration: none;
+}
+.anchor_f8eabe:hover {
+    text-decoration: underline;
 }
 
-/* ============================================================
-   REDUCED MOTION — disable animations for accessibility
-   ============================================================ */
-@media (prefers-reduced-motion: reduce) {
-  .chatContent_f75ce0::before,
-  .chatContent_f75ce0::after,
-  .content_f75ce0::before,
-  .content_f75ce0::after,
-  .guilds_c48ade::before,
-  .sidebar_c48ade::before,
-  .members_c48ade::before {
-    animation: none !important;
-  }
+/* --- 4. BUTTONS & HIGHLIGHTS --- */
+.lookFilled_dd4f85.colorBrand_dd4f85 { /* Primary blue buttons */
+    background-color: var(--accent-blue) !important;
+    color: white !important;
+    border: none;
+    box-shadow: 0 4px 15px rgba(77, 159, 255, 0.3);
+}
+.lookFilled_dd4f85.colorBrand_dd4f85:hover {
+    background-color: var(--accent-blue-hover) !important;
+    box-shadow: 0 0 18px rgba(77, 159, 255, 0.5);
+}
+
+.lookFilled_dd4f85 { /* Default filled buttons */
+    background-color: var(--bg-tertiary) !important;
+    color: var(--text-normal) !important;
+}
+
+/* Selected Channel/Item */
+.item_p9oxjT[aria-checked="true"], /* Settings Toggle */
+.interactiveSelected_d6edd6, /* Selected Channel */
+.modeSelected_f296d2 .content_f296d2 {
+    background-color: var(--accent-blue) !important;
+    color: white !important;
+}
+
+/* Hover effects */
+.button_dd4f85:hover,
+.clickable_f296d2:hover,
+.memberListItem_f46f29:hover,
+.selectableItem_f296d2:hover {
+    background-color: rgba(var(--bg-secondary-rgb), 0.7) !important;
+}
+
+/* Server Icon (Selected/Hover) */
+.wrapper_ef3116.selected_b28756,
+.wrapper_ef3116:hover {
+    background-color: var(--accent-blue) !important;
+}
+.wrapper_ef3116.selected_b28756 circle,
+.wrapper_ef3116:hover circle {
+    fill: var(--bg-deep) !important;
+}
+
+
+/* --- 5. SCROLLBARS --- */
+::-webkit-scrollbar-track {
+    background-color: rgba(var(--bg-deep-rgb), 0.5) !important;
+    border-color: transparent !important;
+}
+::-webkit-scrollbar-thumb {
+    background-color: var(--accent-blue) !important;
+    border-color: transparent !important;
+    border-radius: 4px;
+}
+
+/* --- 6. UNREAD INDICATORS & MENTIONS --- */
+.unread_ee9a91 {
+    background-color: var(--accent-blue) !important;
+    width: 3px !important;
+    height: 100% !important; /* Full height indicator */
+    border-radius: 0 !important;
+    left: 0 !important;
+}
+.mentionButton_b28756 {
+    color: var(--accent-blue) !important;
+}
+
+/* --- 7. MISCELLANEOUS --- */
+/* Remove Discord's default blur behind, as we're using our own */
+.blurLayer_cba467,
+.theme-dark .container-1oe9L_:not(.container-3baos1),
+.theme-dark .root-g147XH {
+    opacity: 0 !important;
+    background: transparent !important;
+}
+
+/* Search Bar Input */
+.searchBar_f296d2 input {
+    background-color: rgba(var(--bg-tertiary-rgb), 0.8) !important;
+    color: var(--text-normal) !important;
+}
+.searchBar_f296d2 .searchBarComponent_f296d2 {
+    color: var(--text-muted) !important;
 }
