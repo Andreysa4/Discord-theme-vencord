@@ -1,10 +1,16 @@
 /**
  * @name StarryNight
- * @description Exosphere sky, dense permanent stars, stars that randomly brighten,
- *              shooting stars falling down with fading tails. Full Discord theme.
- * @version 13.0.0 FINAL
+ * @description A celestial deep-space theme for Discord. Starry sky background visible EVERYWHERE.
+ *              Exosphere gradient (black top → blue bottom), static stars, random brightening stars,
+ *              shooting stars falling down with fading tails. Every container transparent.
+ *              Voice chat keeps its background. Profile banners and avatars untouched.
+ * @author Adapted for Discord
+ * @version 9.0.0
  */
 
+/* =======================================================================
+   CSS VARIABLES
+   ======================================================================= */
 :root {
   --sn-accent: #4a90d9;
   --sn-accent-bright: #5ba0ec;
@@ -25,110 +31,87 @@
   --sn-selected: rgba(74, 144, 217, 0.13);
 }
 
-html, body {
-  background-color: #000000 !important;
-}
-
 /* =======================================================================
    EXOSPHERE GRADIENT
    ======================================================================= */
-#app-mount {
+html {
   background:
-    radial-gradient(ellipse 240% 85% at 50% 118%, rgba(70,135,255,0.34) 0%, rgba(38,96,220,0.20) 18%, rgba(18,52,145,0.10) 38%, rgba(8,22,70,0.03) 58%, transparent 72%),
-    radial-gradient(ellipse 180% 60% at 50% 108%, rgba(120,180,255,0.16) 0%, rgba(70,130,255,0.09) 26%, rgba(25,55,145,0.03) 50%, transparent 66%),
-    radial-gradient(ellipse 130% 40% at 50% 102%, rgba(170,210,255,0.08) 0%, rgba(80,135,255,0.04) 34%, transparent 60%),
-    radial-gradient(ellipse 90% 50% at 78% 30%, rgba(70,90,180,0.06) 0%, transparent 72%),
-    radial-gradient(ellipse 70% 45% at 18% 58%, rgba(80,50,150,0.05) 0%, transparent 72%),
-    linear-gradient(to bottom,
-      #000000 0%, #000000 7%, #000103 14%, #000207 20%,
-      #010512 28%, #020a1d 36%, #04142d 46%, #082347 58%,
-      #0d3470 72%, #15479d 86%, #1e5cc8 100%
+    radial-gradient(ellipse 700px 500px at 78% 22%, rgba(40, 60, 140, 0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 600px at 15% 55%, rgba(50, 30, 100, 0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 1000px 400px at 50% 80%, rgba(30, 70, 160, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 1800px 300px at 50% 100%, rgba(20, 50, 120, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 2500px 200px at 50% 105%, rgba(25, 80, 180, 0.08) 0%, transparent 60%),
+    linear-gradient(
+      to bottom,
+      #000000 0%, #000000 5%, #000103 10%, #000206 15%,
+      #00030a 20%, #010410 25%, #010618 30%, #020820 35%,
+      #020a28 40%, #030d30 45%, #041038 50%, #051340 55%,
+      #061648 58%, #071a52 62%, #081e5c 66%, #0a2268 70%,
+      #0c2872 74%, #0e2e7c 78%, #103486 82%, #123a90 86%,
+      #143e98 90%, #1644a2 93%, #1848a8 96%, #1a4cae 100%
     ) !important;
-  background-repeat: no-repeat !important;
   background-attachment: fixed !important;
-  background-size: 115% 102%, 110% 101%, 106% 100%, 120% 110%, 120% 110%, 100% 100% !important;
-  background-position: 50% 100%, 50% 100%, 50% 100%, 78% 30%, 18% 58%, 50% 50% !important;
-  position: relative !important;
-  z-index: 1 !important;
-  animation: sn-exosphere-drift 28s ease-in-out infinite alternate;
-}
-
-@keyframes sn-exosphere-drift {
-  0% {
-    background-size: 115% 102%, 110% 101%, 106% 100%, 120% 110%, 120% 110%, 100% 100%;
-    background-position: 49% 100%, 51% 100%, 50% 100%, 78% 30%, 18% 58%, 50% 50%;
-  }
-  100% {
-    background-size: 119% 104%, 113% 102%, 108% 101%, 124% 112%, 124% 112%, 100% 100%;
-    background-position: 51% 100%, 49% 100%, 50% 100%, 76% 28%, 20% 60%, 50% 50%;
-  }
+  min-height: 100vh;
 }
 
 /* =======================================================================
-   DENSE STATIC STARS
+   STATIC STARS on html::before
    ======================================================================= */
-body::before {
+html::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
   background-image:
-    radial-gradient(3px 3px at 5% 2%, #fff 50%, transparent 100%),
     radial-gradient(2.5px 2.5px at 7% 3%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 22% 1%, #a0c4ff 50%, transparent 100%),
     radial-gradient(2.5px 2.5px at 44% 4%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 66% 2%, #c8d8f0 50%, transparent 100%),
     radial-gradient(2px 2px at 88% 5%, #ffecd2 50%, transparent 100%),
     radial-gradient(2.5px 2.5px at 11% 10%, #a0c4ff 50%, transparent 100%),
-    radial-gradient(3px 3px at 33% 7%, #fff 50%, transparent 100%),
+    radial-gradient(2px 2px at 33% 7%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 55% 12%, #b8a0e8 50%, transparent 100%),
     radial-gradient(2.5px 2.5px at 77% 8%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 92% 14%, #a0e8e8 50%, transparent 100%),
     radial-gradient(2px 2px at 4% 18%, #fff 50%, transparent 100%),
     radial-gradient(2.5px 2.5px at 27% 15%, #ffecd2 50%, transparent 100%),
-    radial-gradient(3px 3px at 49% 20%, #fff 50%, transparent 100%),
+    radial-gradient(2px 2px at 49% 20%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 71% 17%, #a0c4ff 50%, transparent 100%),
     radial-gradient(2.5px 2.5px at 94% 22%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 16% 25%, #e8a0c8 50%, transparent 100%),
     radial-gradient(2px 2px at 38% 28%, #fff 50%, transparent 100%),
     radial-gradient(2.5px 2.5px at 60% 24%, #a0c4ff 50%, transparent 100%),
-    radial-gradient(3px 3px at 82% 30%, #fff 50%, transparent 100%),
+    radial-gradient(2px 2px at 82% 30%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 7% 33%, #c8d8f0 50%, transparent 100%),
     radial-gradient(2.5px 2.5px at 50% 31%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 72% 35%, #b8a0e8 50%, transparent 100%),
     radial-gradient(2px 2px at 14% 38%, #fff 50%, transparent 100%),
     radial-gradient(2.5px 2.5px at 41% 42%, #a0c4ff 50%, transparent 100%),
-    radial-gradient(3px 3px at 67% 40%, #fff 50%, transparent 100%),
+    radial-gradient(2px 2px at 67% 40%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 89% 45%, #c8d8f0 50%, transparent 100%),
     radial-gradient(2.5px 2.5px at 27% 48%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 55% 44%, #ffecd2 50%, transparent 100%),
     radial-gradient(2px 2px at 78% 50%, #fff 50%, transparent 100%),
     radial-gradient(2.5px 2.5px at 8% 53%, #a0e8e8 50%, transparent 100%),
     radial-gradient(2px 2px at 35% 56%, #fff 50%, transparent 100%),
-    radial-gradient(3px 3px at 62% 52%, #a0c4ff 50%, transparent 100%),
+    radial-gradient(2px 2px at 62% 52%, #a0c4ff 50%, transparent 100%),
     radial-gradient(2.5px 2.5px at 91% 58%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 20% 55%, #b8a0e8 50%, transparent 100%),
     radial-gradient(2px 2px at 48% 60%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 10% 65%, #fff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 37% 68%, #a0c4ff 50%, transparent 100%),
-    radial-gradient(3px 3px at 65% 63%, #fff 50%, transparent 100%),
+    radial-gradient(2px 2px at 37% 68%, #a0c4ff 50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 65% 63%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 85% 70%, #c8d8f0 50%, transparent 100%),
     radial-gradient(2px 2px at 22% 73%, #fff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 52% 76%, #a0c4ff 50%, transparent 100%),
+    radial-gradient(2px 2px at 52% 76%, #a0c4ff 50%, transparent 100%),
     radial-gradient(2.5px 2.5px at 76% 72%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 42% 78%, #ffecd2 50%, transparent 100%),
-    radial-gradient(2px 2px at 95% 66%, #fff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 3% 72%, #a0c4ff 50%, transparent 100%),
-    radial-gradient(2px 2px at 30% 80%, #fff 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 18% 82%, #fff 40%, transparent 100%),
     radial-gradient(1.5px 1.5px at 58% 85%, #c8d8f0 40%, transparent 100%),
     radial-gradient(2px 2px at 80% 83%, #fff 40%, transparent 100%),
     radial-gradient(1.5px 1.5px at 35% 90%, #a0c4ff 35%, transparent 100%),
     radial-gradient(1.5px 1.5px at 70% 92%, #fff 30%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 48% 88%, #c8d8f0 35%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 90% 95%, #fff 28%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 12% 94%, #a0c4ff 30%, transparent 100%),
     radial-gradient(1.5px 1.5px at 2% 2%, #c8d8f0 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 10% 6%, #fff 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 18% 1%, #a0c4ff 50%, transparent 100%),
@@ -175,19 +158,6 @@ body::before {
     radial-gradient(1.5px 1.5px at 57% 47%, #fff 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 75% 54%, #b8a0e8 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 97% 51%, #c8d8f0 50%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 8% 58%, #fff 50%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 22% 62%, #a0c4ff 50%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 38% 65%, #fff 50%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 55% 59%, #c8d8f0 50%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 68% 67%, #fff 50%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 82% 61%, #a0c4ff 50%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 94% 64%, #fff 50%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 12% 75%, #c8d8f0 45%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 28% 72%, #fff 45%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 44% 79%, #a0c4ff 45%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 60% 74%, #fff 45%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 78% 77%, #c8d8f0 42%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 92% 71%, #fff 42%, transparent 100%),
     radial-gradient(1px 1px at 1% 1%, #c8d8f0 45%, transparent 100%),
     radial-gradient(1px 1px at 4% 5%, #fff 40%, transparent 100%),
     radial-gradient(1px 1px at 8% 8%, #fff 40%, transparent 100%),
@@ -211,119 +181,61 @@ body::before {
     radial-gradient(1px 1px at 88% 8%, #c8d8f0 40%, transparent 100%),
     radial-gradient(1px 1px at 92% 6%, #a0c4ff 40%, transparent 100%),
     radial-gradient(1px 1px at 98% 11%, #fff 40%, transparent 100%),
-    radial-gradient(1px 1px at 3% 14%, #fff 40%, transparent 100%),
-    radial-gradient(1px 1px at 7% 19%, #c8d8f0 40%, transparent 100%),
-    radial-gradient(1px 1px at 12% 13%, #fff 40%, transparent 100%),
-    radial-gradient(1px 1px at 17% 17%, #a0c4ff 40%, transparent 100%),
-    radial-gradient(1px 1px at 23% 15%, #fff 40%, transparent 100%),
-    radial-gradient(1px 1px at 30% 19%, #c8d8f0 40%, transparent 100%),
-    radial-gradient(1px 1px at 37% 13%, #fff 40%, transparent 100%),
-    radial-gradient(1px 1px at 42% 18%, #a0c4ff 40%, transparent 100%),
-    radial-gradient(1px 1px at 48% 14%, #c8d8f0 40%, transparent 100%),
-    radial-gradient(1px 1px at 54% 19%, #fff 40%, transparent 100%),
-    radial-gradient(1px 1px at 59% 12%, #c8d8f0 40%, transparent 100%),
-    radial-gradient(1px 1px at 66% 17%, #a0c4ff 40%, transparent 100%),
-    radial-gradient(1px 1px at 72% 14%, #fff 40%, transparent 100%),
-    radial-gradient(1px 1px at 77% 19%, #c8d8f0 40%, transparent 100%),
-    radial-gradient(1px 1px at 84% 15%, #fff 40%, transparent 100%),
-    radial-gradient(1px 1px at 90% 18%, #a0c4ff 40%, transparent 100%),
-    radial-gradient(1px 1px at 96% 13%, #c8d8f0 40%, transparent 100%),
-    radial-gradient(1px 1px at 4% 24%, #fff 38%, transparent 100%),
-    radial-gradient(1px 1px at 10% 28%, #c8d8f0 38%, transparent 100%),
-    radial-gradient(1px 1px at 16% 22%, #a0c4ff 38%, transparent 100%),
-    radial-gradient(1px 1px at 22% 30%, #fff 38%, transparent 100%),
-    radial-gradient(1px 1px at 28% 26%, #c8d8f0 38%, transparent 100%),
-    radial-gradient(1px 1px at 35% 31%, #a0c4ff 38%, transparent 100%),
-    radial-gradient(1px 1px at 42% 24%, #fff 38%, transparent 100%),
-    radial-gradient(1px 1px at 49% 29%, #c8d8f0 38%, transparent 100%),
-    radial-gradient(1px 1px at 55% 33%, #fff 38%, transparent 100%),
-    radial-gradient(1px 1px at 62% 27%, #a0c4ff 38%, transparent 100%),
-    radial-gradient(1px 1px at 68% 32%, #c8d8f0 38%, transparent 100%),
-    radial-gradient(1px 1px at 75% 25%, #fff 38%, transparent 100%),
-    radial-gradient(1px 1px at 81% 30%, #a0c4ff 38%, transparent 100%),
-    radial-gradient(1px 1px at 88% 34%, #c8d8f0 38%, transparent 100%),
-    radial-gradient(1px 1px at 95% 28%, #fff 38%, transparent 100%),
-    radial-gradient(1px 1px at 2% 38%, #c8d8f0 36%, transparent 100%),
-    radial-gradient(1px 1px at 9% 43%, #fff 36%, transparent 100%),
-    radial-gradient(1px 1px at 14% 36%, #a0c4ff 36%, transparent 100%),
-    radial-gradient(1px 1px at 21% 45%, #c8d8f0 36%, transparent 100%),
-    radial-gradient(1px 1px at 33% 39%, #fff 36%, transparent 100%),
-    radial-gradient(1px 1px at 40% 46%, #a0c4ff 36%, transparent 100%),
-    radial-gradient(1px 1px at 47% 37%, #c8d8f0 36%, transparent 100%),
-    radial-gradient(1px 1px at 53% 44%, #fff 36%, transparent 100%),
-    radial-gradient(1px 1px at 60% 41%, #a0c4ff 36%, transparent 100%),
-    radial-gradient(1px 1px at 67% 47%, #c8d8f0 36%, transparent 100%),
-    radial-gradient(1px 1px at 74% 38%, #fff 36%, transparent 100%),
-    radial-gradient(1px 1px at 80% 45%, #a0c4ff 36%, transparent 100%),
-    radial-gradient(1px 1px at 87% 42%, #c8d8f0 36%, transparent 100%),
-    radial-gradient(1px 1px at 93% 48%, #fff 36%, transparent 100%),
-    radial-gradient(1px 1px at 5% 52%, #c8d8f0 34%, transparent 100%),
-    radial-gradient(1px 1px at 13% 57%, #fff 34%, transparent 100%),
-    radial-gradient(1px 1px at 19% 50%, #a0c4ff 34%, transparent 100%),
-    radial-gradient(1px 1px at 27% 55%, #c8d8f0 34%, transparent 100%),
-    radial-gradient(1px 1px at 36% 53%, #fff 34%, transparent 100%),
-    radial-gradient(1px 1px at 44% 58%, #a0c4ff 34%, transparent 100%),
-    radial-gradient(1px 1px at 51% 51%, #c8d8f0 34%, transparent 100%),
-    radial-gradient(1px 1px at 59% 56%, #fff 34%, transparent 100%),
-    radial-gradient(1px 1px at 66% 54%, #a0c4ff 34%, transparent 100%),
-    radial-gradient(1px 1px at 73% 59%, #c8d8f0 34%, transparent 100%),
-    radial-gradient(1px 1px at 81% 52%, #fff 34%, transparent 100%),
-    radial-gradient(1px 1px at 89% 57%, #a0c4ff 34%, transparent 100%),
-    radial-gradient(1px 1px at 96% 55%, #c8d8f0 34%, transparent 100%),
-    radial-gradient(1px 1px at 7% 63%, #fff 32%, transparent 100%),
-    radial-gradient(1px 1px at 16% 68%, #c8d8f0 32%, transparent 100%),
-    radial-gradient(1px 1px at 25% 61%, #a0c4ff 32%, transparent 100%),
-    radial-gradient(1px 1px at 34% 66%, #fff 32%, transparent 100%),
-    radial-gradient(1px 1px at 43% 69%, #c8d8f0 32%, transparent 100%),
-    radial-gradient(1px 1px at 52% 64%, #a0c4ff 32%, transparent 100%),
-    radial-gradient(1px 1px at 61% 67%, #fff 32%, transparent 100%),
-    radial-gradient(1px 1px at 70% 62%, #c8d8f0 32%, transparent 100%),
-    radial-gradient(1px 1px at 79% 69%, #a0c4ff 32%, transparent 100%),
-    radial-gradient(1px 1px at 88% 65%, #fff 32%, transparent 100%),
-    radial-gradient(1px 1px at 97% 68%, #c8d8f0 32%, transparent 100%),
-    radial-gradient(1px 1px at 10% 74%, #fff 28%, transparent 100%),
-    radial-gradient(1px 1px at 24% 78%, #c8d8f0 28%, transparent 100%),
-    radial-gradient(1px 1px at 38% 72%, #a0c4ff 28%, transparent 100%),
-    radial-gradient(1px 1px at 52% 77%, #fff 28%, transparent 100%),
-    radial-gradient(1px 1px at 66% 73%, #c8d8f0 28%, transparent 100%),
-    radial-gradient(1px 1px at 80% 79%, #a0c4ff 28%, transparent 100%),
-    radial-gradient(1px 1px at 94% 75%, #fff 28%, transparent 100%);
+    radial-gradient(1px 1px at 4% 20%, #c8d8f0 45%, transparent 100%),
+    radial-gradient(1px 1px at 10% 23%, #c8d8f0 45%, transparent 100%),
+    radial-gradient(1px 1px at 16% 21%, #a0c4ff 45%, transparent 100%),
+    radial-gradient(1px 1px at 22% 26%, #c8d8f0 45%, transparent 100%),
+    radial-gradient(1px 1px at 28% 24%, #c8d8f0 45%, transparent 100%),
+    radial-gradient(1px 1px at 35% 28%, #a0c4ff 40%, transparent 100%),
+    radial-gradient(1px 1px at 45% 27%, #c8d8f0 40%, transparent 100%),
+    radial-gradient(1px 1px at 55% 30%, #c8d8f0 40%, transparent 100%),
+    radial-gradient(1px 1px at 65% 28%, #a0c4ff 40%, transparent 100%),
+    radial-gradient(1px 1px at 75% 26%, #c8d8f0 40%, transparent 100%),
+    radial-gradient(1px 1px at 84% 23%, #c8d8f0 40%, transparent 100%),
+    radial-gradient(1px 1px at 94% 31%, #fff 40%, transparent 100%),
+    radial-gradient(1px 1px at 3% 36%, #fff 38%, transparent 100%),
+    radial-gradient(1px 1px at 14% 39%, #fff 38%, transparent 100%),
+    radial-gradient(1px 1px at 21% 45%, #a0c4ff 38%, transparent 100%),
+    radial-gradient(1px 1px at 34% 47%, #c8d8f0 38%, transparent 100%),
+    radial-gradient(1px 1px at 49% 44%, #c8d8f0 38%, transparent 100%),
+    radial-gradient(1px 1px at 63% 46%, #a0c4ff 38%, transparent 100%),
+    radial-gradient(1px 1px at 77% 48%, #c8d8f0 38%, transparent 100%),
+    radial-gradient(1px 1px at 92% 46%, #c8d8f0 38%, transparent 100%),
+    radial-gradient(1px 1px at 6% 55%, #fff 35%, transparent 100%),
+    radial-gradient(1px 1px at 30% 57%, #fff 35%, transparent 100%),
+    radial-gradient(1px 1px at 56% 58%, #fff 35%, transparent 100%),
+    radial-gradient(1px 1px at 82% 56%, #fff 35%, transparent 100%),
+    radial-gradient(1px 1px at 12% 72%, #fff 30%, transparent 100%),
+    radial-gradient(1px 1px at 40% 75%, #c8d8f0 30%, transparent 100%),
+    radial-gradient(1px 1px at 64% 70%, #fff 30%, transparent 100%),
+    radial-gradient(1px 1px at 88% 74%, #a0c4ff 28%, transparent 100%);
   background-color: transparent;
   background-attachment: fixed;
 }
 
 /* =======================================================================
-   BRIGHTENING STARS - ALWAYS VISIBLE, OCCASIONALLY FLARE BRIGHT
-   Normal state: 0.4-0.45 opacity (always visible)
-   Flare state: 0.9-0.95 opacity (bright glow)
+   BRIGHTENING STARS
    ======================================================================= */
-body::after {
+html::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
   background-image:
-    radial-gradient(3px 3px at 14% 8%, #fff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 74% 15%, #fff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 4% 30%, #a0c4ff 50%, transparent 100%),
-    radial-gradient(3px 3px at 84% 12%, #fff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 29% 22%, #ffecd2 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 59% 35%, #fff 50%, transparent 100%),
-    radial-gradient(3px 3px at 19% 55%, #a0c4ff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 45% 18%, #fff 50%, transparent 100%),
-    radial-gradient(3px 3px at 92% 42%, #ffecd2 50%, transparent 100%);
+    radial-gradient(2.5px 2.5px at 14% 8%, #fff 50%, transparent 100%),
+    radial-gradient(2px 2px at 74% 15%, #fff 50%, transparent 100%),
+    radial-gradient(2px 2px at 4% 30%, #a0c4ff 50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 84% 12%, #fff 50%, transparent 100%),
+    radial-gradient(2px 2px at 29% 22%, #ffecd2 50%, transparent 100%),
+    radial-gradient(2px 2px at 59% 35%, #fff 50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 19% 55%, #a0c4ff 50%, transparent 100%);
   background-color: transparent;
   background-attachment: fixed;
   animation: brightenA 11s ease-in-out infinite;
 }
 @keyframes brightenA {
-  0%   { opacity: 0.45; }
-  8%   { opacity: 0.45; }
-  12%  { opacity: 0.95; }
-  18%  { opacity: 0.95; }
-  25%  { opacity: 0.45; }
-  100% { opacity: 0.45; }
+  0%{opacity:.08}8%{opacity:.08}12%{opacity:.95}18%{opacity:.95}25%{opacity:.08}100%{opacity:.08}
 }
 
 #app-mount::before {
@@ -333,26 +245,19 @@ body::after {
   z-index: 0;
   pointer-events: none;
   background-image:
-    radial-gradient(2.5px 2.5px at 34% 18%, #b8a0e8 50%, transparent 100%),
-    radial-gradient(3px 3px at 89% 28%, #fff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 44% 10%, #a0e8e8 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 69% 5%, #fff 50%, transparent 100%),
-    radial-gradient(3px 3px at 94% 40%, #ffecd2 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 9% 45%, #fff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 49% 50%, #a0c4ff 50%, transparent 100%),
-    radial-gradient(3px 3px at 76% 62%, #fff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 18% 68%, #a0c4ff 50%, transparent 100%);
+    radial-gradient(2px 2px at 34% 18%, #b8a0e8 50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 89% 28%, #fff 50%, transparent 100%),
+    radial-gradient(2px 2px at 44% 10%, #a0e8e8 50%, transparent 100%),
+    radial-gradient(2px 2px at 69% 5%, #fff 50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 94% 40%, #ffecd2 50%, transparent 100%),
+    radial-gradient(2px 2px at 9% 45%, #fff 50%, transparent 100%),
+    radial-gradient(2px 2px at 49% 50%, #a0c4ff 50%, transparent 100%);
   background-color: transparent;
   background-attachment: fixed;
   animation: brightenB 14s ease-in-out infinite 3s;
 }
 @keyframes brightenB {
-  0%   { opacity: 0.4; }
-  5%   { opacity: 0.4; }
-  10%  { opacity: 0.9; }
-  17%  { opacity: 0.9; }
-  24%  { opacity: 0.4; }
-  100% { opacity: 0.4; }
+  0%{opacity:.06}5%{opacity:.06}10%{opacity:.9}17%{opacity:.9}24%{opacity:.06}100%{opacity:.06}
 }
 
 #app-mount::after {
@@ -362,32 +267,25 @@ body::after {
   z-index: 0;
   pointer-events: none;
   background-image:
-    radial-gradient(2.5px 2.5px at 54% 6%, #fff 50%, transparent 100%),
-    radial-gradient(3px 3px at 24% 42%, #e8a0c8 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 64% 48%, #fff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 79% 20%, #a0c4ff 50%, transparent 100%),
-    radial-gradient(3px 3px at 39% 3%, #fff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 2% 15%, #b8a0e8 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 72% 32%, #fff 50%, transparent 100%),
-    radial-gradient(3px 3px at 56% 70%, #a0c4ff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 85% 55%, #ffecd2 50%, transparent 100%);
+    radial-gradient(2px 2px at 54% 6%, #fff 50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 24% 42%, #e8a0c8 50%, transparent 100%),
+    radial-gradient(2px 2px at 64% 48%, #fff 50%, transparent 100%),
+    radial-gradient(2px 2px at 79% 20%, #a0c4ff 50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 39% 3%, #fff 50%, transparent 100%),
+    radial-gradient(2px 2px at 2% 15%, #b8a0e8 50%, transparent 100%),
+    radial-gradient(2px 2px at 72% 32%, #fff 50%, transparent 100%);
   background-color: transparent;
   background-attachment: fixed;
   animation: brightenC 17s ease-in-out infinite 7s;
 }
 @keyframes brightenC {
-  0%   { opacity: 0.4; }
-  4%   { opacity: 0.4; }
-  8%   { opacity: 0.85; }
-  14%  { opacity: 0.85; }
-  20%  { opacity: 0.4; }
-  100% { opacity: 0.4; }
+  0%{opacity:.05}4%{opacity:.05}8%{opacity:.85}14%{opacity:.85}20%{opacity:.05}100%{opacity:.05}
 }
 
 /* =======================================================================
    SHOOTING STARS
    ======================================================================= */
-[class*="layers_"]::before {
+body::before {
   content: "";
   position: fixed;
   top: -10%;
@@ -414,7 +312,7 @@ body::after {
   4.5%{opacity:.4}5.5%{opacity:.15}6.5%{top:110%;left:55%;opacity:0}100%{opacity:0}
 }
 
-[class*="layers_"]::after {
+body::after {
   content: "";
   position: fixed;
   top: -8%;
@@ -442,7 +340,7 @@ body::after {
 }
 
 /* =======================================================================
-   DISCORD VARIABLES
+   DISCORD VARIABLE OVERRIDES
    ======================================================================= */
 .theme-dark,
 .theme-light {
@@ -500,13 +398,18 @@ body::after {
   --status-positive: var(--sn-green) !important;
   --status-warning: var(--sn-yellow) !important;
   --status-danger: var(--sn-red) !important;
+  --profile-body-background-color: var(--sn-glass-heavy) !important;
 }
 
 /* =======================================================================
-   TRANSPARENCY
+   TRANSPARENCY - EVERY CONTAINER
+   Same proven approach from v7 that worked, with additional selectors
+   for containers that were still opaque.
    ======================================================================= */
+#app-mount,
 #app-mount > div,
 [class*="app_"],
+[class*="appMount"],
 [class*="layers_"],
 [class*="layer_"],
 [class*="baseLayer_"],
@@ -589,6 +492,7 @@ body::after {
 nav[aria-label="Servers sidebar"],
 nav[aria-label="Servers sidebar"] > ul,
 nav[aria-label="Servers sidebar"] > div,
+/* === ADDITIONAL containers that were still opaque === */
 [class*="peopleListItem_"],
 [class*="outer_"],
 [class*="inner_"],
@@ -605,16 +509,21 @@ nav[aria-label="Servers sidebar"] > div,
 [class*="friendsEmpty_"],
 [class*="noFriends_"],
 [class*="wumpus_"],
+[class*="imageUploaderInner_"],
 [class*="notice_"],
 [class*="colorDefault_"],
 [class*="lookBlank_"],
+[class*="customColumn_"],
 [class*="contentWrapper_"],
 [class*="listItems_"],
 [class*="listDefault_"],
+[class*="sectionDesign_"],
 [class*="scrollerBase_"],
 [class*="thin_"],
 [class*="fade_"],
 [class*="scrollerContent_"],
+[class*="navRow_"],
+[class*="settingsList_"],
 [class*="background_"],
 [class*="nitroBackground_"],
 [class*="premiumSettings_"],
@@ -630,24 +539,45 @@ nav[aria-label="Servers sidebar"] > div,
 [class*="buttonContainer_"],
 [class*="quickswitcher_"],
 [class*="inputWrapper_"],
+[class*="resultFocused_"],
 [class*="option_"],
+[class*="searchOption_"],
 [class*="item_"],
+[class*="gameItem_"],
 [class*="nowPlayingCard_"],
+[class*="nowPlayingAdd_"],
 [class*="connectedAccount_"],
+[class*="accountList_"],
 [class*="settingsSection_"],
+[class*="socialLinks_"],
 [class*="game_"],
 [class*="row_"],
+[class*="labelRow_"],
 [class*="card_"],
+[class*="cardHeader_"],
+[class*="cardBody_"],
+[class*="feature_"],
+[class*="featureHeader_"],
+[class*="closeButton_"],
 [class*="flex_"],
 [class*="horizontal_"],
 [class*="vertical_"],
-main, aside, section, nav,
-[role="tabpanel"], [role="tablist"], [role="list"],
-[role="complementary"], [role="navigation"], [role="main"] {
+/* Semantic HTML elements */
+main,
+aside,
+section,
+nav,
+[role="tabpanel"],
+[role="tablist"],
+[role="list"],
+[role="complementary"],
+[role="navigation"],
+[role="main"] {
   background: transparent !important;
   background-color: transparent !important;
 }
 
+/* Catch inline styles Discord injects */
 [style*="background-color: var(--background-primary)"],
 [style*="background-color: var(--background-secondary)"],
 [style*="background-color: var(--background-tertiary)"],
@@ -655,58 +585,124 @@ main, aside, section, nav,
   background-color: transparent !important;
 }
 
-/* Voice channel list */
+/* =======================================================================
+   VOICE CHANNEL LIST - transparent (just the channel listing in sidebar)
+   ======================================================================= */
 [class*="containerDefault_"][class*="voice_"],
 [class*="containerDefault_"] [class*="voiceUsers_"],
 [class*="voiceUsers_"],
-[class*="voiceUser_"] {
+[class*="voiceUser_"],
+[class*="listDefault_"] [class*="voice_"] {
   background: transparent !important;
+  background-color: transparent !important;
 }
 
 /* =======================================================================
-   VOICE CHAT - OPAQUE
+   VOICE CHAT / CALL - KEEP OPAQUE (not transparent)
+   The actual voice/video call UI when you're connected stays dark.
    ======================================================================= */
-[class*="callContainer_"],
-[class*="voiceCallWrapper_"],
-[class*="voiceCall_"],
-[class*="videoWrapper_"],
-[class*="gridContainer_"],
-[class*="centeringWrapper_"],
-[class*="videoContainer_"],
-[class*="videoGrid_"],
-[class*="pictureInPictureWindow_"],
-[class*="pictureInPicture_"],
-[class*="stageSection_"],
-[class*="stageSpeaker_"],
-[class*="audienceSection_"] {
+[class*="callContainer_"] {
   background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
 }
-[class*="videoTile_"],
-[class*="noVideoTile_"],
+[class*="voiceCallWrapper_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="voiceCall_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="videoWrapper_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="gridContainer_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="grid_"][class*="video_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="centeringWrapper_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="videoContainer_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="videoGrid_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="videoTile_"] {
+  background: #0e1525 !important;
+  background-color: #0e1525 !important;
+}
+[class*="noVideoTile_"] {
+  background: #0e1525 !important;
+  background-color: #0e1525 !important;
+}
 [class*="tileContainer_"] {
   background: #0e1525 !important;
+  background-color: #0e1525 !important;
   border: 1px solid rgba(74,144,217,0.06) !important;
   border-radius: 8px !important;
+}
+[class*="tile_"][class*="voice_"],
+[class*="tile_"][class*="video_"] {
+  background: #0e1525 !important;
+  background-color: #0e1525 !important;
+}
+[class*="pictureInPictureWindow_"],
+[class*="pictureInPicture_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
 }
 [class*="controlsContainer_"],
 [class*="voiceControls_"],
 [class*="bottomControls_"],
 [class*="bottomSection_"] {
   background: #080c16 !important;
+  background-color: #080c16 !important;
 }
-[class*="speaking_"] { box-shadow: 0 0 12px rgba(74,144,217,0.3) !important; }
+[class*="stageSection_"],
+[class*="stageSpeaker_"],
+[class*="audienceSection_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+
+/* Speaking glow in voice */
+[class*="speaking_"] {
+  box-shadow: 0 0 12px rgba(74,144,217,0.3) !important;
+}
+
+/* Voice connection bar in bottom panel - keep slightly visible */
 [class*="connection_"],
-[class*="rtcConnection_"] {
+[class*="rtcConnection_"],
+[class*="rtcConnectionStatus_"] {
   background: transparent !important;
+  background-color: transparent !important;
 }
 
 /* =======================================================================
-   DIVIDERS
+   SUBTLE PANEL DIVIDERS
    ======================================================================= */
-nav[aria-label="Servers sidebar"] { border-right: 1px solid rgba(74,144,217,0.04) !important; }
-[class*="sidebar_"]:not([class*="threadSidebar_"]) { border-right: 1px solid rgba(74,144,217,0.04) !important; }
-[class*="membersWrap_"] { border-left: 1px solid rgba(74,144,217,0.04) !important; }
-[class*="panels_"] { border-top: 1px solid rgba(74,144,217,0.04) !important; }
+nav[aria-label="Servers sidebar"] {
+  border-right: 1px solid rgba(74,144,217,0.04) !important;
+}
+[class*="sidebar_"]:not([class*="threadSidebar_"]) {
+  border-right: 1px solid rgba(74,144,217,0.04) !important;
+}
+[class*="membersWrap_"] {
+  border-left: 1px solid rgba(74,144,217,0.04) !important;
+}
+[class*="panels_"] {
+  border-top: 1px solid rgba(74,144,217,0.04) !important;
+}
 [class*="title_"][class*="container_"],
 [class*="chat_"] > [class*="title_"],
 [class*="header_"][class*="container_"] {
@@ -717,88 +713,336 @@ nav[aria-label="Servers sidebar"] { border-right: 1px solid rgba(74,144,217,0.04
 /* =======================================================================
    UI ELEMENTS
    ======================================================================= */
-[class*="containerDefault_"]:hover { background-color: var(--sn-hover) !important; }
+
+/* Channels */
+[class*="containerDefault_"]:hover {
+  background-color: var(--sn-hover) !important;
+}
 [class*="containerDefault_"][class*="modeSelected_"],
-[class*="containerDefault_"][class*="modeSelected_"] [class*="wrapper_"] { background-color: var(--sn-selected) !important; }
+[class*="containerDefault_"][class*="modeSelected_"] [class*="wrapper_"] {
+  background-color: var(--sn-selected) !important;
+}
 [class*="containerDefault_"][class*="modeSelected_"] [class*="name_"],
-[class*="containerDefault_"][class*="modeSelected_"] [class*="icon_"] { color: var(--sn-accent-bright) !important; }
-[class*="containerDefault_"][class*="modeUnread_"] [class*="name_"] { color: var(--sn-text) !important; }
-[class*="listItem_"] [class*="icon_"]:hover { box-shadow: 0 0 12px rgba(74,144,217,0.3) !important; }
-[class*="pill_"] span[class*="item_"] { background-color: var(--sn-accent) !important; }
-[class*="guildSeparator_"] { background-color: rgba(74,144,217,0.06) !important; }
-[class*="tutorialContainer_"] [class*="childWrapper_"] { background-color: rgba(74,144,217,0.1) !important; transition: all 0.3s ease !important; }
-[class*="tutorialContainer_"] [class*="childWrapper_"]:hover { background-color: var(--sn-accent) !important; box-shadow: 0 0 20px rgba(74,144,217,0.4) !important; }
-[class*="message_"][class*="cozy_"]:hover { background-color: rgba(74,144,217,0.03) !important; }
-[class*="message_"][class*="mentioned_"] { background-color: rgba(74,144,217,0.05) !important; border-left: 3px solid var(--sn-accent) !important; }
-[class*="message_"][class*="mentioned_"]:hover { background-color: rgba(74,144,217,0.08) !important; }
-[class*="divider_"] { border-color: rgba(74,144,217,0.06) !important; }
-[class*="divider_"][class*="isUnread_"] { border-color: var(--sn-red) !important; }
-[class*="scrollableContainer_"] { background-color: var(--sn-glass) !important; border: 1px solid rgba(74,144,217,0.08) !important; border-radius: 8px !important; }
-[class*="scrollableContainer_"]:focus-within { border-color: rgba(74,144,217,0.3) !important; box-shadow: 0 0 12px rgba(74,144,217,0.1) !important; }
-[class*="embedWrapper_"] { background-color: var(--sn-glass) !important; border-color: rgba(74,144,217,0.08) !important; }
-[class*="markup_"] code { background-color: var(--sn-glass) !important; border: 1px solid rgba(74,144,217,0.08) !important; color: #a0c4ff !important; }
-[class*="markup_"] pre { background-color: var(--sn-glass) !important; border: 1px solid rgba(74,144,217,0.08) !important; }
-[class*="markup_"] pre code { background: transparent !important; border: none !important; color: var(--sn-text) !important; }
-[class*="reaction_"] { background-color: var(--sn-glass-light) !important; border: 1px solid rgba(74,144,217,0.08) !important; }
-[class*="reaction_"]:hover { background-color: var(--sn-active) !important; }
-[class*="reaction_"][class*="reactionMe_"] { background-color: rgba(74,144,217,0.15) !important; border-color: var(--sn-accent) !important; }
-[class*="popout_"], [class*="userPopoutOuter_"], [class*="userProfileOuter_"], [class*="userProfileModal_"] {
-  background-color: var(--sn-glass-heavy) !important; border: 1px solid var(--sn-border) !important;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.7) !important; backdrop-filter: blur(16px) !important;
+[class*="containerDefault_"][class*="modeSelected_"] [class*="icon_"] {
+  color: var(--sn-accent-bright) !important;
 }
-[class*="modal_"], [class*="root_"][class*="fullscreenOnMobile_"], [class*="layer_"] > [class*="root_"] {
-  background-color: var(--sn-glass-heavy) !important; border: 1px solid var(--sn-border) !important;
-  box-shadow: 0 12px 48px rgba(0,0,0,0.7) !important; backdrop-filter: blur(16px) !important;
+[class*="containerDefault_"][class*="modeUnread_"] [class*="name_"] {
+  color: var(--sn-text) !important;
 }
+
+/* Guilds */
+[class*="listItem_"] [class*="icon_"]:hover {
+  box-shadow: 0 0 12px rgba(74,144,217,0.3) !important;
+}
+[class*="pill_"] span[class*="item_"] {
+  background-color: var(--sn-accent) !important;
+}
+[class*="guildSeparator_"] {
+  background-color: rgba(74,144,217,0.06) !important;
+}
+[class*="tutorialContainer_"] [class*="childWrapper_"] {
+  background-color: rgba(74,144,217,0.1) !important;
+  transition: all 0.3s ease !important;
+}
+[class*="tutorialContainer_"] [class*="childWrapper_"]:hover {
+  background-color: var(--sn-accent) !important;
+  box-shadow: 0 0 20px rgba(74,144,217,0.4) !important;
+}
+
+/* Messages */
+[class*="message_"][class*="cozy_"]:hover {
+  background-color: rgba(74,144,217,0.03) !important;
+}
+[class*="message_"][class*="mentioned_"] {
+  background-color: rgba(74,144,217,0.05) !important;
+  border-left: 3px solid var(--sn-accent) !important;
+}
+[class*="message_"][class*="mentioned_"]:hover {
+  background-color: rgba(74,144,217,0.08) !important;
+}
+
+/* Dividers */
+[class*="divider_"] {
+  border-color: rgba(74,144,217,0.06) !important;
+}
+[class*="divider_"][class*="isUnread_"] {
+  border-color: var(--sn-red) !important;
+}
+
+/* Text input */
+[class*="scrollableContainer_"] {
+  background-color: var(--sn-glass) !important;
+  border: 1px solid rgba(74,144,217,0.08) !important;
+  border-radius: 8px !important;
+}
+[class*="scrollableContainer_"]:focus-within {
+  border-color: rgba(74,144,217,0.3) !important;
+  box-shadow: 0 0 12px rgba(74,144,217,0.1) !important;
+}
+
+/* Embeds */
+[class*="embedWrapper_"] {
+  background-color: var(--sn-glass) !important;
+  border-color: rgba(74,144,217,0.08) !important;
+}
+
+/* Code */
+[class*="markup_"] code {
+  background-color: var(--sn-glass) !important;
+  border: 1px solid rgba(74,144,217,0.08) !important;
+  color: #a0c4ff !important;
+}
+[class*="markup_"] pre {
+  background-color: var(--sn-glass) !important;
+  border: 1px solid rgba(74,144,217,0.08) !important;
+}
+[class*="markup_"] pre code {
+  background: transparent !important;
+  border: none !important;
+  color: var(--sn-text) !important;
+}
+
+/* Reactions */
+[class*="reaction_"] {
+  background-color: var(--sn-glass-light) !important;
+  border: 1px solid rgba(74,144,217,0.08) !important;
+}
+[class*="reaction_"]:hover {
+  background-color: var(--sn-active) !important;
+}
+[class*="reaction_"][class*="reactionMe_"] {
+  background-color: rgba(74,144,217,0.15) !important;
+  border-color: var(--sn-accent) !important;
+}
+
+/* Popouts / Modals */
+[class*="popout_"],
+[class*="userPopoutOuter_"],
+[class*="userProfileOuter_"],
+[class*="userProfileModal_"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.7) !important;
+  backdrop-filter: blur(16px) !important;
+}
+[class*="modal_"],
+[class*="root_"][class*="fullscreenOnMobile_"],
+[class*="layer_"] > [class*="root_"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.7) !important;
+  backdrop-filter: blur(16px) !important;
+}
+
+/* Context menus */
 [class*="menu_"] {
-  background-color: var(--sn-glass-heavy) !important; border: 1px solid var(--sn-border) !important;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.6) !important; backdrop-filter: blur(16px) !important;
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6) !important;
+  backdrop-filter: blur(16px) !important;
 }
-[class*="menu_"] [class*="item_"] { color: var(--sn-text-sub) !important; border-radius: 4px !important; }
-[class*="menu_"] [class*="item_"]:hover, [class*="menu_"] [class*="item_"][class*="focused_"] { background-color: var(--sn-accent) !important; color: #fff !important; }
-[class*="menu_"] [class*="separator_"] { border-color: rgba(74,144,217,0.06) !important; }
-[class*="menu_"] [class*="item_"][class*="colorDanger_"]:hover { background-color: var(--sn-red) !important; }
-[class*="tooltip_"] { background-color: var(--sn-glass-heavy) !important; border: 1px solid var(--sn-border) !important; backdrop-filter: blur(12px) !important; }
-[class*="tooltipPointer_"] { border-top-color: var(--sn-glass-heavy) !important; }
-[class*="autocomplete_"] { background-color: var(--sn-glass-heavy) !important; border: 1px solid var(--sn-border) !important; backdrop-filter: blur(16px) !important; }
-[class*="autocomplete_"] [class*="selectorSelected_"] { background-color: var(--sn-selected) !important; }
-[class*="emojiPicker_"], [class*="contentWrapper_"][class*="picker_"], [class*="stickerInspected_"], [class*="expressionPicker_"] {
-  background-color: var(--sn-glass-heavy) !important; border: 1px solid var(--sn-border) !important; backdrop-filter: blur(16px) !important;
+[class*="menu_"] [class*="item_"] {
+  color: var(--sn-text-sub) !important;
+  border-radius: 4px !important;
 }
-[class*="search_"] [class*="searchBar_"] { background-color: var(--sn-glass) !important; border: 1px solid rgba(74,144,217,0.08) !important; }
-[class*="search_"] [class*="searchBar_"]:focus-within { border-color: var(--sn-accent) !important; }
-[class*="searchResultsWrap_"] { background: var(--sn-glass) !important; }
-[class*="toolbar_"] [class*="iconWrapper_"] { color: var(--sn-text-dim) !important; }
-[class*="toolbar_"] [class*="iconWrapper_"]:hover { color: var(--sn-accent-bright) !important; }
-button[class*="lookFilled_"][class*="colorBrand_"] { background-color: var(--sn-accent) !important; }
-button[class*="lookFilled_"][class*="colorBrand_"]:hover { background-color: var(--sn-accent-bright) !important; box-shadow: 0 0 15px rgba(74,144,217,0.35) !important; }
-button[class*="lookFilled_"][class*="colorGreen_"] { background-color: var(--sn-green) !important; }
-button[class*="lookFilled_"][class*="colorRed_"] { background-color: var(--sn-red) !important; }
-[class*="side_"] [class*="item_"]:hover { background-color: var(--sn-hover) !important; }
-[class*="side_"] [class*="item_"][class*="selected_"] { background-color: var(--sn-selected) !important; color: var(--sn-accent-bright) !important; }
-[class*="cardPrimary_"], [class*="card_"]:not([class*="embedWrapper_"]) { background-color: var(--sn-glass-light) !important; border: 1px solid var(--sn-border) !important; }
-[class*="role_"] { background-color: var(--sn-glass-light) !important; border-color: rgba(74,144,217,0.08) !important; }
-[class*="members_"] [class*="member_"]:hover { background-color: var(--sn-hover) !important; }
-[class*="members_"] h2[class*="membersGroup_"] { color: var(--sn-text-dim) !important; }
-[class*="markup_"] a { color: var(--sn-accent-bright) !important; }
-[class*="markup_"] a:hover { color: #7cc0ff !important; text-shadow: 0 0 8px rgba(74,144,217,0.4) !important; }
-[class*="username_"]:hover { text-shadow: 0 0 8px currentColor !important; }
-[class*="numberBadge_"] { background-color: var(--sn-red) !important; box-shadow: 0 0 10px rgba(232,80,80,0.5) !important; }
-[class*="uploadDropModal_"] { background-color: rgba(2,4,10,0.85) !important; }
-[class*="uploadDropModal_"] [class*="inner_"] { border: 2px dashed var(--sn-accent) !important; background-color: rgba(74,144,217,0.05) !important; }
-[class*="unreadBar_"], [class*="newMessagesBar_"] { background-color: var(--sn-accent) !important; box-shadow: 0 0 12px rgba(74,144,217,0.3) !important; }
-[class*="jumpToPresentBar_"] { background-color: var(--sn-glass-heavy) !important; border: 1px solid var(--sn-border) !important; backdrop-filter: blur(8px) !important; }
-[class*="container_"][class*="card_"] { background-color: var(--sn-glass-light) !important; border: 1px solid var(--sn-border) !important; }
-[class*="premiumPromo_"], [class*="upsellContainer_"] { background-color: var(--sn-glass-light) !important; border: 1px solid var(--sn-border) !important; }
-[class*="containerDefault_"]:hover svg { filter: drop-shadow(0 0 3px rgba(74,144,217,0.35)) !important; }
+[class*="menu_"] [class*="item_"]:hover,
+[class*="menu_"] [class*="item_"][class*="focused_"] {
+  background-color: var(--sn-accent) !important;
+  color: #fff !important;
+}
+[class*="menu_"] [class*="separator_"] {
+  border-color: rgba(74,144,217,0.06) !important;
+}
+[class*="menu_"] [class*="item_"][class*="colorDanger_"]:hover {
+  background-color: var(--sn-red) !important;
+}
+
+/* Tooltips */
+[class*="tooltip_"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  backdrop-filter: blur(12px) !important;
+}
+[class*="tooltipPointer_"] {
+  border-top-color: var(--sn-glass-heavy) !important;
+}
+
+/* Autocomplete */
+[class*="autocomplete_"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  backdrop-filter: blur(16px) !important;
+}
+[class*="autocomplete_"] [class*="selectorSelected_"] {
+  background-color: var(--sn-selected) !important;
+}
+
+/* Pickers */
+[class*="emojiPicker_"],
+[class*="contentWrapper_"][class*="picker_"],
+[class*="stickerInspected_"],
+[class*="expressionPicker_"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  backdrop-filter: blur(16px) !important;
+}
+
+/* Search */
+[class*="search_"] [class*="searchBar_"] {
+  background-color: var(--sn-glass) !important;
+  border: 1px solid rgba(74,144,217,0.08) !important;
+}
+[class*="search_"] [class*="searchBar_"]:focus-within {
+  border-color: var(--sn-accent) !important;
+}
+[class*="searchResultsWrap_"] {
+  background: var(--sn-glass) !important;
+}
+
+/* Toolbar icons */
+[class*="toolbar_"] [class*="iconWrapper_"] {
+  color: var(--sn-text-dim) !important;
+}
+[class*="toolbar_"] [class*="iconWrapper_"]:hover {
+  color: var(--sn-accent-bright) !important;
+}
+
+/* Buttons */
+button[class*="lookFilled_"][class*="colorBrand_"] {
+  background-color: var(--sn-accent) !important;
+}
+button[class*="lookFilled_"][class*="colorBrand_"]:hover {
+  background-color: var(--sn-accent-bright) !important;
+  box-shadow: 0 0 15px rgba(74,144,217,0.35) !important;
+}
+button[class*="lookFilled_"][class*="colorGreen_"] {
+  background-color: var(--sn-green) !important;
+}
+button[class*="lookFilled_"][class*="colorRed_"] {
+  background-color: var(--sn-red) !important;
+}
+
+/* Settings sidebar */
+[class*="side_"] [class*="item_"]:hover {
+  background-color: var(--sn-hover) !important;
+}
+[class*="side_"] [class*="item_"][class*="selected_"] {
+  background-color: var(--sn-selected) !important;
+  color: var(--sn-accent-bright) !important;
+}
+
+/* Cards */
+[class*="cardPrimary_"],
+[class*="card_"]:not([class*="embedWrapper_"]) {
+  background-color: var(--sn-glass-light) !important;
+  border: 1px solid var(--sn-border) !important;
+}
+
+/* Roles */
+[class*="role_"] {
+  background-color: var(--sn-glass-light) !important;
+  border-color: rgba(74,144,217,0.08) !important;
+}
+
+/* Members */
+[class*="members_"] [class*="member_"]:hover {
+  background-color: var(--sn-hover) !important;
+}
+[class*="members_"] h2[class*="membersGroup_"] {
+  color: var(--sn-text-dim) !important;
+}
+
+/* Links */
+[class*="markup_"] a {
+  color: var(--sn-accent-bright) !important;
+}
+[class*="markup_"] a:hover {
+  color: #7cc0ff !important;
+  text-shadow: 0 0 8px rgba(74,144,217,0.4) !important;
+}
+
+/* Username glow */
+[class*="username_"]:hover {
+  text-shadow: 0 0 8px currentColor !important;
+}
+
+/* Badge */
+[class*="numberBadge_"] {
+  background-color: var(--sn-red) !important;
+  box-shadow: 0 0 10px rgba(232,80,80,0.5) !important;
+}
+
+/* Upload */
+[class*="uploadDropModal_"] {
+  background-color: rgba(2,4,10,0.85) !important;
+}
+[class*="uploadDropModal_"] [class*="inner_"] {
+  border: 2px dashed var(--sn-accent) !important;
+  background-color: rgba(74,144,217,0.05) !important;
+}
+
+/* Unread */
+[class*="unreadBar_"],
+[class*="newMessagesBar_"] {
+  background-color: var(--sn-accent) !important;
+  box-shadow: 0 0 12px rgba(74,144,217,0.3) !important;
+}
+
+/* Jump to present */
+[class*="jumpToPresentBar_"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+/* Forum cards */
+[class*="container_"][class*="card_"] {
+  background-color: var(--sn-glass-light) !important;
+  border: 1px solid var(--sn-border) !important;
+}
+
+/* Nitro */
+[class*="premiumPromo_"],
+[class*="upsellContainer_"] {
+  background-color: var(--sn-glass-light) !important;
+  border: 1px solid var(--sn-border) !important;
+}
+
+/* Channel icon glow */
+[class*="containerDefault_"]:hover svg {
+  filter: drop-shadow(0 0 3px rgba(74,144,217,0.35)) !important;
+}
 
 /* =======================================================================
    SCROLLBAR
    ======================================================================= */
 ::-webkit-scrollbar { width: 6px !important; height: 6px !important; }
 ::-webkit-scrollbar-track { background: transparent !important; }
-::-webkit-scrollbar-thumb { background-color: rgba(74,144,217,0.14) !important; border-radius: 3px !important; }
-::-webkit-scrollbar-thumb:hover { background-color: rgba(74,144,217,0.28) !important; }
+::-webkit-scrollbar-thumb {
+  background-color: rgba(74,144,217,0.14) !important;
+  border-radius: 3px !important;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(74,144,217,0.28) !important;
+}
 ::-webkit-scrollbar-corner { background: transparent !important; }
-::selection { background-color: rgba(74,144,217,0.3) !important; color: #fff !important; }
-*:focus-visible { outline: 2px solid var(--sn-accent) !important; outline-offset: 2px !important; }
+
+/* =======================================================================
+   SELECTION & FOCUS
+   ======================================================================= */
+::selection {
+  background-color: rgba(74,144,217,0.3) !important;
+  color: #fff !important;
+}
+*:focus-visible {
+  outline: 2px solid var(--sn-accent) !important;
+  outline-offset: 2px !important;
+}
+
+/* =======================================================================
+   Z-INDEX
+   ======================================================================= */
+html::before, html::after { z-index: 0 !important; }
+#app-mount { position: relative !important; z-index: 1 !important; }
+#app-mount::before, #app-mount::after { z-index: 0 !important; }
+body::before, body::after { z-index: 9999 !important; }
