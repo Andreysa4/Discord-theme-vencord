@@ -1,429 +1,494 @@
-/**
- * @name StarryNight (Discord)
- * @description A Van Gogh Starry Night inspired theme — ported from Spicetify
- * @author MiMo (original Spicetify concept by b-chen00)
- * @version 1.0.0
- */
-
-/* ===== GOOGLE FONT IMPORT ===== */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap');
+/* ================================================================
+   Starry Night — Background Theme for BetterDiscord / Vencord
+   Port of: https://github.com/b-chen00/spicetify-themes/StarryNight
+   Focus: Animated starfield + Van Gogh swirl background
+   ================================================================ */
 
 :root {
-  /* ---- Primary Palette ---- */
-  --bg-primary:        #0b1026;
-  --bg-secondary:      #101838;
-  --bg-tertiary:       #151e47;
-  --bg-accent:         #1a2455;
-  --bg-floating:       #0d1330;
-
-  /* ---- Canvas / Modals ---- */
-  --bg-modifier-hover:     rgba(30, 50, 120, 0.30);
-  --bg-modifier-active:    rgba(30, 50, 120, 0.45);
-  --bg-modifier-selected:  rgba(30, 50, 120, 0.50);
-
-  /* ---- Text ---- */
-  --text-normal:       #c5d0e6;
-  --text-muted:        #7a89ad;
-  --text-link:         #5bc0eb;
-  --header-primary:    #e8efff;
-  --header-secondary:  #8fa3cc;
-
-  /* ---- Accent (the "star gold") ---- */
-  --brand-experiment:       #e6b422;
-  --brand-experiment-560:   #c99a1b;
-  --brand-experiment-hover: #f0c94d;
-  --brand-experiment-active:#d4a519;
-  --brand-glow:             rgba(230, 180, 34, 0.25);
-
-  /* ---- Status ---- */
-  --status-positive:   #43b581;
-  --status-warning:    #faa61a;
-  --status-danger:     #f04747;
-
-  /* ---- Channels & Special ---- */
-  --channel-icon:      #6e84b3;
-  --interactive-normal:#8fa3cc;
-  --interactive-hover: #b4c7e6;
-  --interactive-active:#e8efff;
-  --interactive-muted: #4d5f8a;
-
-  /* ---- Scrollbar ---- */
-  --scrollbar-thin-thumb:  #1a2455;
-  --scrollbar-auto-thumb:  #1a2455;
-  --scrollbar-auto-track:  #0b1026;
-
-  /* ---- Misc ---- */
-  --divider:           rgba(80, 110, 180, 0.12);
-  --elevation-low:     0 1px 0 rgba(6,10,26,0.2), 0 1.5px 0 rgba(6,10,26,0.05), 0 2px 0 rgba(6,10,26,0.05);
-  --elevation-high:    0 8px 16px rgba(0,0,0,0.45);
-
-  /* ---- Font ---- */
-  --font-primary: 'Outfit', 'gg sans', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --starry-bg:       #070b1a;
+  --starry-bg-mid:   #0a1128;
+  --starry-bg-light: #0d1633;
+  --starry-gold:     #f0d060;
+  --starry-gold-dim: #c9a832;
+  --starry-teal:     #5bc0eb;
+  --starry-white:    #f5f0e0;
+  --starry-cloud:    rgba(100, 140, 220, 0.06);
+  --starry-glow:     rgba(240, 208, 96, 0.15);
 }
 
-/* ===== GLOBAL FONT ===== */
-* {
-  font-family: var(--font-primary) !important;
+/* ============================================================
+   LAYER 1 — Base solid dark background on the entire app
+   ============================================================ */
+.appMount_ea7e85,
+.bg_f75ce0 {
+  background: var(--starry-bg) !important;
 }
 
-/* ===== APP BACKGROUND WITH STARS ===== */
-.appMount_ea7e85 {
-  background: var(--bg-primary) !important;
+/* ============================================================
+   LAYER 2 — The animated starfield canvas
+   Uses ::before on the chat content area
+   ============================================================ */
+
+/* Make the chat area a stacking context */
+.chatContent_f75ce0,
+.content_f75ce0,
+[class*="chatContent"] {
+  background: var(--starry-bg) !important;
+  position: relative !important;
 }
 
-/* Animated starfield on the chat background */
-.chatContent_f75ce0::before {
+/* --- THE STARS --- */
+.chatContent_f75ce0::before,
+.content_f75ce0::before,
+[class*="chatContent"]::before {
   content: '';
   position: fixed;
-  inset: 0;
-  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
+  z-index: 0;
+
+  /*
+     Each radial-gradient = one star.
+     Format: radial-gradient(size size at X% Y%, color, transparent)
+     Sizes vary 0.5px to 2.5px for depth.
+     Colors: warm white, cool white, pale yellow, pale blue, gold.
+  */
   background:
-    radial-gradient(1px 1px at 10% 15%, rgba(255,255,220,0.7), transparent),
-    radial-gradient(1.2px 1.2px at 25% 35%, rgba(255,255,220,0.6), transparent),
-    radial-gradient(1px 1px at 40% 8%,  rgba(255,255,220,0.5), transparent),
-    radial-gradient(1.5px 1.5px at 55% 42%, rgba(230,240,255,0.7), transparent),
-    radial-gradient(1px 1px at 70% 12%, rgba(255,255,220,0.6), transparent),
-    radial-gradient(1.3px 1.3px at 85% 28%, rgba(255,255,220,0.5), transparent),
-    radial-gradient(1px 1px at 15% 55%, rgba(230,240,255,0.4), transparent),
-    radial-gradient(1.4px 1.4px at 35% 68%, rgba(255,255,220,0.6), transparent),
-    radial-gradient(1px 1px at 50% 75%, rgba(255,255,220,0.5), transparent),
-    radial-gradient(1.2px 1.2px at 65% 82%, rgba(230,240,255,0.4), transparent),
-    radial-gradient(1px 1px at 80% 60%, rgba(255,255,220,0.5), transparent),
-    radial-gradient(1.5px 1.5px at 92% 50%, rgba(255,255,220,0.7), transparent),
-    radial-gradient(1px 1px at 20% 88%, rgba(230,240,255,0.4), transparent),
-    radial-gradient(1.3px 1.3px at 45% 92%, rgba(255,255,220,0.5), transparent),
-    radial-gradient(1px 1px at 75% 95%, rgba(255,255,220,0.6), transparent),
-    radial-gradient(1.1px 1.1px at 8% 72%,  rgba(255,255,220,0.35), transparent),
-    radial-gradient(1px 1px at 60% 25%, rgba(230,240,255,0.5), transparent),
-    radial-gradient(1.4px 1.4px at 30% 20%, rgba(255,255,220,0.45), transparent),
-    radial-gradient(1px 1px at 88% 38%, rgba(255,255,220,0.55), transparent),
-    radial-gradient(1.6px 1.6px at 50% 50%, rgba(230,180,34,0.5), transparent);
-  animation: twinkle 4s ease-in-out infinite alternate;
+    /* --- TIER 1: Tiny distant stars (0.5 - 0.8px) --- */
+    radial-gradient(0.6px 0.6px at 3.2% 8.7%,   #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 7.8% 14.3%,  rgba(245,240,224,0.8), transparent),
+    radial-gradient(0.7px 0.7px at 12.1% 5.6%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 16.9% 22.1%, rgba(245,240,224,0.7), transparent),
+    radial-gradient(0.6px 0.6px at 21.3% 9.4%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 25.7% 18.8%, rgba(200,220,255,0.6), transparent),
+    radial-gradient(0.8px 0.8px at 30.2% 4.2%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 34.6% 28.5%, rgba(245,240,224,0.7), transparent),
+    radial-gradient(0.6px 0.6px at 39.1% 11.3%, #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 43.8% 19.7%, rgba(245,240,224,0.6), transparent),
+    radial-gradient(0.7px 0.7px at 48.2% 6.8%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 52.5% 24.2%, rgba(200,220,255,0.7), transparent),
+    radial-gradient(0.6px 0.6px at 57.3% 13.6%, #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 61.7% 7.9%,  rgba(245,240,224,0.8), transparent),
+    radial-gradient(0.8px 0.8px at 66.4% 21.5%, #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 71.2% 9.1%,  rgba(245,240,224,0.6), transparent),
+    radial-gradient(0.6px 0.6px at 75.8% 26.3%, #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 80.1% 5.4%,  rgba(200,220,255,0.7), transparent),
+    radial-gradient(0.7px 0.7px at 84.5% 17.2%, #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 89.3% 10.8%, rgba(245,240,224,0.7), transparent),
+    radial-gradient(0.6px 0.6px at 93.7% 23.6%, #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 97.1% 8.3%,  rgba(245,240,224,0.8), transparent),
+
+    /* More tiny stars scattered */
+    radial-gradient(0.6px 0.6px at 4.5% 33.2%,  rgba(245,240,224,0.5), transparent),
+    radial-gradient(0.5px 0.5px at 9.3% 41.8%,  #fff8dc, transparent),
+    radial-gradient(0.7px 0.7px at 14.7% 36.5%, rgba(200,220,255,0.5), transparent),
+    radial-gradient(0.5px 0.5px at 19.2% 45.1%, rgba(245,240,224,0.6), transparent),
+    radial-gradient(0.6px 0.6px at 24.8% 38.7%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 29.4% 52.3%, rgba(245,240,224,0.5), transparent),
+    radial-gradient(0.8px 0.8px at 34.1% 43.9%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 38.6% 35.4%, rgba(200,220,255,0.6), transparent),
+    radial-gradient(0.6px 0.6px at 43.2% 48.6%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 47.9% 55.1%, rgba(245,240,224,0.5), transparent),
+    radial-gradient(0.7px 0.7px at 52.4% 40.3%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 56.8% 47.8%, rgba(245,240,224,0.7), transparent),
+    radial-gradient(0.6px 0.6px at 61.5% 34.6%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 66.2% 50.2%, rgba(200,220,255,0.5), transparent),
+    radial-gradient(0.8px 0.8px at 70.7% 39.4%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 75.3% 44.7%, rgba(245,240,224,0.6), transparent),
+    radial-gradient(0.6px 0.6px at 80.1% 53.8%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 84.8% 37.2%, rgba(245,240,224,0.5), transparent),
+    radial-gradient(0.7px 0.7px at 89.4% 46.5%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 94.1% 51.3%, rgba(200,220,255,0.7), transparent),
+    radial-gradient(0.6px 0.6px at 97.6% 42.8%,  #fff8dc, transparent),
+
+    /* Bottom half tiny stars */
+    radial-gradient(0.5px 0.5px at 5.1% 58.4%,  rgba(245,240,224,0.4), transparent),
+    radial-gradient(0.6px 0.6px at 10.6% 64.7%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 15.3% 71.2%, rgba(200,220,255,0.4), transparent),
+    radial-gradient(0.7px 0.7px at 20.8% 62.5%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 25.4% 76.8%, rgba(245,240,224,0.5), transparent),
+    radial-gradient(0.6px 0.6px at 30.9% 68.3%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 35.5% 59.1%, rgba(245,240,224,0.4), transparent),
+    radial-gradient(0.8px 0.8px at 40.2% 73.6%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 45.7% 66.9%, rgba(200,220,255,0.5), transparent),
+    radial-gradient(0.6px 0.6px at 50.3% 61.4%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 55.8% 78.2%, rgba(245,240,224,0.4), transparent),
+    radial-gradient(0.7px 0.7px at 60.4% 63.7%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 65.1% 70.5%, rgba(245,240,224,0.5), transparent),
+    radial-gradient(0.6px 0.6px at 70.6% 57.8%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 75.2% 82.1%, rgba(200,220,255,0.4), transparent),
+    radial-gradient(0.8px 0.8px at 80.7% 67.4%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 85.3% 74.9%, rgba(245,240,224,0.5), transparent),
+    radial-gradient(0.6px 0.6px at 90.1% 59.6%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 94.7% 72.3%, rgba(245,240,224,0.4), transparent),
+    radial-gradient(0.7px 0.7px at 98.2% 65.8%,  #fff8dc, transparent),
+
+    /* Far bottom */
+    radial-gradient(0.5px 0.5px at 6.2% 84.3%,  rgba(245,240,224,0.3), transparent),
+    radial-gradient(0.6px 0.6px at 11.8% 91.7%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 17.4% 87.2%, rgba(200,220,255,0.3), transparent),
+    radial-gradient(0.7px 0.7px at 22.9% 95.1%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 28.5% 83.6%, rgba(245,240,224,0.4), transparent),
+    radial-gradient(0.6px 0.6px at 33.1% 89.4%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 38.7% 96.8%, rgba(245,240,224,0.3), transparent),
+    radial-gradient(0.8px 0.8px at 44.3% 85.2%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 49.8% 92.6%, rgba(200,220,255,0.4), transparent),
+    radial-gradient(0.6px 0.6px at 55.4% 88.1%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 61.1% 94.3%, rgba(245,240,224,0.3), transparent),
+    radial-gradient(0.7px 0.7px at 66.7% 82.9%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 72.3% 90.7%, rgba(245,240,224,0.4), transparent),
+    radial-gradient(0.6px 0.6px at 77.9% 86.5%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 83.4% 97.1%, rgba(200,220,255,0.3), transparent),
+    radial-gradient(0.8px 0.8px at 89.1% 84.8%,  #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 94.6% 93.4%, rgba(245,240,224,0.4), transparent),
+
+    /* --- TIER 2: Medium stars (1px - 1.5px) --- */
+    radial-gradient(1px 1px at 8.4% 12.1%,    #ffe8a0, transparent),
+    radial-gradient(1.2px 1.2px at 18.7% 7.6%,  var(--starry-white), transparent),
+    radial-gradient(1px 1px at 27.3% 15.8%,   #ffe8a0, transparent),
+    radial-gradient(1.3px 1.3px at 36.9% 22.4%, var(--starry-teal), transparent),
+    radial-gradient(1px 1px at 44.5% 10.3%,   #ffe8a0, transparent),
+    radial-gradient(1.2px 1.2px at 53.8% 18.1%, var(--starry-white), transparent),
+    radial-gradient(1px 1px at 62.1% 6.7%,    #ffe8a0, transparent),
+    radial-gradient(1.4px 1.4px at 71.6% 14.5%, var(--starry-gold-dim), transparent),
+    radial-gradient(1px 1px at 80.3% 20.8%,   #ffe8a0, transparent),
+    radial-gradient(1.2px 1.2px at 88.9% 9.2%,  var(--starry-white), transparent),
+    radial-gradient(1px 1px at 95.4% 16.7%,   #ffe8a0, transparent),
+
+    radial-gradient(1.1px 1.1px at 6.8% 30.5%,  var(--starry-white), transparent),
+    radial-gradient(1px 1px at 15.2% 38.9%,   #ffe8a0, transparent),
+    radial-gradient(1.3px 1.3px at 23.6% 34.2%, var(--starry-teal), transparent),
+    radial-gradient(1px 1px at 32.4% 42.7%,   #ffe8a0, transparent),
+    radial-gradient(1.2px 1.2px at 41.8% 37.1%, var(--starry-white), transparent),
+    radial-gradient(1px 1px at 50.5% 44.8%,   #ffe8a0, transparent),
+    radial-gradient(1.4px 1.4px at 59.3% 32.6%, var(--starry-gold-dim), transparent),
+    radial-gradient(1px 1px at 68.7% 40.3%,   #ffe8a0, transparent),
+    radial-gradient(1.1px 1.1px at 77.4% 36.9%, var(--starry-white), transparent),
+    radial-gradient(1px 1px at 86.2% 43.5%,   #ffe8a0, transparent),
+    radial-gradient(1.3px 1.3px at 94.8% 31.2%, var(--starry-teal), transparent),
+
+    radial-gradient(1px 1px at 7.5% 52.8%,    #ffe8a0, transparent),
+    radial-gradient(1.2px 1.2px at 16.3% 60.4%, var(--starry-white), transparent),
+    radial-gradient(1px 1px at 25.1% 55.7%,   #ffe8a0, transparent),
+    radial-gradient(1.4px 1.4px at 34.7% 63.1%, var(--starry-gold-dim), transparent),
+    radial-gradient(1px 1px at 43.4% 57.9%,   #ffe8a0, transparent),
+    radial-gradient(1.1px 1.1px at 52.8% 65.3%, var(--starry-white), transparent),
+    radial-gradient(1px 1px at 61.6% 53.4%,   #ffe8a0, transparent),
+    radial-gradient(1.3px 1.3px at 70.2% 61.8%, var(--starry-teal), transparent),
+    radial-gradient(1px 1px at 79.5% 56.2%,   #ffe8a0, transparent),
+    radial-gradient(1.2px 1.2px at 88.1% 64.7%, var(--starry-white), transparent),
+    radial-gradient(1px 1px at 96.7% 58.3%,   #ffe8a0, transparent),
+
+    radial-gradient(1px 1px at 9.2% 72.6%,    #ffe8a0, transparent),
+    radial-gradient(1.3px 1.3px at 18.5% 79.1%, var(--starry-teal), transparent),
+    radial-gradient(1px 1px at 27.8% 85.4%,   #ffe8a0, transparent),
+    radial-gradient(1.2px 1.2px at 36.4% 73.8%, var(--starry-white), transparent),
+    radial-gradient(1px 1px at 45.9% 81.2%,   #ffe8a0, transparent),
+    radial-gradient(1.4px 1.4px at 54.7% 88.6%, var(--starry-gold-dim), transparent),
+    radial-gradient(1px 1px at 63.3% 76.5%,   #ffe8a0, transparent),
+    radial-gradient(1.1px 1.1px at 72.8% 83.9%, var(--starry-white), transparent),
+    radial-gradient(1px 1px at 81.6% 78.3%,   #ffe8a0, transparent),
+    radial-gradient(1.2px 1.2px at 90.4% 86.1%, var(--starry-white), transparent),
+    radial-gradient(1px 1px at 97.1% 74.9%,   #ffe8a0, transparent),
+
+    /* --- TIER 3: Bright/Gold stars (1.8px - 2.5px) — the "Van Gogh" stars --- */
+    radial-gradient(2.2px 2.2px at 10.5% 10.2%,  var(--starry-gold), transparent),
+    radial-gradient(2px 2px at 24.3% 6.8%,       var(--starry-gold), transparent),
+    radial-gradient(2.5px 2.5px at 42.7% 14.5%,  var(--starry-gold), transparent),
+    radial-gradient(2px 2px at 60.8% 8.3%,       var(--starry-gold), transparent),
+    radial-gradient(2.3px 2.3px at 78.4% 12.7%,  var(--starry-gold), transparent),
+    radial-gradient(2px 2px at 92.6% 7.1%,       var(--starry-gold), transparent),
+
+    radial-gradient(2px 2px at 15.8% 35.2%,      var(--starry-gold), transparent),
+    radial-gradient(2.4px 2.4px at 38.2% 40.6%,  var(--starry-gold), transparent),
+    radial-gradient(2px 2px at 56.5% 36.8%,      var(--starry-gold), transparent),
+    radial-gradient(2.2px 2.2px at 74.1% 42.3%,  var(--starry-gold), transparent),
+    radial-gradient(2px 2px at 88.9% 38.5%,      var(--starry-gold), transparent),
+
+    radial-gradient(2.5px 2.5px at 20.6% 68.4%,  var(--starry-gold), transparent),
+    radial-gradient(2px 2px at 46.3% 72.1%,      var(--starry-gold), transparent),
+    radial-gradient(2.3px 2.3px at 68.7% 66.8%,  var(--starry-gold), transparent),
+    radial-gradient(2px 2px at 85.2% 70.5%,      var(--starry-gold), transparent),
+
+    radial-gradient(2.1px 2.1px at 12.4% 90.3%,  var(--starry-gold), transparent),
+    radial-gradient(2px 2px at 52.1% 94.6%,      var(--starry-gold), transparent),
+    radial-gradient(2.4px 2.4px at 91.3% 88.7%,  var(--starry-gold), transparent);
+
+  animation: twinkle-stars 5s ease-in-out infinite alternate;
 }
 
-@keyframes twinkle {
-  0%   { opacity: 0.6; }
-  50%  { opacity: 1; }
-  100% { opacity: 0.7; }
+/* --- Twinkling animation --- */
+@keyframes twinkle-stars {
+  0%   { opacity: 0.55; transform: scale(1); }
+  30%  { opacity: 0.75; }
+  50%  { opacity: 1;    transform: scale(1.003); }
+  70%  { opacity: 0.8;  }
+  100% { opacity: 0.6;  transform: scale(0.998); }
 }
 
-/* ===== SERVER LIST / SIDEBAR ===== */
-.guilds_c48ade {
-  background: var(--bg-primary) !important;
-  border-right: 1px solid var(--divider) !important;
+/* ============================================================
+   LAYER 3 — Van Gogh swirling clouds (the "Starry Night" look)
+   Uses ::after on the chat content area
+   ============================================================ */
+.chatContent_f75ce0::after,
+.content_f75ce0::after,
+[class*="chatContent"]::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+
+  /*
+     Large soft radial gradients mimicking the
+     swirling sky painting — blues, violets, hints of gold
+  */
+  background:
+    /* Main swirl band — upper sky */
+    radial-gradient(ellipse 600px 120px at 30% 12%,
+      rgba(50, 80, 160, 0.35), transparent),
+    radial-gradient(ellipse 500px 100px at 55% 8%,
+      rgba(40, 65, 140, 0.30), transparent),
+    radial-gradient(ellipse 700px 140px at 75% 14%,
+      rgba(55, 85, 170, 0.25), transparent),
+
+    /* Swirl — mid-upper sky, the main spiral */
+    radial-gradient(ellipse 450px 180px at 25% 22%,
+      rgba(35, 60, 130, 0.30), transparent),
+    radial-gradient(ellipse 350px 150px at 40% 18%,
+      rgba(60, 90, 170, 0.25), transparent),
+    radial-gradient(ellipse 550px 200px at 60% 25%,
+      rgba(45, 75, 155, 0.28), transparent),
+    radial-gradient(ellipse 400px 160px at 80% 20%,
+      rgba(50, 80, 165, 0.22), transparent),
+
+    /* Second swirl band */
+    radial-gradient(ellipse 500px 130px at 20% 35%,
+      rgba(40, 70, 150, 0.20), transparent),
+    radial-gradient(ellipse 600px 150px at 50% 32%,
+      rgba(30, 55, 130, 0.25), transparent),
+    radial-gradient(ellipse 450px 120px at 78% 36%,
+      rgba(45, 75, 160, 0.18), transparent),
+
+    /* Gold-glow halos around big stars */
+    radial-gradient(ellipse 80px 80px at 10.5% 10.2%,
+      rgba(240, 208, 96, 0.12), transparent),
+    radial-gradient(ellipse 70px 70px at 24.3% 6.8%,
+      rgba(240, 208, 96, 0.10), transparent),
+    radial-gradient(ellipse 90px 90px at 42.7% 14.5%,
+      rgba(240, 208, 96, 0.14), transparent),
+    radial-gradient(ellipse 75px 75px at 60.8% 8.3%,
+      rgba(240, 208, 96, 0.11), transparent),
+    radial-gradient(ellipse 85px 85px at 78.4% 12.7%,
+      rgba(240, 208, 96, 0.12), transparent),
+    radial-gradient(ellipse 70px 70px at 92.6% 7.1%,
+      rgba(240, 208, 96, 0.09), transparent),
+
+    /* Mid-star gold halos */
+    radial-gradient(ellipse 60px 60px at 15.8% 35.2%,
+      rgba(240, 208, 96, 0.08), transparent),
+    radial-gradient(ellipse 75px 75px at 38.2% 40.6%,
+      rgba(240, 208, 96, 0.10), transparent),
+    radial-gradient(ellipse 65px 65px at 56.5% 36.8%,
+      rgba(240, 208, 96, 0.09), transparent),
+    radial-gradient(ellipse 70px 70px at 74.1% 42.3%,
+      rgba(240, 208, 96, 0.08), transparent),
+
+    /* Lower sky — denser, darker swirls */
+    radial-gradient(ellipse 700px 200px at 30% 55%,
+      rgba(25, 45, 110, 0.20), transparent),
+    radial-gradient(ellipse 600px 180px at 60% 50%,
+      rgba(30, 50, 120, 0.22), transparent),
+    radial-gradient(ellipse 500px 160px at 85% 55%,
+      rgba(20, 40, 100, 0.18), transparent),
+
+    /* Cypress tree / horizon suggestion */
+    radial-gradient(ellipse 200px 400px at 8% 85%,
+      rgba(10, 20, 50, 0.40), transparent),
+    radial-gradient(ellipse 150px 350px at 15% 90%,
+      rgba(12, 22, 55, 0.35), transparent),
+    radial-gradient(ellipse 180px 380px at 92% 88%,
+      rgba(10, 20, 50, 0.30), transparent),
+
+    /* Horizon glow band */
+    radial-gradient(ellipse 120% 80px at 50% 100%,
+      rgba(15, 25, 60, 0.50), transparent);
+
+  animation: swirl-drift 30s linear infinite;
 }
 
-/* Server pill */
-.pill_c48ade {
-  background: var(--brand-experiment) !important;
-  box-shadow: 0 0 10px var(--brand-glow), 0 0 20px var(--brand-glow) !important;
+/* Slow drifting rotation — like Van Gogh's sky is alive */
+@keyframes swirl-drift {
+  0%   {
+    opacity: 0.8;
+    transform: scale(1) rotate(0deg);
+  }
+  25%  {
+    opacity: 0.9;
+  }
+  50%  {
+    opacity: 1;
+    transform: scale(1.02) rotate(0.5deg);
+  }
+  75%  {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0.8;
+    transform: scale(1) rotate(0deg);
+  }
 }
 
-/* Server icon hover */
-.wrapper_c48ade:hover .childWrapper_c48ade {
-  background: var(--brand-experiment) !important;
-  border-radius: 16px !important;
+/* ============================================================
+   LAYER 4 — Second star layer on the SIDEBAR / guild list
+   so stars show everywhere, not just chat
+   ============================================================ */
+.guilds_c48ade,
+[class*="guilds"] {
+  position: relative !important;
+  background: var(--starry-bg) !important;
 }
 
-/* ===== CHANNEL LIST ===== */
-.sidebar_c48ade {
-  background: var(--bg-secondary) !important;
+.guilds_c48ade::before,
+[class*="guilds"]::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(0.6px 0.6px at 2.1% 15.3%,  #fff8dc, transparent),
+    radial-gradient(0.8px 0.8px at 4.5% 38.7%,   var(--starry-gold), transparent),
+    radial-gradient(0.5px 0.5px at 1.8% 52.1%,  rgba(245,240,224,0.5), transparent),
+    radial-gradient(0.7px 0.7px at 3.2% 67.4%,   #fff8dc, transparent),
+    radial-gradient(0.5px 0.5px at 1.3% 81.9%,  rgba(200,220,255,0.4), transparent),
+    radial-gradient(1px 1px at 2.8% 90.5%,       var(--starry-gold), transparent),
+    radial-gradient(0.6px 0.6px at 4.1% 7.8%,   rgba(245,240,224,0.6), transparent),
+    radial-gradient(0.5px 0.5px at 1.5% 28.4%,  #fff8dc, transparent),
+    radial-gradient(1.2px 1.2px at 3.6% 44.9%,   var(--starry-gold), transparent),
+    radial-gradient(0.5px 0.5px at 2.4% 73.6%,  rgba(245,240,224,0.4), transparent);
+  animation: twinkle-stars 6s ease-in-out infinite alternate-reverse;
 }
 
-.sidebar_c48ade::after {
+/* Channel sidebar also gets a subtle glow */
+.sidebar_c48ade,
+[class*="sidebar"] {
+  position: relative !important;
+  background: linear-gradient(
+    180deg,
+    var(--starry-bg-mid) 0%,
+    var(--starry-bg) 100%
+  ) !important;
+}
+
+.sidebar_c48ade::before,
+[class*="sidebar"]::before {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
+  z-index: 0;
   background:
-    radial-gradient(ellipse at 30% 20%, rgba(27,60,140,0.25), transparent 60%),
-    radial-gradient(ellipse at 70% 80%, rgba(30,50,120,0.15), transparent 50%);
+    /* Faint nebula glow top-right corner of sidebar */
+    radial-gradient(ellipse 300px 200px at 100% 5%,
+      rgba(40, 65, 140, 0.15), transparent),
+    /* A few sidebar stars */
+    radial-gradient(0.8px 0.8px at 70% 10%, var(--starry-gold), transparent),
+    radial-gradient(0.6px 0.6px at 40% 25%, #fff8dc, transparent),
+    radial-gradient(1px 1px at 85% 45%, var(--starry-gold), transparent),
+    radial-gradient(0.5px 0.5px at 20% 60%, rgba(245,240,224,0.4), transparent),
+    radial-gradient(0.7px 0.7px at 60% 75%, #fff8dc, transparent),
+    radial-gradient(0.8px 0.8px at 30% 90%, var(--starry-gold), transparent);
+  animation: twinkle-stars 7s ease-in-out infinite alternate;
 }
 
-/* Channel header */
-.header_c48ade {
-  background: transparent !important;
-  box-shadow: none !important;
+/* ============================================================
+   LAYER 5 — Bottom bar (user panel) darkened
+   ============================================================ */
+.panel_c48ade,
+[class*="panel"] {
+  background: linear-gradient(
+    180deg,
+    var(--starry-bg-mid) 0%,
+    var(--starry-bg) 100%
+  ) !important;
+  border-top: 1px solid rgba(80, 110, 180, 0.08) !important;
 }
 
-/* Channel categories */
-.containerDefault_c48ade .header_c48ade {
-  color: var(--header-secondary) !important;
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: 0.6875rem;
-  letter-spacing: 0.02em;
+/* ============================================================
+   LAYER 6 — Top header bar: frosted glass over stars
+   ============================================================ */
+.title_f75ce0,
+[class*="chatHeader"],
+[class*="title_"] {
+  background: rgba(7, 11, 26, 0.75) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid rgba(80, 110, 180, 0.06) !important;
 }
 
-/* Channel name */
-.name_c48ade {
-  color: var(--interactive-normal) !important;
-}
-.name_c48ade:hover,
-.name_c48ade.selected_c48ade {
-  color: var(--interactive-active) !important;
-}
-
-/* Voice channel connected */
-.modeConnected_c48ade .name_c48ade {
-  color: var(--status-positive) !important;
+/* ============================================================
+   LAYER 7 — Message input: frosted over stars
+   ============================================================ */
+.channelTextArea_f75ce0,
+[class*="channelTextArea"] {
+  background: rgba(13, 22, 51, 0.85) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(80, 110, 180, 0.12) !important;
 }
 
-/* ===== CHAT AREA ===== */
-.chatContent_f75ce0,
-.content_f75ce0 {
-  background: var(--bg-primary) !important;
+/* ============================================================
+   LAYER 8 — Members sidebar
+   ============================================================ */
+.members_c48ade,
+[class*="membersWrap"] {
+  position: relative !important;
+  background: linear-gradient(
+    180deg,
+    var(--starry-bg-mid) 0%,
+    var(--starry-bg) 100%
+  ) !important;
 }
 
-/* Chat header */
-.title_f75ce0 {
-  background: rgba(11, 16, 38, 0.85) !important;
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--divider) !important;
-}
-
-.title_f75ce0 h1,
-.title_f75ce0 h3 {
-  color: var(--header-primary) !important;
-}
-
-/* ===== MESSAGES ===== */
-.message_f75ce0 {
-  color: var(--text-normal) !important;
-}
-
-/* Message hover */
-.message_f75ce0:hover {
-  background: var(--bg-modifier-hover) !important;
-}
-
-/* Username colors */
-.username_f75ce0 {
-  color: var(--brand-experiment) !important;
-  font-weight: 600;
-}
-
-/* Bot tag */
-.botTag_f75ce0 {
-  background: var(--brand-experiment) !important;
-  color: var(--bg-primary) !important;
-}
-
-/* Timestamps */
-.timestamp_f75ce0 {
-  color: var(--text-muted) !important;
-}
-
-/* Message links */
-.markup_f75ce0 a {
-  color: var(--text-link) !important;
-}
-
-/* ===== MESSAGE INPUT / TEXTAREA ===== */
-.channelTextArea_f75ce0 {
-  background: var(--bg-tertiary) !important;
-  border: 1px solid var(--divider) !important;
-  border-radius: 12px !important;
-}
-
-.channelTextArea_f75ce0:focus-within {
-  border-color: var(--brand-experiment-560) !important;
-  box-shadow: 0 0 0 2px var(--brand-glow) !important;
-}
-
-/* Placeholder text */
-.placeholder_f75ce0 {
-  color: var(--text-muted) !important;
-}
-
-/* ===== MEMBERS LIST ===== */
-.members_c48ade {
-  background: var(--bg-secondary) !important;
-}
-
-.member_c48ade .name_c48ade {
-  color: var(--interactive-normal) !important;
-}
-.member_c48ade:hover .name_c48ade {
-  color: var(--interactive-hover) !important;
-}
-
-/* Online/offline indicators */
-.status_f75ce0 {
-  border: 3px solid var(--bg-secondary) !important;
-}
-
-/* ===== USER AREA (BOTTOM LEFT) ===== */
-.panel_c48ade {
-  background: var(--bg-tertiary) !important;
-}
-
-.avatar_f75ce0 {
-  border-radius: 50% !important;
-}
-
-.nameTag_c48ade .username_c48ade {
-  color: var(--header-primary) !important;
-}
-
-/* ===== BUTTONS ===== */
-.lookFilled_f75ce0.colorBrand_f75ce0 {
-  background: var(--brand-experiment) !important;
-  color: var(--bg-primary) !important;
-  font-weight: 600;
-}
-.lookFilled_f75ce0.colorBrand_f75ce0:hover {
-  background: var(--brand-experiment-hover) !important;
-}
-
-/* Outline / ghost buttons */
-.lookOutlined_f75ce0.colorBrand_f75ce0 {
-  border-color: var(--brand-experiment) !important;
-  color: var(--brand-experiment) !important;
-}
-
-/* ===== MODALS ===== */
-.root_f75ce0 {
-  background: var(--bg-floating) !important;
-  border-radius: 16px !important;
-  box-shadow: var(--elevation-high) !important;
-}
-
-.modal_f75ce0 .header_f75ce0 {
-  background: transparent !important;
-}
-
-/* ===== SCROLLBARS ===== */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: var(--scrollbar-auto-track) !important;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-auto-thumb) !important;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--bg-accent) !important;
-}
-
-/* ===== TOOLTIPS ===== */
-.tooltip_f75ce0 {
-  background: var(--bg-floating) !important;
-  color: var(--text-normal) !important;
-  border: 1px solid var(--divider) !important;
-  box-shadow: var(--elevation-high) !important;
-}
-
-/* ===== MENTIONS ===== */
-.mention_f75ce0 {
-  background: rgba(230, 180, 34, 0.15) !important;
-  color: var(--brand-experiment) !important;
-  font-weight: 500;
-}
-.mention_f75ce0:hover {
-  background: rgba(230, 180, 34, 0.25) !important;
-}
-
-/* ===== EMOJI REACTIONS ===== */
-.reaction_f75ce0 {
-  background: var(--bg-tertiary) !important;
-  border: 1px solid var(--divider) !important;
-}
-.reaction_f75ce0:hover {
-  border-color: var(--brand-experiment-560) !important;
-  background: var(--bg-modifier-hover) !important;
-}
-.reaction_f75ce0.reacted_f75ce0 {
-  background: rgba(230, 180, 34, 0.15) !important;
-  border-color: var(--brand-experiment) !important;
-}
-
-/* ===== CODE BLOCKS ===== */
-.markup_f75ce0 pre {
-  background: rgba(8, 12, 30, 0.7) !important;
-  border: 1px solid var(--divider) !important;
-  border-radius: 8px !important;
-}
-
-.markup_f75ce0 code {
-  background: rgba(15, 22, 50, 0.6) !important;
-  border-radius: 4px;
-  color: #a5d6ff !important;
-}
-
-/* ===== SEARCH / AUTOCOMPLETE ===== */
-.autocomplete_f75ce0 {
-  background: var(--bg-floating) !important;
-  border: 1px solid var(--divider) !important;
-  border-radius: 12px !important;
-}
-
-.searchAnswer_f75ce0,
-.autocompleteRowVertical_f75ce0:hover {
-  background: var(--bg-modifier-hover) !important;
-}
-
-/* ===== NOTIFICATIONS BADGE ===== */
-.badge_c48ade {
-  background: var(--status-danger) !important;
-  box-shadow: 0 0 6px rgba(240, 71, 71, 0.4);
-}
-
-/* ===== UNREAD DOT ===== */
-.unread_c48ade {
-  background: var(--brand-experiment) !important;
-  box-shadow: 0 0 8px var(--brand-glow);
-}
-
-/* ===== SETTINGS / USER SETTINGS ===== */
-.sideBar_c195a3 {
-  background: var(--bg-secondary) !important;
-}
-
-/* ===== VAN GOGH SWIRL EFFECT ON SERVER LIST HOVER ===== */
-.guilds_c48ade::before {
+.members_c48ade::before,
+[class*="membersWrap"]::before {
   content: '';
-  position: fixed;
-  top: -50%;
-  left: -20%;
-  width: 200%;
-  height: 200%;
+  position: absolute;
+  inset: 0;
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(ellipse at 20% 50%, rgba(27, 60, 140, 0.08), transparent 50%),
-    radial-gradient(ellipse at 80% 30%, rgba(30, 70, 150, 0.06), transparent 40%);
-  animation: swirl 20s linear infinite;
+    radial-gradient(ellipse 250px 150px at 0% 10%,
+      rgba(40, 65, 140, 0.12), transparent),
+    radial-gradient(0.7px 0.7px at 30% 15%, var(--starry-gold), transparent),
+    radial-gradient(0.5px 0.5px at 60% 35%, #fff8dc, transparent),
+    radial-gradient(0.8px 0.8px at 80% 55%, var(--starry-gold), transparent),
+    radial-gradient(0.6px 0.6px at 25% 70%, rgba(245,240,224,0.4), transparent),
+    radial-gradient(0.5px 0.5px at 70% 85%, #fff8dc, transparent);
+  animation: twinkle-stars 8s ease-in-out infinite alternate-reverse;
 }
 
-@keyframes swirl {
-  0%   { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* ===== SPLASH / LOADING SCREEN ===== */
-.bg_f75ce0 {
-  background: var(--bg-primary) !important;
-}
-
-/* ===== TOP BAR ---- */
-.container_f75ce0 {
-  background: rgba(11, 16, 38, 0.85) !important;
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--divider) !important;
-}
-
-/* ===== REDUCE MOTION ===== */
+/* ============================================================
+   REDUCED MOTION — disable animations for accessibility
+   ============================================================ */
 @media (prefers-reduced-motion: reduce) {
-  .chatContent_f75ce0::before {
-    animation: none;
-  }
-  .guilds_c48ade::before {
-    animation: none;
+  .chatContent_f75ce0::before,
+  .chatContent_f75ce0::after,
+  .content_f75ce0::before,
+  .content_f75ce0::after,
+  .guilds_c48ade::before,
+  .sidebar_c48ade::before,
+  .members_c48ade::before {
+    animation: none !important;
   }
 }
