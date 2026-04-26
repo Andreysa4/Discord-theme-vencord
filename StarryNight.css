@@ -1,117 +1,198 @@
 /**
  * @name StarryNight
  * @author MiMo
- * @version 2.0
- * @description Unified dark background + falling stars (use with StarryNight.plugin.js)
+ * @version 3.0
+ * @description Uniform starry night background with falling stars (pure CSS)
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap');
+/* ============================================================
+   FONT
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
-:root {
-  --starry-bg: #0a1024;
-}
-
-/* ===== FONT ===== */
 * {
-  font-family: 'Outfit', 'gg sans', sans-serif !important;
+  font-family: 'Outfit', 'gg sans', 'Whitney', sans-serif !important;
 }
 
-/* ===== UNIFIED BACKGROUND =====
-   Make EVERY panel transparent so the canvas behind shows through.
-   This is what fixes the "divided in half" look.
-*/
+/* ============================================================
+   MAKE ALL DISCORD PANELS TRANSPARENT
+   so the single background underneath shows through everywhere
+   ============================================================ */
+html,
+body,
 .appMount_ea7e85,
-.app_ea7e85,
-.layers_ea7e85,
-.layer_ea7e85,
-.container_ee69e0,
-.guilds_c48ade,
-.sidebar_c48ade,
-.base_c48ade,
-.content_c48ade,
-.chat_f75ce0,
-.chatContent_f75ce0,
-.content_f75ce0,
-.container_f75ce0,
-.members_c48ade,
-.panel_c48ade,
-.bg_f75ce0,
 [class*="appMount"],
 [class*="app_"],
 [class*="layers_"],
-[class*="layer_"],
+[class*="layer_"]:not([class*="layerContainer"]),
+[class*="baseLayer"],
+[class*="container_"]:not([class*="modal"]):not([class*="popout"]):not([class*="tooltip"]),
 [class*="guilds"],
 [class*="sidebar_"],
 [class*="base_"],
+[class*="content_"]:not([class*="modalContent"]),
 [class*="chat_"],
 [class*="chatContent"],
-[class*="content_"],
-[class*="container_"],
 [class*="membersWrap"],
+[class*="members_"],
 [class*="panels_"],
-[class*="panel_"] {
+[class*="panel_"]:not([class*="panelContent"]),
+[class*="bg_"],
+[class*="nowPlayingColumn"],
+[class*="container__"][class*="title"] {
   background: transparent !important;
   background-color: transparent !important;
 }
 
-/* The ONE solid background, on the body */
-body {
-  background: var(--starry-bg) !important;
+/* ============================================================
+   THE ONE SOLID BACKGROUND COLOR
+   ============================================================ */
+html {
+  background: #0a1024 !important;
 }
 
-/* ===== KEEP FLOATING ELEMENTS OPAQUE =====
-   Modals, popups, tooltips, etc. need their own background
-   so they don't become invisible.
-*/
+/* ============================================================
+   STAR LAYER 1 — tiny faint distant stars (slow fall)
+   ============================================================ */
+html::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1px 1px at 20px 30px,   rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 65px 80px,   rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 110px 45px,  rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 155px 120px, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 200px 60px,  rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 235px 145px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 40px 175px,  rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 85px 215px,  rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 140px 245px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 180px 195px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 220px 270px, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 55px 295px,  rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 130px 15px,  rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 245px 100px, rgba(255,255,255,0.6), transparent);
+  background-size: 280px 320px;
+  background-repeat: repeat;
+  animation: fall-slow 80s linear infinite;
+}
+
+@keyframes fall-slow {
+  from { background-position: 0 0; }
+  to   { background-position: 0 320px; }
+}
+
+/* ============================================================
+   STAR LAYER 2 — medium stars (medium fall speed)
+   ============================================================ */
+html::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1.4px 1.4px at 50px 60px,    rgba(255,255,240,0.9), transparent),
+    radial-gradient(1.4px 1.4px at 145px 110px,  rgba(255,255,240,0.7), transparent),
+    radial-gradient(1.4px 1.4px at 230px 175px,  rgba(255,255,240,0.8), transparent),
+    radial-gradient(1.4px 1.4px at 90px 240px,   rgba(255,255,240,0.6), transparent),
+    radial-gradient(1.4px 1.4px at 310px 90px,   rgba(255,255,240,0.9), transparent),
+    radial-gradient(1.4px 1.4px at 360px 300px,  rgba(255,255,240,0.7), transparent),
+    radial-gradient(1.4px 1.4px at 180px 370px,  rgba(255,255,240,0.8), transparent),
+    radial-gradient(1.4px 1.4px at 30px 340px,   rgba(255,255,240,0.6), transparent),
+    radial-gradient(1.4px 1.4px at 270px 250px,  rgba(255,255,240,0.7), transparent);
+  background-size: 420px 420px;
+  background-repeat: repeat;
+  animation: fall-medium 50s linear infinite;
+}
+
+@keyframes fall-medium {
+  from { background-position: 0 0; }
+  to   { background-position: 0 420px; }
+}
+
+/* ============================================================
+   STAR LAYER 3 — bright close stars (faster fall)
+   ============================================================ */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(2px 2px at 110px 90px,     rgba(255,255,255,1), transparent),
+    radial-gradient(2px 2px at 320px 220px,    rgba(255,255,255,0.9), transparent),
+    radial-gradient(2px 2px at 470px 110px,    rgba(255,255,255,1), transparent),
+    radial-gradient(2.4px 2.4px at 220px 410px,rgba(255,250,210,1), transparent),
+    radial-gradient(2px 2px at 560px 360px,    rgba(255,255,255,0.9), transparent),
+    radial-gradient(2px 2px at 80px 480px,     rgba(255,255,255,1), transparent),
+    radial-gradient(2.4px 2.4px at 400px 50px, rgba(255,250,210,0.9), transparent);
+  background-size: 620px 540px;
+  background-repeat: repeat;
+  animation: fall-fast 30s linear infinite;
+}
+
+@keyframes fall-fast {
+  from { background-position: 0 0; }
+  to   { background-position: 0 540px; }
+}
+
+/* ============================================================
+   ENSURE DISCORD UI SITS ABOVE THE STARS
+   ============================================================ */
+.appMount_ea7e85,
+[class*="appMount"] {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* ============================================================
+   KEEP FLOATING UI READABLE (modals, popouts, tooltips)
+   ============================================================ */
 [class*="modal_"],
 [class*="root_"][role="dialog"],
 [class*="tooltip_"],
-[class*="autocomplete"],
 [class*="popout_"],
 [class*="menu_"],
-[class*="card_"],
+[class*="autocomplete"],
 [class*="quickswitcher"] {
-  background: rgba(13, 22, 51, 0.95) !important;
-  backdrop-filter: blur(12px);
+  background: rgba(13, 22, 51, 0.97) !important;
+  backdrop-filter: blur(10px);
 }
 
-/* Message input — slight tint so it's readable */
+/* Chat input — slight tint so text is readable over stars */
 [class*="channelTextArea"] {
-  background: rgba(13, 22, 51, 0.6) !important;
+  background: rgba(13, 22, 51, 0.55) !important;
   backdrop-filter: blur(8px);
   border: 1px solid rgba(80, 110, 180, 0.15) !important;
 }
 
-/* Top header — slight tint */
+/* Top channel header — slight tint */
 [class*="title_"][class*="container"] {
-  background: rgba(10, 16, 36, 0.7) !important;
+  background: rgba(10, 16, 36, 0.55) !important;
   backdrop-filter: blur(10px);
 }
 
 /* Message hover */
+[class*="messageListItem"]:hover,
 [class*="message_"]:hover {
-  background: rgba(30, 50, 120, 0.20) !important;
+  background: rgba(30, 50, 120, 0.18) !important;
 }
 
 /* Selected channel */
-[class*="containerDefault"][class*="selected"],
 [class*="modeSelected"] {
   background: rgba(30, 50, 120, 0.40) !important;
-}
-
-/* Make sure the canvas (added by plugin) sits behind UI */
-#starry-night-canvas {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  z-index: 0 !important;
-  pointer-events: none !important;
-}
-
-/* Push UI above canvas */
-.appMount_ea7e85 > * {
-  position: relative;
-  z-index: 1;
 }
