@@ -1,75 +1,132 @@
 /**
- * @name StarryNight Discord
- * @author Gemini
- * @version 2.0.0
- * @description Port of b-chen00's StarryNight. Works with 2026 Discord UI.
+ * @name StarryNight
+ * @version 1.0.0
+ * @description A deep, cosmic theme inspired by b-chen00's StarryNight Spicetify theme.
+ * @website https://github.com/b-chen00/spicetify-themes/tree/master/StarryNight
  */
 
 :root {
-    /* StarryNight Colors from original Repo */
-    --sn-main: #0b0e14;
-    --sn-secondary: rgba(15, 20, 25, 0.7);
-    --sn-accent: #89b4fa;
-    --sn-text: #cdd6f4;
-    --sn-blur: 8px;
+    /* StarryNight Color Palette */
+    --sn-primary: #0b0e14;
+    --sn-secondary: #11151c;
+    --sn-tertiary: #161b22;
+    --sn-accent: #89b4fa; /* Soft cosmic blue */
+    --sn-accent-dim: rgba(137, 180, 250, 0.2);
+    --sn-text-bright: #cdd6f4;
+    --sn-text-muted: #7f849c;
+    --sn-star-white: #ffffff;
+    
+    /* Scrollbar */
+    --sn-scrollbar-track: var(--sn-primary);
+    --sn-scrollbar-thumb: var(--sn-tertiary);
 }
 
-/* 1. FORCE BACKGROUND (The core fix) */
-[class^="appMount_"], [class^="appInner_"], body {
-    background: transparent !important;
+/* Light Mode Warning */
+html.theme-light::before {
+    content: "StarryNight is a dark-mode only theme. Switch to dark mode in settings!";
+    display: block;
+    padding: 10px;
+    background: var(--sn-accent);
+    color: var(--sn-primary);
+    text-align: center;
+    position: absolute;
+    z-index: 9999;
+    width: 100%;
 }
 
+.theme-dark {
+    /* Discord Native Variable Overrides */
+    --background-primary: var(--sn-primary);
+    --background-secondary: var(--sn-secondary);
+    --background-secondary-alt: var(--sn-tertiary);
+    --background-tertiary: var(--sn-primary);
+    --background-accent: var(--sn-accent);
+    --header-primary: var(--sn-text-bright);
+    --header-secondary: var(--sn-text-muted);
+    --interactive-active: var(--sn-accent);
+    --interactive-hover: var(--sn-text-bright);
+    --text-normal: var(--sn-text-bright);
+    --text-muted: var(--sn-text-muted);
+    
+    /* Chat Input */
+    --channeltextarea-background: var(--sn-tertiary);
+    --scrollbar-auto-thumb: var(--sn-accent-dim);
+    --scrollbar-auto-track: transparent;
+}
+
+/* 🌌 BACKGROUND IMAGE & STAR EFFECTS */
 #app-mount {
-    background: var(--sn-main) url('https://images.unsplash.com/photo-1436891620584-47fd0e565afb?q=80&w=1974&auto=format&fit=crop') center/cover no-repeat !important;
+    background: var(--sn-primary) url('https://raw.githubusercontent.com/b-chen00/spicetify-themes/master/StarryNight/assets/stars.png') center/cover no-repeat !important;
 }
 
-/* 2. MAKE PANELS TRANSPARENT */
-[class^="app_"], [class^="bg_"], [class^="container_"], [class^="chat_"], [class^="sidebar_"], [class^="panels_"], [class^="container_"] {
+/* Transparent UI layers to show the stars */
+.app_a01fb1, .bg_d4b111, .container_ee217d, .chat_a7d74e, .content_a7d74e {
     background: transparent !important;
 }
 
-/* 3. THE "FROSTED GLASS" OVERLAY */
-[class^="inner_"] {
-    background: rgba(10, 14, 20, 0.6) !important;
-    backdrop-filter: blur(var(--sn-blur));
-}
-
-/* 4. SIDEBAR STYLING */
-[class^="sidebar_"] {
-    background: var(--sn-secondary) !important;
-    border-right: 1px solid rgba(137, 180, 250, 0.1);
-    margin: 10px 0 10px 10px;
-    border-radius: 15px;
-}
-
-/* 5. CHAT AREA CONTAINER */
-[class^="chatContent_"] {
-    background: rgba(10, 14, 20, 0.4) !important;
-    margin: 10px;
-    border-radius: 15px;
-    border: 1px solid rgba(137, 180, 250, 0.05);
-}
-
-/* 6. GLOWING ACCENTS (Like StarryNight Spicetify) */
-[class^="selected_"] [class^="contents_"] [class^="name_"] {
-    color: var(--sn-accent) !important;
-    text-shadow: 0 0 10px rgba(137, 180, 250, 0.5);
-}
-
-/* 7. CUSTOM STAR ANIMATION (Floating dots) */
-#app-mount::before {
+/* Adding a subtle blue nebula glow behind everything */
+.inner_a99c29::before {
     content: "";
     position: absolute;
-    width: 100%;
-    height: 100%;
-    background-image: radial-gradient(white, rgba(255,255,255,0.2) 2px, transparent 40px);
-    background-size: 550px 550px;
-    animation: move-stars 100s linear infinite;
-    opacity: 0.1;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(137, 180, 250, 0.05) 0%, transparent 70%);
     pointer-events: none;
 }
 
-@keyframes move-stars {
-    from { background-position: 0 0; }
-    to { background-position: 1000px 1000px; }
+/* --- UI ELEMENTS --- */
+
+/* Sidebar / Channels */
+.sidebar_a4d651 {
+    background: rgba(11, 14, 20, 0.6) !important;
+    backdrop-filter: blur(5px);
+    border-right: 1px solid var(--sn-accent-dim);
+}
+
+/* Member List */
+.container_cb12c1 {
+    background: rgba(11, 14, 20, 0.6) !important;
+}
+
+/* Chat Bubbles / Mentions */
+.mentioned_d35ec6 {
+    background-color: var(--sn-accent-dim) !important;
+    border-left: 2px solid var(--sn-accent);
+}
+
+/* StarryNight Codeblocks (The Syntax Highlighting) */
+code, .hljs {
+    background-color: var(--sn-secondary) !important;
+    color: var(--sn-text-bright);
+    border: 1px solid var(--sn-accent-dim);
+}
+
+.hljs-keyword, .hljs-selector-tag { color: #cba6f7; } /* Purple */
+.hljs-string, .hljs-addition { color: #a6e3a1; }    /* Green */
+.hljs-number, .hljs-literal { color: #fab387; }      /* Orange */
+.hljs-function, .hljs-title { color: var(--sn-accent); }
+.hljs-comment { color: var(--sn-text-muted); font-style: italic; }
+
+/* Status Indicators (Starry Glow Style) */
+rect[fill="#23a55a"], rect[fill="rgba(35, 165, 90, 1)"] { fill: #a6e3a1; filter: drop-shadow(0 0 3px #a6e3a1); } /* Online */
+rect[fill="#f0b232"] { fill: #f9e2af; filter: drop-shadow(0 0 3px #f9e2af); } /* Idle */
+rect[fill="#f23f43"] { fill: #f38ba8; filter: drop-shadow(0 0 3px #f38ba8); } /* DND */
+
+/* Buttons & Hovers */
+.item_c2739c:hover {
+    background-color: var(--sn-accent-dim) !important;
+}
+
+.numberBadge_df8943 {
+    background-color: var(--sn-accent) !important;
+    color: var(--sn-primary) !important;
+    box-shadow: 0 0 10px var(--sn-accent);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar-thumb {
+    background-color: var(--sn-accent-dim) !important;
+    border-radius: 10px !important;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--sn-accent) !important;
 }
