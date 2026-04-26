@@ -1,10 +1,11 @@
 /**
  * @name StarryNight
- * @description A celestial deep-space theme for Discord. CSS-only exosphere sky (black top → blue bottom)
- *              with gentle animation, static stars, random brightening stars, shooting stars falling
- *              downward with fading tails. Every container transparent except voice chat calls.
+ * @description A celestial deep-space theme for Discord. Starry sky background visible EVERYWHERE.
+ *              Exosphere gradient (black top → blue bottom), static stars, random brightening stars,
+ *              shooting stars falling down with fading tails. Every container transparent.
+ *              Voice chat keeps its background. Profile banners and avatars untouched.
  * @author Adapted for Discord
- * @version 11.0.0 FINAL
+ * @version 9.0.0
  */
 
 /* =======================================================================
@@ -31,123 +32,30 @@
 }
 
 /* =======================================================================
-   CSS-ONLY EXOSPHERE BACKGROUND WITH ANIMATION
-   Pure black void at top → deep blue atmosphere at bottom
-   Slowly drifts and breathes like a living sky
+   EXOSPHERE GRADIENT
    ======================================================================= */
-html,
-body {
+html {
   background:
-    /* Horizon glow - bright atmospheric band at bottom */
-    radial-gradient(
-      ellipse 240% 85% at 50% 118%,
-      rgba(70, 135, 255, 0.34) 0%,
-      rgba(38, 96, 220, 0.20) 18%,
-      rgba(18, 52, 145, 0.10) 38%,
-      rgba(8, 22, 70, 0.03) 58%,
-      transparent 72%
-    ),
-    /* Upper atmosphere layer */
-    radial-gradient(
-      ellipse 180% 60% at 50% 108%,
-      rgba(120, 180, 255, 0.16) 0%,
-      rgba(70, 130, 255, 0.09) 26%,
-      rgba(25, 55, 145, 0.03) 50%,
-      transparent 66%
-    ),
-    /* Soft atmospheric bloom */
-    radial-gradient(
-      ellipse 130% 40% at 50% 102%,
-      rgba(170, 210, 255, 0.08) 0%,
-      rgba(80, 135, 255, 0.04) 34%,
-      transparent 60%
-    ),
-    /* Subtle nebula haze - right */
-    radial-gradient(
-      ellipse 90% 50% at 78% 30%,
-      rgba(70, 90, 180, 0.06) 0%,
-      transparent 72%
-    ),
-    /* Subtle nebula haze - left */
-    radial-gradient(
-      ellipse 70% 45% at 18% 58%,
-      rgba(80, 50, 150, 0.05) 0%,
-      transparent 72%
-    ),
-    /* Main exosphere gradient: black void → deep blue */
+    radial-gradient(ellipse 700px 500px at 78% 22%, rgba(40, 60, 140, 0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 600px at 15% 55%, rgba(50, 30, 100, 0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 1000px 400px at 50% 80%, rgba(30, 70, 160, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 1800px 300px at 50% 100%, rgba(20, 50, 120, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 2500px 200px at 50% 105%, rgba(25, 80, 180, 0.08) 0%, transparent 60%),
     linear-gradient(
       to bottom,
-      #000000 0%,
-      #000000 7%,
-      #000103 14%,
-      #000207 20%,
-      #010512 28%,
-      #020a1d 36%,
-      #04142d 46%,
-      #082347 58%,
-      #0d3470 72%,
-      #15479d 86%,
-      #1e5cc8 100%
+      #000000 0%, #000000 5%, #000103 10%, #000206 15%,
+      #00030a 20%, #010410 25%, #010618 30%, #020820 35%,
+      #020a28 40%, #030d30 45%, #041038 50%, #051340 55%,
+      #061648 58%, #071a52 62%, #081e5c 66%, #0a2268 70%,
+      #0c2872 74%, #0e2e7c 78%, #103486 82%, #123a90 86%,
+      #143e98 90%, #1644a2 93%, #1848a8 96%, #1a4cae 100%
     ) !important;
-  background-repeat: no-repeat !important;
   background-attachment: fixed !important;
-  background-size:
-    115% 102%,
-    110% 101%,
-    106% 100%,
-    120% 110%,
-    120% 110%,
-    100% 100% !important;
-  background-position:
-    50% 100%,
-    50% 100%,
-    50% 100%,
-    78% 30%,
-    18% 58%,
-    50% 50% !important;
-  background-color: #000000 !important;
-  min-height: 100vh !important;
-  animation: sn-exosphere-drift 28s ease-in-out infinite alternate;
-}
-
-@keyframes sn-exosphere-drift {
-  0% {
-    background-size:
-      115% 102%,
-      110% 101%,
-      106% 100%,
-      120% 110%,
-      120% 110%,
-      100% 100%;
-    background-position:
-      49% 100%,
-      51% 100%,
-      50% 100%,
-      78% 30%,
-      18% 58%,
-      50% 50%;
-  }
-  100% {
-    background-size:
-      119% 104%,
-      113% 102%,
-      108% 101%,
-      124% 112%,
-      124% 112%,
-      100% 100%;
-    background-position:
-      51% 100%,
-      49% 100%,
-      50% 100%,
-      76% 28%,
-      20% 60%,
-      50% 50%;
-  }
+  min-height: 100vh;
 }
 
 /* =======================================================================
    STATIC STARS on html::before
-   Dense at top (space), sparse at bottom (atmosphere)
    ======================================================================= */
 html::before {
   content: "";
@@ -156,7 +64,6 @@ html::before {
   z-index: 0;
   pointer-events: none;
   background-image:
-    /* Bright stars */
     radial-gradient(2.5px 2.5px at 7% 3%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 22% 1%, #a0c4ff 50%, transparent 100%),
     radial-gradient(2.5px 2.5px at 44% 4%, #fff 50%, transparent 100%),
@@ -205,7 +112,6 @@ html::before {
     radial-gradient(2px 2px at 80% 83%, #fff 40%, transparent 100%),
     radial-gradient(1.5px 1.5px at 35% 90%, #a0c4ff 35%, transparent 100%),
     radial-gradient(1.5px 1.5px at 70% 92%, #fff 30%, transparent 100%),
-    /* Medium stars */
     radial-gradient(1.5px 1.5px at 2% 2%, #c8d8f0 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 10% 6%, #fff 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 18% 1%, #a0c4ff 50%, transparent 100%),
@@ -252,7 +158,6 @@ html::before {
     radial-gradient(1.5px 1.5px at 57% 47%, #fff 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 75% 54%, #b8a0e8 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 97% 51%, #c8d8f0 50%, transparent 100%),
-    /* Dim stars */
     radial-gradient(1px 1px at 1% 1%, #c8d8f0 45%, transparent 100%),
     radial-gradient(1px 1px at 4% 5%, #fff 40%, transparent 100%),
     radial-gradient(1px 1px at 8% 8%, #fff 40%, transparent 100%),
@@ -306,11 +211,10 @@ html::before {
     radial-gradient(1px 1px at 88% 74%, #a0c4ff 28%, transparent 100%);
   background-color: transparent;
   background-attachment: fixed;
-  opacity: 0.6;
 }
 
 /* =======================================================================
-   BRIGHTENING STARS - 3 groups, different timings
+   BRIGHTENING STARS
    ======================================================================= */
 html::after {
   content: "";
@@ -379,7 +283,7 @@ html::after {
 }
 
 /* =======================================================================
-   SHOOTING STARS - FALLING DOWN-RIGHT AND DOWN-LEFT
+   SHOOTING STARS
    ======================================================================= */
 body::before {
   content: "";
@@ -494,10 +398,13 @@ body::after {
   --status-positive: var(--sn-green) !important;
   --status-warning: var(--sn-yellow) !important;
   --status-danger: var(--sn-red) !important;
+  --profile-body-background-color: var(--sn-glass-heavy) !important;
 }
 
 /* =======================================================================
    TRANSPARENCY - EVERY CONTAINER
+   Same proven approach from v7 that worked, with additional selectors
+   for containers that were still opaque.
    ======================================================================= */
 #app-mount,
 #app-mount > div,
@@ -585,6 +492,7 @@ body::after {
 nav[aria-label="Servers sidebar"],
 nav[aria-label="Servers sidebar"] > ul,
 nav[aria-label="Servers sidebar"] > div,
+/* === ADDITIONAL containers that were still opaque === */
 [class*="peopleListItem_"],
 [class*="outer_"],
 [class*="inner_"],
@@ -654,13 +562,22 @@ nav[aria-label="Servers sidebar"] > div,
 [class*="flex_"],
 [class*="horizontal_"],
 [class*="vertical_"],
-main, aside, section, nav,
-[role="tabpanel"], [role="tablist"], [role="list"],
-[role="complementary"], [role="navigation"], [role="main"] {
+/* Semantic HTML elements */
+main,
+aside,
+section,
+nav,
+[role="tabpanel"],
+[role="tablist"],
+[role="list"],
+[role="complementary"],
+[role="navigation"],
+[role="main"] {
   background: transparent !important;
   background-color: transparent !important;
 }
 
+/* Catch inline styles Discord injects */
 [style*="background-color: var(--background-primary)"],
 [style*="background-color: var(--background-secondary)"],
 [style*="background-color: var(--background-tertiary)"],
@@ -669,7 +586,7 @@ main, aside, section, nav,
 }
 
 /* =======================================================================
-   VOICE CHANNEL LIST - transparent (sidebar listing only)
+   VOICE CHANNEL LIST - transparent (just the channel listing in sidebar)
    ======================================================================= */
 [class*="containerDefault_"][class*="voice_"],
 [class*="containerDefault_"] [class*="voiceUsers_"],
@@ -681,36 +598,68 @@ main, aside, section, nav,
 }
 
 /* =======================================================================
-   VOICE CHAT / CALL - KEEP OPAQUE (dark background)
+   VOICE CHAT / CALL - KEEP OPAQUE (not transparent)
+   The actual voice/video call UI when you're connected stays dark.
    ======================================================================= */
-[class*="callContainer_"],
-[class*="voiceCallWrapper_"],
-[class*="voiceCall_"],
-[class*="videoWrapper_"],
-[class*="gridContainer_"],
-[class*="grid_"][class*="video_"],
-[class*="centeringWrapper_"],
-[class*="videoContainer_"],
-[class*="videoGrid_"],
-[class*="pictureInPictureWindow_"],
-[class*="pictureInPicture_"],
-[class*="stageSection_"],
-[class*="stageSpeaker_"],
-[class*="audienceSection_"] {
+[class*="callContainer_"] {
   background: #0a0e1a !important;
   background-color: #0a0e1a !important;
 }
-[class*="videoTile_"],
-[class*="noVideoTile_"],
-[class*="tileContainer_"],
+[class*="voiceCallWrapper_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="voiceCall_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="videoWrapper_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="gridContainer_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="grid_"][class*="video_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="centeringWrapper_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="videoContainer_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="videoGrid_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="videoTile_"] {
+  background: #0e1525 !important;
+  background-color: #0e1525 !important;
+}
+[class*="noVideoTile_"] {
+  background: #0e1525 !important;
+  background-color: #0e1525 !important;
+}
+[class*="tileContainer_"] {
+  background: #0e1525 !important;
+  background-color: #0e1525 !important;
+  border: 1px solid rgba(74,144,217,0.06) !important;
+  border-radius: 8px !important;
+}
 [class*="tile_"][class*="voice_"],
 [class*="tile_"][class*="video_"] {
   background: #0e1525 !important;
   background-color: #0e1525 !important;
 }
-[class*="tileContainer_"] {
-  border: 1px solid rgba(74,144,217,0.06) !important;
-  border-radius: 8px !important;
+[class*="pictureInPictureWindow_"],
+[class*="pictureInPicture_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
 }
 [class*="controlsContainer_"],
 [class*="voiceControls_"],
@@ -719,7 +668,19 @@ main, aside, section, nav,
   background: #080c16 !important;
   background-color: #080c16 !important;
 }
-[class*="speaking_"] { box-shadow: 0 0 12px rgba(74,144,217,0.3) !important; }
+[class*="stageSection_"],
+[class*="stageSpeaker_"],
+[class*="audienceSection_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+
+/* Speaking glow in voice */
+[class*="speaking_"] {
+  box-shadow: 0 0 12px rgba(74,144,217,0.3) !important;
+}
+
+/* Voice connection bar in bottom panel - keep slightly visible */
 [class*="connection_"],
 [class*="rtcConnection_"],
 [class*="rtcConnectionStatus_"] {
@@ -730,10 +691,18 @@ main, aside, section, nav,
 /* =======================================================================
    SUBTLE PANEL DIVIDERS
    ======================================================================= */
-nav[aria-label="Servers sidebar"] { border-right: 1px solid rgba(74,144,217,0.04) !important; }
-[class*="sidebar_"]:not([class*="threadSidebar_"]) { border-right: 1px solid rgba(74,144,217,0.04) !important; }
-[class*="membersWrap_"] { border-left: 1px solid rgba(74,144,217,0.04) !important; }
-[class*="panels_"] { border-top: 1px solid rgba(74,144,217,0.04) !important; }
+nav[aria-label="Servers sidebar"] {
+  border-right: 1px solid rgba(74,144,217,0.04) !important;
+}
+[class*="sidebar_"]:not([class*="threadSidebar_"]) {
+  border-right: 1px solid rgba(74,144,217,0.04) !important;
+}
+[class*="membersWrap_"] {
+  border-left: 1px solid rgba(74,144,217,0.04) !important;
+}
+[class*="panels_"] {
+  border-top: 1px solid rgba(74,144,217,0.04) !important;
+}
 [class*="title_"][class*="container_"],
 [class*="chat_"] > [class*="title_"],
 [class*="header_"][class*="container_"] {
@@ -744,120 +713,334 @@ nav[aria-label="Servers sidebar"] { border-right: 1px solid rgba(74,144,217,0.04
 /* =======================================================================
    UI ELEMENTS
    ======================================================================= */
-[class*="containerDefault_"]:hover { background-color: var(--sn-hover) !important; }
-[class*="containerDefault_"][class*="modeSelected_"],
-[class*="containerDefault_"][class*="modeSelected_"] [class*="wrapper_"] { background-color: var(--sn-selected) !important; }
-[class*="containerDefault_"][class*="modeSelected_"] [class*="name_"],
-[class*="containerDefault_"][class*="modeSelected_"] [class*="icon_"] { color: var(--sn-accent-bright) !important; }
-[class*="containerDefault_"][class*="modeUnread_"] [class*="name_"] { color: var(--sn-text) !important; }
-[class*="listItem_"] [class*="icon_"]:hover { box-shadow: 0 0 12px rgba(74,144,217,0.3) !important; }
-[class*="pill_"] span[class*="item_"] { background-color: var(--sn-accent) !important; }
-[class*="guildSeparator_"] { background-color: rgba(74,144,217,0.06) !important; }
-[class*="tutorialContainer_"] [class*="childWrapper_"] { background-color: rgba(74,144,217,0.1) !important; transition: all 0.3s ease !important; }
-[class*="tutorialContainer_"] [class*="childWrapper_"]:hover { background-color: var(--sn-accent) !important; box-shadow: 0 0 20px rgba(74,144,217,0.4) !important; }
-[class*="message_"][class*="cozy_"]:hover { background-color: rgba(74,144,217,0.03) !important; }
-[class*="message_"][class*="mentioned_"] { background-color: rgba(74,144,217,0.05) !important; border-left: 3px solid var(--sn-accent) !important; }
-[class*="message_"][class*="mentioned_"]:hover { background-color: rgba(74,144,217,0.08) !important; }
-[class*="divider_"] { border-color: rgba(74,144,217,0.06) !important; }
-[class*="divider_"][class*="isUnread_"] { border-color: var(--sn-red) !important; }
-[class*="scrollableContainer_"] { background-color: var(--sn-glass) !important; border: 1px solid rgba(74,144,217,0.08) !important; border-radius: 8px !important; }
-[class*="scrollableContainer_"]:focus-within { border-color: rgba(74,144,217,0.3) !important; box-shadow: 0 0 12px rgba(74,144,217,0.1) !important; }
-[class*="embedWrapper_"] { background-color: var(--sn-glass) !important; border-color: rgba(74,144,217,0.08) !important; }
-[class*="markup_"] code { background-color: var(--sn-glass) !important; border: 1px solid rgba(74,144,217,0.08) !important; color: #a0c4ff !important; }
-[class*="markup_"] pre { background-color: var(--sn-glass) !important; border: 1px solid rgba(74,144,217,0.08) !important; }
-[class*="markup_"] pre code { background: transparent !important; border: none !important; color: var(--sn-text) !important; }
-[class*="reaction_"] { background-color: var(--sn-glass-light) !important; border: 1px solid rgba(74,144,217,0.08) !important; }
-[class*="reaction_"]:hover { background-color: var(--sn-active) !important; }
-[class*="reaction_"][class*="reactionMe_"] { background-color: rgba(74,144,217,0.15) !important; border-color: var(--sn-accent) !important; }
 
-/* Popouts & Modals */
-[class*="popout_"], [class*="userPopoutOuter_"], [class*="userProfileOuter_"], [class*="userProfileModal_"] {
-  background-color: var(--sn-glass-heavy) !important; border: 1px solid var(--sn-border) !important;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.7) !important; backdrop-filter: blur(16px) !important;
+/* Channels */
+[class*="containerDefault_"]:hover {
+  background-color: var(--sn-hover) !important;
 }
-[class*="modal_"], [class*="root_"][class*="fullscreenOnMobile_"], [class*="layer_"] > [class*="root_"] {
-  background-color: var(--sn-glass-heavy) !important; border: 1px solid var(--sn-border) !important;
-  box-shadow: 0 12px 48px rgba(0,0,0,0.7) !important; backdrop-filter: blur(16px) !important;
+[class*="containerDefault_"][class*="modeSelected_"],
+[class*="containerDefault_"][class*="modeSelected_"] [class*="wrapper_"] {
+  background-color: var(--sn-selected) !important;
 }
+[class*="containerDefault_"][class*="modeSelected_"] [class*="name_"],
+[class*="containerDefault_"][class*="modeSelected_"] [class*="icon_"] {
+  color: var(--sn-accent-bright) !important;
+}
+[class*="containerDefault_"][class*="modeUnread_"] [class*="name_"] {
+  color: var(--sn-text) !important;
+}
+
+/* Guilds */
+[class*="listItem_"] [class*="icon_"]:hover {
+  box-shadow: 0 0 12px rgba(74,144,217,0.3) !important;
+}
+[class*="pill_"] span[class*="item_"] {
+  background-color: var(--sn-accent) !important;
+}
+[class*="guildSeparator_"] {
+  background-color: rgba(74,144,217,0.06) !important;
+}
+[class*="tutorialContainer_"] [class*="childWrapper_"] {
+  background-color: rgba(74,144,217,0.1) !important;
+  transition: all 0.3s ease !important;
+}
+[class*="tutorialContainer_"] [class*="childWrapper_"]:hover {
+  background-color: var(--sn-accent) !important;
+  box-shadow: 0 0 20px rgba(74,144,217,0.4) !important;
+}
+
+/* Messages */
+[class*="message_"][class*="cozy_"]:hover {
+  background-color: rgba(74,144,217,0.03) !important;
+}
+[class*="message_"][class*="mentioned_"] {
+  background-color: rgba(74,144,217,0.05) !important;
+  border-left: 3px solid var(--sn-accent) !important;
+}
+[class*="message_"][class*="mentioned_"]:hover {
+  background-color: rgba(74,144,217,0.08) !important;
+}
+
+/* Dividers */
+[class*="divider_"] {
+  border-color: rgba(74,144,217,0.06) !important;
+}
+[class*="divider_"][class*="isUnread_"] {
+  border-color: var(--sn-red) !important;
+}
+
+/* Text input */
+[class*="scrollableContainer_"] {
+  background-color: var(--sn-glass) !important;
+  border: 1px solid rgba(74,144,217,0.08) !important;
+  border-radius: 8px !important;
+}
+[class*="scrollableContainer_"]:focus-within {
+  border-color: rgba(74,144,217,0.3) !important;
+  box-shadow: 0 0 12px rgba(74,144,217,0.1) !important;
+}
+
+/* Embeds */
+[class*="embedWrapper_"] {
+  background-color: var(--sn-glass) !important;
+  border-color: rgba(74,144,217,0.08) !important;
+}
+
+/* Code */
+[class*="markup_"] code {
+  background-color: var(--sn-glass) !important;
+  border: 1px solid rgba(74,144,217,0.08) !important;
+  color: #a0c4ff !important;
+}
+[class*="markup_"] pre {
+  background-color: var(--sn-glass) !important;
+  border: 1px solid rgba(74,144,217,0.08) !important;
+}
+[class*="markup_"] pre code {
+  background: transparent !important;
+  border: none !important;
+  color: var(--sn-text) !important;
+}
+
+/* Reactions */
+[class*="reaction_"] {
+  background-color: var(--sn-glass-light) !important;
+  border: 1px solid rgba(74,144,217,0.08) !important;
+}
+[class*="reaction_"]:hover {
+  background-color: var(--sn-active) !important;
+}
+[class*="reaction_"][class*="reactionMe_"] {
+  background-color: rgba(74,144,217,0.15) !important;
+  border-color: var(--sn-accent) !important;
+}
+
+/* Popouts / Modals */
+[class*="popout_"],
+[class*="userPopoutOuter_"],
+[class*="userProfileOuter_"],
+[class*="userProfileModal_"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.7) !important;
+  backdrop-filter: blur(16px) !important;
+}
+[class*="modal_"],
+[class*="root_"][class*="fullscreenOnMobile_"],
+[class*="layer_"] > [class*="root_"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.7) !important;
+  backdrop-filter: blur(16px) !important;
+}
+
+/* Context menus */
 [class*="menu_"] {
-  background-color: var(--sn-glass-heavy) !important; border: 1px solid var(--sn-border) !important;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.6) !important; backdrop-filter: blur(16px) !important;
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6) !important;
+  backdrop-filter: blur(16px) !important;
 }
-[class*="menu_"] [class*="item_"] { color: var(--sn-text-sub) !important; border-radius: 4px !important; }
-[class*="menu_"] [class*="item_"]:hover, [class*="menu_"] [class*="item_"][class*="focused_"] { background-color: var(--sn-accent) !important; color: #fff !important; }
-[class*="menu_"] [class*="separator_"] { border-color: rgba(74,144,217,0.06) !important; }
-[class*="menu_"] [class*="item_"][class*="colorDanger_"]:hover { background-color: var(--sn-red) !important; }
-[class*="tooltip_"] { background-color: var(--sn-glass-heavy) !important; border: 1px solid var(--sn-border) !important; backdrop-filter: blur(12px) !important; }
-[class*="tooltipPointer_"] { border-top-color: var(--sn-glass-heavy) !important; }
-[class*="autocomplete_"] { background-color: var(--sn-glass-heavy) !important; border: 1px solid var(--sn-border) !important; backdrop-filter: blur(16px) !important; }
-[class*="autocomplete_"] [class*="selectorSelected_"] { background-color: var(--sn-selected) !important; }
-[class*="emojiPicker_"], [class*="contentWrapper_"][class*="picker_"], [class*="stickerInspected_"], [class*="expressionPicker_"] {
-  background-color: var(--sn-glass-heavy) !important; border: 1px solid var(--sn-border) !important; backdrop-filter: blur(16px) !important;
+[class*="menu_"] [class*="item_"] {
+  color: var(--sn-text-sub) !important;
+  border-radius: 4px !important;
+}
+[class*="menu_"] [class*="item_"]:hover,
+[class*="menu_"] [class*="item_"][class*="focused_"] {
+  background-color: var(--sn-accent) !important;
+  color: #fff !important;
+}
+[class*="menu_"] [class*="separator_"] {
+  border-color: rgba(74,144,217,0.06) !important;
+}
+[class*="menu_"] [class*="item_"][class*="colorDanger_"]:hover {
+  background-color: var(--sn-red) !important;
+}
+
+/* Tooltips */
+[class*="tooltip_"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  backdrop-filter: blur(12px) !important;
+}
+[class*="tooltipPointer_"] {
+  border-top-color: var(--sn-glass-heavy) !important;
+}
+
+/* Autocomplete */
+[class*="autocomplete_"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  backdrop-filter: blur(16px) !important;
+}
+[class*="autocomplete_"] [class*="selectorSelected_"] {
+  background-color: var(--sn-selected) !important;
+}
+
+/* Pickers */
+[class*="emojiPicker_"],
+[class*="contentWrapper_"][class*="picker_"],
+[class*="stickerInspected_"],
+[class*="expressionPicker_"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  backdrop-filter: blur(16px) !important;
 }
 
 /* Search */
-[class*="search_"] [class*="searchBar_"] { background-color: var(--sn-glass) !important; border: 1px solid rgba(74,144,217,0.08) !important; }
-[class*="search_"] [class*="searchBar_"]:focus-within { border-color: var(--sn-accent) !important; }
-[class*="searchResultsWrap_"] { background: var(--sn-glass) !important; }
+[class*="search_"] [class*="searchBar_"] {
+  background-color: var(--sn-glass) !important;
+  border: 1px solid rgba(74,144,217,0.08) !important;
+}
+[class*="search_"] [class*="searchBar_"]:focus-within {
+  border-color: var(--sn-accent) !important;
+}
+[class*="searchResultsWrap_"] {
+  background: var(--sn-glass) !important;
+}
 
-/* Toolbar */
-[class*="toolbar_"] [class*="iconWrapper_"] { color: var(--sn-text-dim) !important; }
-[class*="toolbar_"] [class*="iconWrapper_"]:hover { color: var(--sn-accent-bright) !important; }
+/* Toolbar icons */
+[class*="toolbar_"] [class*="iconWrapper_"] {
+  color: var(--sn-text-dim) !important;
+}
+[class*="toolbar_"] [class*="iconWrapper_"]:hover {
+  color: var(--sn-accent-bright) !important;
+}
 
 /* Buttons */
-button[class*="lookFilled_"][class*="colorBrand_"] { background-color: var(--sn-accent) !important; }
-button[class*="lookFilled_"][class*="colorBrand_"]:hover { background-color: var(--sn-accent-bright) !important; box-shadow: 0 0 15px rgba(74,144,217,0.35) !important; }
-button[class*="lookFilled_"][class*="colorGreen_"] { background-color: var(--sn-green) !important; }
-button[class*="lookFilled_"][class*="colorRed_"] { background-color: var(--sn-red) !important; }
+button[class*="lookFilled_"][class*="colorBrand_"] {
+  background-color: var(--sn-accent) !important;
+}
+button[class*="lookFilled_"][class*="colorBrand_"]:hover {
+  background-color: var(--sn-accent-bright) !important;
+  box-shadow: 0 0 15px rgba(74,144,217,0.35) !important;
+}
+button[class*="lookFilled_"][class*="colorGreen_"] {
+  background-color: var(--sn-green) !important;
+}
+button[class*="lookFilled_"][class*="colorRed_"] {
+  background-color: var(--sn-red) !important;
+}
 
-/* Settings */
-[class*="side_"] [class*="item_"]:hover { background-color: var(--sn-hover) !important; }
-[class*="side_"] [class*="item_"][class*="selected_"] { background-color: var(--sn-selected) !important; color: var(--sn-accent-bright) !important; }
+/* Settings sidebar */
+[class*="side_"] [class*="item_"]:hover {
+  background-color: var(--sn-hover) !important;
+}
+[class*="side_"] [class*="item_"][class*="selected_"] {
+  background-color: var(--sn-selected) !important;
+  color: var(--sn-accent-bright) !important;
+}
 
 /* Cards */
-[class*="cardPrimary_"], [class*="card_"]:not([class*="embedWrapper_"]) { background-color: var(--sn-glass-light) !important; border: 1px solid var(--sn-border) !important; }
-[class*="role_"] { background-color: var(--sn-glass-light) !important; border-color: rgba(74,144,217,0.08) !important; }
+[class*="cardPrimary_"],
+[class*="card_"]:not([class*="embedWrapper_"]) {
+  background-color: var(--sn-glass-light) !important;
+  border: 1px solid var(--sn-border) !important;
+}
+
+/* Roles */
+[class*="role_"] {
+  background-color: var(--sn-glass-light) !important;
+  border-color: rgba(74,144,217,0.08) !important;
+}
 
 /* Members */
-[class*="members_"] [class*="member_"]:hover { background-color: var(--sn-hover) !important; }
-[class*="members_"] h2[class*="membersGroup_"] { color: var(--sn-text-dim) !important; }
+[class*="members_"] [class*="member_"]:hover {
+  background-color: var(--sn-hover) !important;
+}
+[class*="members_"] h2[class*="membersGroup_"] {
+  color: var(--sn-text-dim) !important;
+}
 
 /* Links */
-[class*="markup_"] a { color: var(--sn-accent-bright) !important; }
-[class*="markup_"] a:hover { color: #7cc0ff !important; text-shadow: 0 0 8px rgba(74,144,217,0.4) !important; }
-[class*="username_"]:hover { text-shadow: 0 0 8px currentColor !important; }
+[class*="markup_"] a {
+  color: var(--sn-accent-bright) !important;
+}
+[class*="markup_"] a:hover {
+  color: #7cc0ff !important;
+  text-shadow: 0 0 8px rgba(74,144,217,0.4) !important;
+}
 
-/* Badges */
-[class*="numberBadge_"] { background-color: var(--sn-red) !important; box-shadow: 0 0 10px rgba(232,80,80,0.5) !important; }
+/* Username glow */
+[class*="username_"]:hover {
+  text-shadow: 0 0 8px currentColor !important;
+}
+
+/* Badge */
+[class*="numberBadge_"] {
+  background-color: var(--sn-red) !important;
+  box-shadow: 0 0 10px rgba(232,80,80,0.5) !important;
+}
 
 /* Upload */
-[class*="uploadDropModal_"] { background-color: rgba(2,4,10,0.85) !important; }
-[class*="uploadDropModal_"] [class*="inner_"] { border: 2px dashed var(--sn-accent) !important; background-color: rgba(74,144,217,0.05) !important; }
+[class*="uploadDropModal_"] {
+  background-color: rgba(2,4,10,0.85) !important;
+}
+[class*="uploadDropModal_"] [class*="inner_"] {
+  border: 2px dashed var(--sn-accent) !important;
+  background-color: rgba(74,144,217,0.05) !important;
+}
 
 /* Unread */
-[class*="unreadBar_"], [class*="newMessagesBar_"] { background-color: var(--sn-accent) !important; box-shadow: 0 0 12px rgba(74,144,217,0.3) !important; }
-[class*="jumpToPresentBar_"] { background-color: var(--sn-glass-heavy) !important; border: 1px solid var(--sn-border) !important; backdrop-filter: blur(8px) !important; }
+[class*="unreadBar_"],
+[class*="newMessagesBar_"] {
+  background-color: var(--sn-accent) !important;
+  box-shadow: 0 0 12px rgba(74,144,217,0.3) !important;
+}
 
-/* Forum / Nitro */
-[class*="container_"][class*="card_"] { background-color: var(--sn-glass-light) !important; border: 1px solid var(--sn-border) !important; }
-[class*="premiumPromo_"], [class*="upsellContainer_"] { background-color: var(--sn-glass-light) !important; border: 1px solid var(--sn-border) !important; }
+/* Jump to present */
+[class*="jumpToPresentBar_"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+/* Forum cards */
+[class*="container_"][class*="card_"] {
+  background-color: var(--sn-glass-light) !important;
+  border: 1px solid var(--sn-border) !important;
+}
+
+/* Nitro */
+[class*="premiumPromo_"],
+[class*="upsellContainer_"] {
+  background-color: var(--sn-glass-light) !important;
+  border: 1px solid var(--sn-border) !important;
+}
 
 /* Channel icon glow */
-[class*="containerDefault_"]:hover svg { filter: drop-shadow(0 0 3px rgba(74,144,217,0.35)) !important; }
+[class*="containerDefault_"]:hover svg {
+  filter: drop-shadow(0 0 3px rgba(74,144,217,0.35)) !important;
+}
 
 /* =======================================================================
    SCROLLBAR
    ======================================================================= */
 ::-webkit-scrollbar { width: 6px !important; height: 6px !important; }
 ::-webkit-scrollbar-track { background: transparent !important; }
-::-webkit-scrollbar-thumb { background-color: rgba(74,144,217,0.14) !important; border-radius: 3px !important; }
-::-webkit-scrollbar-thumb:hover { background-color: rgba(74,144,217,0.28) !important; }
+::-webkit-scrollbar-thumb {
+  background-color: rgba(74,144,217,0.14) !important;
+  border-radius: 3px !important;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(74,144,217,0.28) !important;
+}
 ::-webkit-scrollbar-corner { background: transparent !important; }
-::selection { background-color: rgba(74,144,217,0.3) !important; color: #fff !important; }
-*:focus-visible { outline: 2px solid var(--sn-accent) !important; outline-offset: 2px !important; }
 
 /* =======================================================================
-   Z-INDEX STACKING
+   SELECTION & FOCUS
+   ======================================================================= */
+::selection {
+  background-color: rgba(74,144,217,0.3) !important;
+  color: #fff !important;
+}
+*:focus-visible {
+  outline: 2px solid var(--sn-accent) !important;
+  outline-offset: 2px !important;
+}
+
+/* =======================================================================
+   Z-INDEX
    ======================================================================= */
 html::before, html::after { z-index: 0 !important; }
 #app-mount { position: relative !important; z-index: 1 !important; }
