@@ -1,12 +1,10 @@
 /**
  * @name StarryNight
- * @description Exosphere sky, dense stars, random brightening stars, shooting stars.
- * @version 12.0.0 FINAL
+ * @description Exosphere sky, dense permanent stars, stars that randomly brighten,
+ *              shooting stars falling down with fading tails. Full Discord theme.
+ * @version 13.0.0 FINAL
  */
 
-/* =======================================================================
-   CSS VARIABLES
-   ======================================================================= */
 :root {
   --sn-accent: #4a90d9;
   --sn-accent-bright: #5ba0ec;
@@ -27,15 +25,12 @@
   --sn-selected: rgba(74, 144, 217, 0.13);
 }
 
-/* =======================================================================
-   ROOT BACKDROP
-   ======================================================================= */
 html, body {
   background-color: #000000 !important;
 }
 
 /* =======================================================================
-   EXOSPHERE GRADIENT ON #app-mount
+   EXOSPHERE GRADIENT
    ======================================================================= */
 #app-mount {
   background:
@@ -70,7 +65,7 @@ html, body {
 }
 
 /* =======================================================================
-   DENSE STATIC STARS - body::before
+   DENSE STATIC STARS
    ======================================================================= */
 body::before {
   content: "";
@@ -79,7 +74,6 @@ body::before {
   z-index: 0;
   pointer-events: none;
   background-image:
-    /* ===== BRIGHT STARS (2-3px) ===== */
     radial-gradient(3px 3px at 5% 2%, #fff 50%, transparent 100%),
     radial-gradient(2.5px 2.5px at 7% 3%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 22% 1%, #a0c4ff 50%, transparent 100%),
@@ -135,8 +129,6 @@ body::before {
     radial-gradient(1.5px 1.5px at 48% 88%, #c8d8f0 35%, transparent 100%),
     radial-gradient(1.5px 1.5px at 90% 95%, #fff 28%, transparent 100%),
     radial-gradient(1.5px 1.5px at 12% 94%, #a0c4ff 30%, transparent 100%),
-
-    /* ===== MEDIUM STARS (1.5px) ===== */
     radial-gradient(1.5px 1.5px at 2% 2%, #c8d8f0 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 10% 6%, #fff 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 18% 1%, #a0c4ff 50%, transparent 100%),
@@ -196,8 +188,6 @@ body::before {
     radial-gradient(1.5px 1.5px at 60% 74%, #fff 45%, transparent 100%),
     radial-gradient(1.5px 1.5px at 78% 77%, #c8d8f0 42%, transparent 100%),
     radial-gradient(1.5px 1.5px at 92% 71%, #fff 42%, transparent 100%),
-
-    /* ===== DIM STARS (1px) - dense field ===== */
     radial-gradient(1px 1px at 1% 1%, #c8d8f0 45%, transparent 100%),
     radial-gradient(1px 1px at 4% 5%, #fff 40%, transparent 100%),
     radial-gradient(1px 1px at 8% 8%, #fff 40%, transparent 100%),
@@ -303,7 +293,9 @@ body::before {
 }
 
 /* =======================================================================
-   BRIGHTENING STARS - 3 groups using separate selectors
+   BRIGHTENING STARS - ALWAYS VISIBLE, OCCASIONALLY FLARE BRIGHT
+   Normal state: 0.4-0.45 opacity (always visible)
+   Flare state: 0.9-0.95 opacity (bright glow)
    ======================================================================= */
 body::after {
   content: "";
@@ -326,7 +318,12 @@ body::after {
   animation: brightenA 11s ease-in-out infinite;
 }
 @keyframes brightenA {
-  0%{opacity:.05}8%{opacity:.05}12%{opacity:.95}18%{opacity:.95}25%{opacity:.05}100%{opacity:.05}
+  0%   { opacity: 0.45; }
+  8%   { opacity: 0.45; }
+  12%  { opacity: 0.95; }
+  18%  { opacity: 0.95; }
+  25%  { opacity: 0.45; }
+  100% { opacity: 0.45; }
 }
 
 #app-mount::before {
@@ -350,7 +347,12 @@ body::after {
   animation: brightenB 14s ease-in-out infinite 3s;
 }
 @keyframes brightenB {
-  0%{opacity:.04}5%{opacity:.04}10%{opacity:.9}17%{opacity:.9}24%{opacity:.04}100%{opacity:.04}
+  0%   { opacity: 0.4; }
+  5%   { opacity: 0.4; }
+  10%  { opacity: 0.9; }
+  17%  { opacity: 0.9; }
+  24%  { opacity: 0.4; }
+  100% { opacity: 0.4; }
 }
 
 #app-mount::after {
@@ -374,7 +376,12 @@ body::after {
   animation: brightenC 17s ease-in-out infinite 7s;
 }
 @keyframes brightenC {
-  0%{opacity:.04}4%{opacity:.04}8%{opacity:.85}14%{opacity:.85}20%{opacity:.04}100%{opacity:.04}
+  0%   { opacity: 0.4; }
+  4%   { opacity: 0.4; }
+  8%   { opacity: 0.85; }
+  14%  { opacity: 0.85; }
+  20%  { opacity: 0.4; }
+  100% { opacity: 0.4; }
 }
 
 /* =======================================================================
@@ -435,7 +442,7 @@ body::after {
 }
 
 /* =======================================================================
-   DISCORD VARIABLE OVERRIDES
+   DISCORD VARIABLES
    ======================================================================= */
 .theme-dark,
 .theme-light {
@@ -496,7 +503,7 @@ body::after {
 }
 
 /* =======================================================================
-   TRANSPARENCY - ALL CHILD CONTAINERS (NOT #app-mount)
+   TRANSPARENCY
    ======================================================================= */
 #app-mount > div,
 [class*="app_"],
@@ -648,9 +655,7 @@ main, aside, section, nav,
   background-color: transparent !important;
 }
 
-/* =======================================================================
-   VOICE CHANNEL LIST - transparent
-   ======================================================================= */
+/* Voice channel list */
 [class*="containerDefault_"][class*="voice_"],
 [class*="containerDefault_"] [class*="voiceUsers_"],
 [class*="voiceUsers_"],
@@ -659,7 +664,7 @@ main, aside, section, nav,
 }
 
 /* =======================================================================
-   VOICE CHAT / CALL - KEEP OPAQUE
+   VOICE CHAT - OPAQUE
    ======================================================================= */
 [class*="callContainer_"],
 [class*="voiceCallWrapper_"],
@@ -696,7 +701,7 @@ main, aside, section, nav,
 }
 
 /* =======================================================================
-   PANEL DIVIDERS
+   DIVIDERS
    ======================================================================= */
 nav[aria-label="Servers sidebar"] { border-right: 1px solid rgba(74,144,217,0.04) !important; }
 [class*="sidebar_"]:not([class*="threadSidebar_"]) { border-right: 1px solid rgba(74,144,217,0.04) !important; }
