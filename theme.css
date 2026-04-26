@@ -1,0 +1,62 @@
+/**
+ * @name StarryNight Discord
+ * @author YourName
+ * @version 1.0.0
+ * @description A port of b-chen00's StarryNight Spicetify theme.
+ * @source https://github.com/yourusername/starrynight-discord
+ */
+
+:root {
+    /* StarryNight Color Palette */
+    --sn-bg-main: #0b0e14;
+    --sn-bg-secondary: rgba(16, 20, 27, 0.7);
+    --sn-accent: #89b4fa; /* Soft blue star glow */
+    --sn-accent-rgb: 137, 180, 250;
+    --sn-text: #cdd6f4;
+    --sn-stars: "https://raw.githubusercontent.com/b-chen00/spicetify-themes/master/StarryNight/assets/stars.png";
+}
+
+/* Base Transparency */
+.theme-dark, .theme-light {
+    --background-primary: transparent;
+    --background-secondary: transparent;
+    --background-tertiary: transparent;
+    --channeltextarea-background: rgba(30, 30, 46, 0.6);
+}
+
+/* Background Implementation */
+#app-mount {
+    background: var(--sn-bg-main) url('https://images.unsplash.com/photo-1436891620584-47fd0e565afb?q=80&w=1974&auto=format&fit=crop') center/cover no-repeat;
+}
+
+/* The "Frost" Layer */
+.app_a01fb1 {
+    background: rgba(10, 14, 20, 0.45) !important;
+    backdrop-filter: blur(8px);
+}
+
+/* Sidebar & Panels - Making them look like Spicetify sidebars */
+.sidebar_a4d651, .wrapper_eea71a {
+    background: var(--sn-bg-secondary) !important;
+    border-right: 1px solid rgba(var(--sn-accent-rgb), 0.1);
+}
+
+/* Chat Box Glow */
+.scrollableContainer_d0696d {
+    border: 1px solid rgba(var(--sn-accent-rgb), 0.2);
+    box-shadow: 0 0 10px rgba(var(--sn-accent-rgb), 0.1);
+    background: rgba(17, 17, 27, 0.8) !important;
+}
+
+/* User Profile & Hover Effects */
+.member_a1a124:hover, .channel_c913ad:hover {
+    background: rgba(var(--sn-accent-rgb), 0.1) !important;
+    border-radius: 8px;
+    box-shadow: inset 0 0 5px rgba(var(--sn-accent-rgb), 0.2);
+}
+
+/* Glowing Text for Active Channels */
+.selected_d01235 .name_a08117 {
+    color: var(--sn-accent) !important;
+    text-shadow: 0 0 8px rgba(var(--sn-accent-rgb), 0.6);
+}
