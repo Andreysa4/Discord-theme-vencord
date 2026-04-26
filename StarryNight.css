@@ -1,11 +1,11 @@
 /**
  * @name StarryNight
  * @description A celestial deep-space theme for Discord. Starry sky background visible EVERYWHERE.
- *              Features: exosphere gradient (black top → deep blue bottom), static stars,
- *              random brightening stars, slow shooting stars falling down-left/down-right
- *              with fading tails. Full transparency including voice chat.
+ *              Exosphere gradient (black top → blue bottom), static stars, random brightening stars,
+ *              shooting stars falling down with fading tails. EVERY container has the space background
+ *              except profile banners and avatars.
  * @author Adapted for Discord
- * @version 7.0.0
+ * @version 8.0.0
  */
 
 /* =======================================================================
@@ -32,76 +32,30 @@
 }
 
 /* =======================================================================
-   EXOSPHERE GRADIENT BACKGROUND
-   
-   Top = pure black void of outer space
-   Gradually transitions through deep navy → midnight blue → rich blue
-   at the bottom, like looking down from the exosphere toward
-   the Earth's atmosphere edge.
-   
-   Multiple layered gradients for depth + nebula clouds.
+   EXOSPHERE GRADIENT
    ======================================================================= */
 html {
   background:
-    /* Nebula cloud - upper right area, very subtle */
     radial-gradient(ellipse 700px 500px at 78% 22%, rgba(40, 60, 140, 0.06) 0%, transparent 70%),
-    /* Nebula cloud - mid left */
     radial-gradient(ellipse 500px 600px at 15% 55%, rgba(50, 30, 100, 0.05) 0%, transparent 70%),
-    /* Nebula cloud - lower center, slightly stronger as we approach atmosphere */
     radial-gradient(ellipse 1000px 400px at 50% 80%, rgba(30, 70, 160, 0.08) 0%, transparent 60%),
-    /* Subtle warm glow near bottom horizon - like atmospheric scattering */
     radial-gradient(ellipse 1800px 300px at 50% 100%, rgba(20, 50, 120, 0.12) 0%, transparent 70%),
-    /* Wide atmospheric band at very bottom */
     radial-gradient(ellipse 2500px 200px at 50% 105%, rgba(25, 80, 180, 0.08) 0%, transparent 60%),
-
-    /* === MAIN EXOSPHERE GRADIENT === */
-    /* This is the key gradient: pure black at top → deep space → navy → blue at bottom */
     linear-gradient(
       to bottom,
-      /* Outer space - pure void */
-      #000000 0%,
-      #000000 5%,
-      /* First hint of anything - barely perceptible */
-      #000103 10%,
-      #000206 15%,
-      /* Very deep space, first trace of blue */
-      #00030a 20%,
-      #010410 25%,
-      /* Starting to feel the upper exosphere */
-      #010618 30%,
-      #020820 35%,
-      /* Mid exosphere - dark navy emerging */
-      #020a28 40%,
-      #030d30 45%,
-      /* Lower exosphere */
-      #041038 50%,
-      #051340 55%,
-      /* Upper mesosphere boundary feel */
-      #061648 58%,
-      #071a52 62%,
-      /* Rich deep blue building */
-      #081e5c 66%,
-      #0a2268 70%,
-      /* Strong atmospheric blue */
-      #0c2872 74%,
-      #0e2e7c 78%,
-      /* Deep vivid blue */
-      #103486 82%,
-      #123a90 86%,
-      /* Rich atmosphere */
-      #143e98 90%,
-      #1644a2 93%,
-      /* Bottom edge - brightest blue, like looking at Earth's limb */
-      #1848a8 96%,
-      #1a4cae 100%
+      #000000 0%, #000000 5%, #000103 10%, #000206 15%,
+      #00030a 20%, #010410 25%, #010618 30%, #020820 35%,
+      #020a28 40%, #030d30 45%, #041038 50%, #051340 55%,
+      #061648 58%, #071a52 62%, #081e5c 66%, #0a2268 70%,
+      #0c2872 74%, #0e2e7c 78%, #103486 82%, #123a90 86%,
+      #143e98 90%, #1644a2 93%, #1848a8 96%, #1a4cae 100%
     ) !important;
   background-attachment: fixed !important;
   min-height: 100vh;
 }
 
 /* =======================================================================
-   STATIC STARS on html::before
-   More stars concentrated at the top (space), fewer toward bottom (atmosphere)
+   STATIC STARS
    ======================================================================= */
 html::before {
   content: "";
@@ -110,7 +64,6 @@ html::before {
   z-index: 0;
   pointer-events: none;
   background-image:
-    /* === TOP SECTION - Dense star field (0-35%) === */
     radial-gradient(2.5px 2.5px at 7% 3%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 22% 1%, #a0c4ff 50%, transparent 100%),
     radial-gradient(2.5px 2.5px at 44% 4%, #fff 50%, transparent 100%),
@@ -133,8 +86,6 @@ html::before {
     radial-gradient(2px 2px at 7% 33%, #c8d8f0 50%, transparent 100%),
     radial-gradient(2.5px 2.5px at 50% 31%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 72% 35%, #b8a0e8 50%, transparent 100%),
-
-    /* === MID SECTION - Medium density (35-60%) === */
     radial-gradient(2px 2px at 14% 38%, #fff 50%, transparent 100%),
     radial-gradient(2.5px 2.5px at 41% 42%, #a0c4ff 50%, transparent 100%),
     radial-gradient(2px 2px at 67% 40%, #fff 50%, transparent 100%),
@@ -148,8 +99,6 @@ html::before {
     radial-gradient(2.5px 2.5px at 91% 58%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 20% 55%, #b8a0e8 50%, transparent 100%),
     radial-gradient(2px 2px at 48% 60%, #fff 50%, transparent 100%),
-
-    /* === LOWER SECTION - Sparse stars (60-80%) === */
     radial-gradient(2px 2px at 10% 65%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 37% 68%, #a0c4ff 50%, transparent 100%),
     radial-gradient(2.5px 2.5px at 65% 63%, #fff 50%, transparent 100%),
@@ -158,15 +107,11 @@ html::before {
     radial-gradient(2px 2px at 52% 76%, #a0c4ff 50%, transparent 100%),
     radial-gradient(2.5px 2.5px at 76% 72%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 42% 78%, #ffecd2 50%, transparent 100%),
-
-    /* === BOTTOM - Very few stars, mostly atmosphere (80-100%) === */
     radial-gradient(1.5px 1.5px at 18% 82%, #fff 40%, transparent 100%),
     radial-gradient(1.5px 1.5px at 58% 85%, #c8d8f0 40%, transparent 100%),
     radial-gradient(2px 2px at 80% 83%, #fff 40%, transparent 100%),
     radial-gradient(1.5px 1.5px at 35% 90%, #a0c4ff 35%, transparent 100%),
     radial-gradient(1.5px 1.5px at 70% 92%, #fff 30%, transparent 100%),
-
-    /* === MEDIUM STARS - scattered throughout === */
     radial-gradient(1.5px 1.5px at 2% 2%, #c8d8f0 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 10% 6%, #fff 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 18% 1%, #a0c4ff 50%, transparent 100%),
@@ -209,104 +154,57 @@ html::before {
     radial-gradient(1.5px 1.5px at 91% 31%, #a0c4ff 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 3% 48%, #fff 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 15% 52%, #c8d8f0 50%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 23% 46%, #fff 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 45% 50%, #a0c4ff 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 57% 47%, #fff 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 75% 54%, #b8a0e8 50%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 83% 49%, #fff 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 97% 51%, #c8d8f0 50%, transparent 100%),
-
-    /* === DIM STARS (1px) - mostly upper half === */
     radial-gradient(1px 1px at 1% 1%, #c8d8f0 45%, transparent 100%),
     radial-gradient(1px 1px at 4% 5%, #fff 40%, transparent 100%),
-    radial-gradient(1px 1px at 6% 2%, #c8d8f0 45%, transparent 100%),
     radial-gradient(1px 1px at 8% 8%, #fff 40%, transparent 100%),
     radial-gradient(1px 1px at 11% 0%, #a0c4ff 45%, transparent 100%),
-    radial-gradient(1px 1px at 13% 6%, #c8d8f0 40%, transparent 100%),
     radial-gradient(1px 1px at 15% 3%, #fff 45%, transparent 100%),
-    radial-gradient(1px 1px at 17% 9%, #c8d8f0 40%, transparent 100%),
     radial-gradient(1px 1px at 20% 4%, #fff 45%, transparent 100%),
-    radial-gradient(1px 1px at 23% 11%, #c8d8f0 40%, transparent 100%),
     radial-gradient(1px 1px at 25% 1%, #fff 45%, transparent 100%),
     radial-gradient(1px 1px at 28% 7%, #a0c4ff 40%, transparent 100%),
-    radial-gradient(1px 1px at 30% 3%, #c8d8f0 45%, transparent 100%),
     radial-gradient(1px 1px at 34% 10%, #fff 40%, transparent 100%),
-    radial-gradient(1px 1px at 36% 0%, #c8d8f0 45%, transparent 100%),
     radial-gradient(1px 1px at 38% 6%, #fff 40%, transparent 100%),
-    radial-gradient(1px 1px at 41% 2%, #c8d8f0 45%, transparent 100%),
     radial-gradient(1px 1px at 43% 9%, #fff 40%, transparent 100%),
     radial-gradient(1px 1px at 45% 5%, #a0c4ff 45%, transparent 100%),
-    radial-gradient(1px 1px at 48% 11%, #c8d8f0 40%, transparent 100%),
     radial-gradient(1px 1px at 50% 1%, #fff 45%, transparent 100%),
-    radial-gradient(1px 1px at 53% 7%, #c8d8f0 40%, transparent 100%),
     radial-gradient(1px 1px at 56% 3%, #fff 45%, transparent 100%),
-    radial-gradient(1px 1px at 58% 8%, #c8d8f0 40%, transparent 100%),
     radial-gradient(1px 1px at 61% 0%, #fff 45%, transparent 100%),
     radial-gradient(1px 1px at 63% 6%, #a0c4ff 40%, transparent 100%),
-    radial-gradient(1px 1px at 66% 3%, #c8d8f0 45%, transparent 100%),
     radial-gradient(1px 1px at 68% 9%, #fff 40%, transparent 100%),
-    radial-gradient(1px 1px at 70% 4%, #c8d8f0 45%, transparent 100%),
     radial-gradient(1px 1px at 73% 11%, #fff 40%, transparent 100%),
-    radial-gradient(1px 1px at 75% 1%, #c8d8f0 45%, transparent 100%),
     radial-gradient(1px 1px at 78% 7%, #a0c4ff 40%, transparent 100%),
-    radial-gradient(1px 1px at 80% 2%, #fff 45%, transparent 100%),
     radial-gradient(1px 1px at 83% 10%, #c8d8f0 40%, transparent 100%),
-    radial-gradient(1px 1px at 85% 5%, #fff 45%, transparent 100%),
     radial-gradient(1px 1px at 88% 8%, #c8d8f0 40%, transparent 100%),
-    radial-gradient(1px 1px at 90% 0%, #fff 45%, transparent 100%),
     radial-gradient(1px 1px at 92% 6%, #a0c4ff 40%, transparent 100%),
-    radial-gradient(1px 1px at 95% 3%, #c8d8f0 45%, transparent 100%),
     radial-gradient(1px 1px at 98% 11%, #fff 40%, transparent 100%),
-    /* More dim stars mid section */
-    radial-gradient(1px 1px at 1% 15%, #fff 40%, transparent 100%),
     radial-gradient(1px 1px at 4% 20%, #c8d8f0 45%, transparent 100%),
-    radial-gradient(1px 1px at 7% 17%, #fff 40%, transparent 100%),
     radial-gradient(1px 1px at 10% 23%, #c8d8f0 45%, transparent 100%),
     radial-gradient(1px 1px at 16% 21%, #a0c4ff 45%, transparent 100%),
-    radial-gradient(1px 1px at 19% 18%, #fff 40%, transparent 100%),
     radial-gradient(1px 1px at 22% 26%, #c8d8f0 45%, transparent 100%),
-    radial-gradient(1px 1px at 25% 14%, #fff 40%, transparent 100%),
     radial-gradient(1px 1px at 28% 24%, #c8d8f0 45%, transparent 100%),
-    radial-gradient(1px 1px at 32% 17%, #fff 40%, transparent 100%),
     radial-gradient(1px 1px at 35% 28%, #a0c4ff 40%, transparent 100%),
-    radial-gradient(1px 1px at 40% 22%, #fff 40%, transparent 100%),
     radial-gradient(1px 1px at 45% 27%, #c8d8f0 40%, transparent 100%),
-    radial-gradient(1px 1px at 50% 25%, #fff 40%, transparent 100%),
     radial-gradient(1px 1px at 55% 30%, #c8d8f0 40%, transparent 100%),
-    radial-gradient(1px 1px at 60% 22%, #fff 40%, transparent 100%),
     radial-gradient(1px 1px at 65% 28%, #a0c4ff 40%, transparent 100%),
-    radial-gradient(1px 1px at 70% 31%, #fff 40%, transparent 100%),
     radial-gradient(1px 1px at 75% 26%, #c8d8f0 40%, transparent 100%),
-    radial-gradient(1px 1px at 79% 33%, #fff 40%, transparent 100%),
     radial-gradient(1px 1px at 84% 23%, #c8d8f0 40%, transparent 100%),
-    radial-gradient(1px 1px at 89% 29%, #a0c4ff 40%, transparent 100%),
     radial-gradient(1px 1px at 94% 31%, #fff 40%, transparent 100%),
-    radial-gradient(1px 1px at 98% 25%, #c8d8f0 40%, transparent 100%),
-    /* Dim stars lower-mid */
     radial-gradient(1px 1px at 3% 36%, #fff 38%, transparent 100%),
-    radial-gradient(1px 1px at 8% 42%, #c8d8f0 38%, transparent 100%),
     radial-gradient(1px 1px at 14% 39%, #fff 38%, transparent 100%),
     radial-gradient(1px 1px at 21% 45%, #a0c4ff 38%, transparent 100%),
-    radial-gradient(1px 1px at 28% 41%, #fff 38%, transparent 100%),
     radial-gradient(1px 1px at 34% 47%, #c8d8f0 38%, transparent 100%),
-    radial-gradient(1px 1px at 42% 38%, #fff 38%, transparent 100%),
     radial-gradient(1px 1px at 49% 44%, #c8d8f0 38%, transparent 100%),
-    radial-gradient(1px 1px at 56% 40%, #fff 38%, transparent 100%),
     radial-gradient(1px 1px at 63% 46%, #a0c4ff 38%, transparent 100%),
-    radial-gradient(1px 1px at 71% 43%, #fff 38%, transparent 100%),
     radial-gradient(1px 1px at 77% 48%, #c8d8f0 38%, transparent 100%),
-    radial-gradient(1px 1px at 85% 40%, #fff 38%, transparent 100%),
     radial-gradient(1px 1px at 92% 46%, #c8d8f0 38%, transparent 100%),
-    /* Sparse dim stars in lower region */
     radial-gradient(1px 1px at 6% 55%, #fff 35%, transparent 100%),
-    radial-gradient(1px 1px at 18% 60%, #c8d8f0 35%, transparent 100%),
     radial-gradient(1px 1px at 30% 57%, #fff 35%, transparent 100%),
-    radial-gradient(1px 1px at 44% 62%, #a0c4ff 35%, transparent 100%),
     radial-gradient(1px 1px at 56% 58%, #fff 35%, transparent 100%),
-    radial-gradient(1px 1px at 68% 64%, #c8d8f0 35%, transparent 100%),
     radial-gradient(1px 1px at 82% 56%, #fff 35%, transparent 100%),
-    radial-gradient(1px 1px at 95% 61%, #c8d8f0 35%, transparent 100%),
-    /* Very sparse near bottom */
     radial-gradient(1px 1px at 12% 72%, #fff 30%, transparent 100%),
     radial-gradient(1px 1px at 40% 75%, #c8d8f0 30%, transparent 100%),
     radial-gradient(1px 1px at 64% 70%, #fff 30%, transparent 100%),
@@ -316,8 +214,7 @@ html::before {
 }
 
 /* =======================================================================
-   RANDOM BRIGHTENING STARS
-   3 groups with different timings for random-feeling flares
+   BRIGHTENING STARS
    ======================================================================= */
 html::after {
   content: "";
@@ -337,14 +234,8 @@ html::after {
   background-attachment: fixed;
   animation: brightenA 11s ease-in-out infinite;
 }
-
 @keyframes brightenA {
-  0%   { opacity: 0.08; }
-  8%   { opacity: 0.08; }
-  12%  { opacity: 0.95; }
-  18%  { opacity: 0.95; }
-  25%  { opacity: 0.08; }
-  100% { opacity: 0.08; }
+  0%{opacity:.08}8%{opacity:.08}12%{opacity:.95}18%{opacity:.95}25%{opacity:.08}100%{opacity:.08}
 }
 
 #app-mount::before {
@@ -365,14 +256,8 @@ html::after {
   background-attachment: fixed;
   animation: brightenB 14s ease-in-out infinite 3s;
 }
-
 @keyframes brightenB {
-  0%   { opacity: 0.06; }
-  5%   { opacity: 0.06; }
-  10%  { opacity: 0.9; }
-  17%  { opacity: 0.9; }
-  24%  { opacity: 0.06; }
-  100% { opacity: 0.06; }
+  0%{opacity:.06}5%{opacity:.06}10%{opacity:.9}17%{opacity:.9}24%{opacity:.06}100%{opacity:.06}
 }
 
 #app-mount::after {
@@ -393,21 +278,13 @@ html::after {
   background-attachment: fixed;
   animation: brightenC 17s ease-in-out infinite 7s;
 }
-
 @keyframes brightenC {
-  0%   { opacity: 0.05; }
-  4%   { opacity: 0.05; }
-  8%   { opacity: 0.85; }
-  14%  { opacity: 0.85; }
-  20%  { opacity: 0.05; }
-  100% { opacity: 0.05; }
+  0%{opacity:.05}4%{opacity:.05}8%{opacity:.85}14%{opacity:.85}20%{opacity:.05}100%{opacity:.05}
 }
 
 /* =======================================================================
-   SHOOTING STARS - DOWN-LEFT AND DOWN-RIGHT WITH FADING TAILS
+   SHOOTING STARS
    ======================================================================= */
-
-/* Star 1: Down-Right */
 body::before {
   content: "";
   position: fixed;
@@ -415,25 +292,13 @@ body::before {
   left: 15%;
   width: 2px;
   height: 190px;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(100, 160, 255, 0) 3%,
-    rgba(100, 160, 255, 0.01) 10%,
-    rgba(110, 168, 255, 0.03) 20%,
-    rgba(125, 180, 255, 0.07) 30%,
-    rgba(145, 195, 255, 0.14) 42%,
-    rgba(170, 210, 255, 0.26) 54%,
-    rgba(195, 225, 255, 0.42) 66%,
-    rgba(220, 238, 255, 0.62) 78%,
-    rgba(242, 248, 255, 0.84) 90%,
-    #fff 100%
-  );
-  box-shadow:
-    0 190px 0 1.5px rgba(255,255,255,1),
-    0 190px 4px 2px rgba(200,220,255,0.9),
-    0 190px 10px 4px rgba(160,196,255,0.45),
-    0 190px 22px 8px rgba(130,175,255,0.15);
+  background: linear-gradient(to bottom,
+    transparent 0%, rgba(100,160,255,0) 3%, rgba(100,160,255,.01) 10%,
+    rgba(110,168,255,.03) 20%, rgba(125,180,255,.07) 30%, rgba(145,195,255,.14) 42%,
+    rgba(170,210,255,.26) 54%, rgba(195,225,255,.42) 66%, rgba(220,238,255,.62) 78%,
+    rgba(242,248,255,.84) 90%, #fff 100%);
+  box-shadow: 0 190px 0 1.5px #fff, 0 190px 4px 2px rgba(200,220,255,.9),
+    0 190px 10px 4px rgba(160,196,255,.45), 0 190px 22px 8px rgba(130,175,255,.15);
   transform-origin: bottom center;
   transform: rotate(-35deg);
   z-index: 9999;
@@ -442,19 +307,11 @@ body::before {
   animation: fallDownRight 30s linear infinite 5s;
   filter: blur(0.1px);
 }
-
 @keyframes fallDownRight {
-  0%    { top: -10%; left: 15%; opacity: 0; }
-  0.3%  { opacity: 1; }
-  1.5%  { opacity: 0.9; }
-  3%    { opacity: 0.7; }
-  4.5%  { opacity: 0.4; }
-  5.5%  { opacity: 0.15; }
-  6.5%  { top: 110%; left: 55%; opacity: 0; }
-  100%  { opacity: 0; }
+  0%{top:-10%;left:15%;opacity:0}.3%{opacity:1}1.5%{opacity:.9}3%{opacity:.7}
+  4.5%{opacity:.4}5.5%{opacity:.15}6.5%{top:110%;left:55%;opacity:0}100%{opacity:0}
 }
 
-/* Star 2: Down-Left */
 body::after {
   content: "";
   position: fixed;
@@ -462,25 +319,13 @@ body::after {
   right: 20%;
   width: 1.5px;
   height: 160px;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(180, 160, 230, 0) 3%,
-    rgba(180, 160, 230, 0.01) 10%,
-    rgba(185, 168, 235, 0.03) 20%,
-    rgba(190, 175, 240, 0.07) 30%,
-    rgba(200, 188, 244, 0.14) 42%,
-    rgba(212, 202, 248, 0.26) 54%,
-    rgba(225, 218, 252, 0.42) 66%,
-    rgba(238, 232, 254, 0.62) 78%,
-    rgba(248, 245, 255, 0.84) 90%,
-    #fff 100%
-  );
-  box-shadow:
-    0 160px 0 1.5px rgba(255,255,255,1),
-    0 160px 4px 2px rgba(220,210,255,0.9),
-    0 160px 10px 4px rgba(184,160,232,0.45),
-    0 160px 22px 8px rgba(170,150,220,0.15);
+  background: linear-gradient(to bottom,
+    transparent 0%, rgba(180,160,230,0) 3%, rgba(180,160,230,.01) 10%,
+    rgba(185,168,235,.03) 20%, rgba(190,175,240,.07) 30%, rgba(200,188,244,.14) 42%,
+    rgba(212,202,248,.26) 54%, rgba(225,218,252,.42) 66%, rgba(238,232,254,.62) 78%,
+    rgba(248,245,255,.84) 90%, #fff 100%);
+  box-shadow: 0 160px 0 1.5px #fff, 0 160px 4px 2px rgba(220,210,255,.9),
+    0 160px 10px 4px rgba(184,160,232,.45), 0 160px 22px 8px rgba(170,150,220,.15);
   transform-origin: bottom center;
   transform: rotate(30deg);
   z-index: 9999;
@@ -489,16 +334,9 @@ body::after {
   animation: fallDownLeft 40s linear infinite 18s;
   filter: blur(0.1px);
 }
-
 @keyframes fallDownLeft {
-  0%    { top: -8%; right: 20%; opacity: 0; }
-  0.2%  { opacity: 0.9; }
-  1.2%  { opacity: 0.85; }
-  2.5%  { opacity: 0.6; }
-  3.8%  { opacity: 0.3; }
-  4.5%  { opacity: 0.1; }
-  5.2%  { top: 108%; right: 60%; opacity: 0; }
-  100%  { opacity: 0; }
+  0%{top:-8%;right:20%;opacity:0}.2%{opacity:.9}1.2%{opacity:.85}2.5%{opacity:.6}
+  3.8%{opacity:.3}4.5%{opacity:.1}5.2%{top:108%;right:60%;opacity:0}100%{opacity:0}
 }
 
 /* =======================================================================
@@ -561,158 +399,233 @@ body::after {
   --status-warning: var(--sn-yellow) !important;
   --status-danger: var(--sn-red) !important;
   --profile-body-background-color: var(--sn-glass-heavy) !important;
+  --card-primary-bg: transparent !important;
+  --card-secondary-bg: transparent !important;
 }
 
 /* =======================================================================
-   NUCLEAR TRANSPARENCY
+   ABSOLUTE NUCLEAR TRANSPARENCY
+   
+   This section makes EVERY possible container transparent.
+   We use the wildcard attribute selector on class names.
+   Then we PROTECT profile banners and avatars with explicit overrides.
    ======================================================================= */
-#app-mount,
-#app-mount > div,
-[class*="app_"],
-[class*="appMount"],
-[class*="layers_"],
-[class*="layer_"],
-[class*="baseLayer_"],
-[class*="base_"],
-[class*="bg_"],
-[class*="content_"],
-[class*="chat_"],
-[class*="chatContent_"],
-[class*="messagesWrapper_"],
-[class*="sidebar_"],
-[class*="guilds_"],
-[class*="panels_"],
-[class*="panel_"],
-[class*="members_"],
-[class*="membersWrap_"],
-[class*="container_"],
-[class*="privateChannels_"],
-[class*="scroller_"],
-[class*="tree_"],
-[class*="themed_"],
-[class*="contentRegion_"],
-[class*="contentRegionScroller_"],
-[class*="standardSidebarView_"],
-[class*="sidebarRegion_"],
-[class*="sidebarRegionScroller_"],
-[class*="contentColumn_"],
-[class*="pageWrapper_"],
-[class*="peopleColumn_"],
-[class*="peopleList_"],
-[class*="nowPlayingColumn_"],
-[class*="applicationStore_"],
-[class*="hubContainer_"],
-[class*="directoryContainer_"],
-[class*="threadSidebar_"],
-[class*="typing_"],
-[class*="noChannel_"],
-[class*="emptyPage_"],
-[class*="empty_"],
-[class*="homeContainer_"],
-[class*="libraryHeader_"],
-[class*="premiumTab_"],
-[class*="storeWrapper_"],
-[class*="titleBar_"],
-[class*="wordmark_"],
-[class*="toolbar_"],
-[class*="title_"],
-[class*="header_"],
-[class*="headerBar_"],
-[class*="tabBar_"],
-[class*="tabBody_"],
-[class*="searchBar_"],
-[class*="searchHeader_"],
-[class*="searchResult_"],
-[class*="channelTextArea_"],
-[class*="welcomeCTA_"],
-[class*="wrapper_"],
-[class*="perksModal_"],
-[class*="forumPostList_"],
-[class*="uploadArea_"],
-[class*="noChat_"],
-[class*="guildIcon_"],
-[class*="settingsContainer_"],
-[class*="userSettingsAccount_"],
-[class*="inspector_"],
-[class*="categoryItem_"],
-[class*="appAsidePanelWrapper_"],
-[class*="notAppAsidePanel_"],
-[class*="channelPanelTitle_"],
-[class*="profilePanel_"],
-[class*="profilePanelScroller_"],
-[class*="userPanelOuter_"],
-[class*="userPanelInner_"],
-[class*="infoScroller_"],
-[class*="userInfoSection_"],
-[class*="connectedAccounts_"],
-[class*="body_"],
-[class*="tabBarContainer_"],
-[class*="peopleTabBar_"],
-[class*="searchResultsWrap_"],
-[class*="callContainer_"],
-[class*="voiceCallWrapper_"],
-[class*="voiceCall_"],
-[class*="videoWrapper_"],
-[class*="gridContainer_"],
-[class*="grid_"],
-[class*="centeringWrapper_"],
-[class*="connection_"],
-[class*="rtcConnection_"],
-[class*="rtcConnectionStatus_"],
-[class*="voiceChannelDetails_"],
-[class*="channelInfo_"],
-[class*="voiceUser_"],
-[class*="tileContainer_"],
-[class*="tile_"],
-[class*="participantsContainer_"],
-[class*="participants_"],
-[class*="voiceParticipants_"],
-[class*="videoContainer_"],
-[class*="videoGrid_"],
-[class*="videoTile_"],
-[class*="noVideoTile_"],
-[class*="pictureInPictureWindow_"],
-[class*="pictureInPicture_"],
-[class*="actionButtons_"],
-[class*="activityPanel_"],
-[class*="controlsContainer_"],
-[class*="voiceControls_"],
-[class*="bottomControls_"],
-[class*="bottomSection_"],
-[class*="avatarContainer_"],
-[class*="voiceAvatar_"],
-[class*="stageListItem_"],
-[class*="stageSection_"],
-[class*="stageSpeaker_"],
-[class*="audienceSection_"],
-[class*="liveLabel_"],
-[class*="newMemberBanner_"],
-[class*="connecting_"],
-nav[aria-label="Servers sidebar"],
-nav[aria-label="Servers sidebar"] > ul,
-nav[aria-label="Servers sidebar"] > div {
+
+/* --- The universal wipe --- */
+/* Target literally every div/section/nav/aside/main/header/footer
+   that has a class attribute, and kill its background.
+   This is aggressive but effective. */
+#app-mount *:not(img):not(video):not(canvas):not(svg):not(foreignObject):not([class*="avatar"]):not([class*="Avatar"]):not([class*="banner"]):not([class*="Banner"]):not([class*="profileBanner"]):not([class*="userBanner"]):not([class*="animatedContainer"]):not([class*="popoutBanner"]):not([class*="panelBanner"]):not([class*="profileHero"]):not([class*="badgeList"]):not([class*="emoji"]):not([class*="stickerAsset"]):not([class*="imageContent"]):not([class*="imageWrapper"]):not([class*="visualMediaItemContainer"]):not([class*="spoilerContent"]):not([class*="attachment"]):not([class*="mediaBarInteraction"]):not([class*="progressBar"]):not([class*="slider"]):not([class*="switch"]):not([class*="checkbox"]):not([class*="radioBar"]):not([class*="colorSwatch"]):not([class*="hoverBar"]):not([class*="status"]):not([class*="typing"]) {
+  background-color: transparent !important;
+}
+
+/* Some elements use background shorthand, catch those too */
+#app-mount [class*="app_"],
+#app-mount [class*="layers_"],
+#app-mount [class*="layer_"],
+#app-mount [class*="base_"],
+#app-mount [class*="sidebar_"],
+#app-mount [class*="chat_"],
+#app-mount [class*="content_"],
+#app-mount [class*="container_"],
+#app-mount [class*="members_"],
+#app-mount [class*="panels_"],
+#app-mount [class*="guilds_"],
+#app-mount [class*="scroller_"],
+#app-mount [class*="wrapper_"],
+#app-mount [class*="header_"],
+#app-mount [class*="title_"],
+#app-mount [class*="toolbar_"],
+#app-mount [class*="tabBar_"],
+#app-mount [class*="tabBody_"],
+#app-mount [class*="tree_"],
+#app-mount [class*="themed_"],
+#app-mount [class*="Region_"],
+#app-mount [class*="Column_"],
+#app-mount [class*="Scroller_"],
+#app-mount [class*="pageWrapper_"],
+#app-mount [class*="Settings_"],
+#app-mount [class*="Page_"],
+#app-mount [class*="home_"],
+#app-mount [class*="store_"],
+#app-mount [class*="library_"],
+#app-mount [class*="channel_"],
+#app-mount [class*="voice_"],
+#app-mount [class*="call_"],
+#app-mount [class*="video_"],
+#app-mount [class*="rtc_"],
+#app-mount [class*="stage_"],
+#app-mount [class*="people_"],
+#app-mount [class*="friends_"],
+#app-mount [class*="private_"],
+#app-mount [class*="forum_"],
+#app-mount [class*="thread_"],
+#app-mount [class*="directory_"],
+#app-mount [class*="hub_"],
+#app-mount [class*="discovery_"],
+#app-mount [class*="nitro_"],
+#app-mount [class*="premium_"],
+#app-mount [class*="profile_"]:not([class*="profileBanner"]):not([class*="Banner"]),
+#app-mount [class*="user_"]:not([class*="userBanner"]):not([class*="Banner"]):not([class*="Avatar"]):not([class*="avatar"]),
+#app-mount [class*="panel_"],
+#app-mount [class*="activity_"],
+#app-mount [class*="game_"],
+#app-mount [class*="embed_"]:not([class*="embedThumbnail"]):not([class*="embedImage"]),
+#app-mount [class*="notice_"],
+#app-mount [class*="bar_"],
+#app-mount [class*="typing_"],
+#app-mount [class*="upload_"],
+#app-mount [class*="guild_"]:not([class*="guildIcon"]),
+#app-mount [class*="listItem_"],
+#app-mount [class*="messages_"],
+#app-mount [class*="message_"],
+#app-mount [class*="divider_"],
+#app-mount nav,
+#app-mount aside,
+#app-mount main,
+#app-mount section,
+#app-mount [role="tabpanel"],
+#app-mount [role="tablist"],
+#app-mount [role="list"],
+#app-mount [role="listitem"],
+#app-mount [role="complementary"],
+#app-mount [role="navigation"] {
   background: transparent !important;
   background-color: transparent !important;
 }
 
-[style*="background-color: var(--background-primary)"],
-[style*="background-color: var(--background-secondary)"],
-[style*="background-color: var(--background-tertiary)"],
-[style*="background-color: var(--background-secondary-alt)"] {
+/* Inline style overrides */
+#app-mount [style*="background-color"] {
   background-color: transparent !important;
+}
+#app-mount [style*="background:"] {
+  background: transparent !important;
 }
 
 /* =======================================================================
-   VOICE CHAT
+   PROTECT: Profile banners, avatars, images, media
+   These should NOT be transparent.
    ======================================================================= */
-[class*="tileContainer_"],
-[class*="tile_"]:not([class*="videoTile_"]),
-[class*="voiceUser_"] {
-  border: 1px solid rgba(74,144,217,0.06) !important;
-  border-radius: 8px !important;
+[class*="banner"],
+[class*="Banner"],
+[class*="profileBanner"],
+[class*="userBanner"],
+[class*="popoutBanner"],
+[class*="panelBanner"],
+[class*="profileHero"],
+[class*="animatedContainer"] {
+  background-color: unset !important;
+  background: unset !important;
 }
-[class*="speaking_"] {
-  box-shadow: 0 0 12px rgba(74,144,217,0.3) !important;
+
+[class*="avatar"],
+[class*="Avatar"] {
+  background-color: unset !important;
+  background: unset !important;
+}
+
+/* Protect actual images, thumbnails, video embeds */
+img, video, canvas, svg,
+[class*="imageWrapper"] img,
+[class*="imageContent"],
+[class*="visualMediaItemContainer"],
+[class*="embedThumbnail"],
+[class*="embedImage"],
+[class*="embedVideo"],
+[class*="attachment"],
+[class*="spoilerContent"],
+[class*="stickerAsset"],
+[class*="emoji"] {
+  background-color: unset !important;
+  background: unset !important;
+}
+
+/* Protect interactive controls */
+[class*="switch"],
+[class*="Switch"],
+[class*="checkbox"],
+[class*="Checkbox"],
+[class*="radioBar"],
+[class*="slider"],
+[class*="Slider"],
+[class*="progressBar"],
+[class*="colorSwatch"],
+[class*="hoverBar"],
+[class*="grabber"] {
+  background-color: unset !important;
+  background: unset !important;
+}
+
+/* Protect status indicators */
+rect[fill], circle[fill] {
+  background: unset !important;
+}
+
+[class*="status_"],
+[class*="Status"] {
+  background-color: unset !important;
+  background: unset !important;
+}
+
+/* =======================================================================
+   POPOUTS, MODALS, MENUS - glass effect (must be readable)
+   These need a semi-transparent background, not fully transparent.
+   ======================================================================= */
+[class*="popout_"],
+[class*="Popout"],
+[class*="userPopoutOuter"],
+[class*="userProfileOuter"],
+[class*="userProfileModal"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.7) !important;
+  backdrop-filter: blur(16px) !important;
+}
+
+[class*="modal_"],
+[class*="Modal"],
+[class*="root_"][class*="fullscreenOnMobile"],
+[class*="layer_"] > [class*="root_"],
+[class*="focusLock"] > [class*="root_"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.7) !important;
+  backdrop-filter: blur(16px) !important;
+}
+
+[class*="menu_"],
+[class*="Menu"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6) !important;
+  backdrop-filter: blur(16px) !important;
+}
+
+[class*="tooltip_"],
+[class*="Tooltip"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  backdrop-filter: blur(12px) !important;
+}
+[class*="tooltipPointer"] {
+  border-top-color: var(--sn-glass-heavy) !important;
+}
+
+[class*="autocomplete_"],
+[class*="Autocomplete"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  backdrop-filter: blur(16px) !important;
+}
+
+[class*="emojiPicker"],
+[class*="EmojiPicker"],
+[class*="stickerPicker"],
+[class*="gifPicker"],
+[class*="expressionPicker"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  backdrop-filter: blur(16px) !important;
 }
 
 /* =======================================================================
@@ -721,10 +634,10 @@ nav[aria-label="Servers sidebar"] > div {
 nav[aria-label="Servers sidebar"] {
   border-right: 1px solid rgba(74,144,217,0.04) !important;
 }
-[class*="sidebar_"]:not([class*="threadSidebar_"]) {
+[class*="sidebar_"]:not([class*="threadSidebar"]) {
   border-right: 1px solid rgba(74,144,217,0.04) !important;
 }
-[class*="membersWrap_"] {
+[class*="membersWrap"] {
   border-left: 1px solid rgba(74,144,217,0.04) !important;
 }
 [class*="panels_"] {
@@ -740,66 +653,66 @@ nav[aria-label="Servers sidebar"] {
 /* =======================================================================
    UI ELEMENTS
    ======================================================================= */
-[class*="containerDefault_"]:hover {
-  background-color: var(--sn-hover) !important;
-}
-[class*="containerDefault_"][class*="modeSelected_"],
-[class*="containerDefault_"][class*="modeSelected_"] [class*="wrapper_"] {
+
+/* Channels */
+[class*="containerDefault_"]:hover { background-color: var(--sn-hover) !important; }
+[class*="containerDefault_"][class*="modeSelected"],
+[class*="containerDefault_"][class*="modeSelected"] [class*="wrapper_"] {
   background-color: var(--sn-selected) !important;
 }
-[class*="containerDefault_"][class*="modeSelected_"] [class*="name_"],
-[class*="containerDefault_"][class*="modeSelected_"] [class*="icon_"] {
+[class*="containerDefault_"][class*="modeSelected"] [class*="name_"],
+[class*="containerDefault_"][class*="modeSelected"] [class*="icon_"] {
   color: var(--sn-accent-bright) !important;
 }
-[class*="containerDefault_"][class*="modeUnread_"] [class*="name_"] {
+[class*="containerDefault_"][class*="modeUnread"] [class*="name_"] {
   color: var(--sn-text) !important;
 }
+
+/* Guilds */
 [class*="listItem_"] [class*="icon_"]:hover {
   box-shadow: 0 0 12px rgba(74,144,217,0.3) !important;
 }
-[class*="pill_"] span[class*="item_"] {
-  background-color: var(--sn-accent) !important;
-}
-[class*="guildSeparator_"] {
-  background-color: rgba(74,144,217,0.06) !important;
-}
-[class*="tutorialContainer_"] [class*="childWrapper_"] {
+[class*="pill_"] span[class*="item_"] { background-color: var(--sn-accent) !important; }
+[class*="guildSeparator"] { background-color: rgba(74,144,217,0.06) !important; }
+[class*="tutorialContainer"] [class*="childWrapper"] {
   background-color: rgba(74,144,217,0.1) !important;
   transition: all 0.3s ease !important;
 }
-[class*="tutorialContainer_"] [class*="childWrapper_"]:hover {
+[class*="tutorialContainer"] [class*="childWrapper"]:hover {
   background-color: var(--sn-accent) !important;
   box-shadow: 0 0 20px rgba(74,144,217,0.4) !important;
 }
-[class*="message_"][class*="cozy_"]:hover {
-  background-color: rgba(74,144,217,0.03) !important;
-}
-[class*="message_"][class*="mentioned_"] {
+
+/* Messages */
+[class*="message_"][class*="cozy"]:hover { background-color: rgba(74,144,217,0.03) !important; }
+[class*="message_"][class*="mentioned"] {
   background-color: rgba(74,144,217,0.05) !important;
   border-left: 3px solid var(--sn-accent) !important;
 }
-[class*="message_"][class*="mentioned_"]:hover {
-  background-color: rgba(74,144,217,0.08) !important;
-}
-[class*="divider_"] {
-  border-color: rgba(74,144,217,0.06) !important;
-}
-[class*="divider_"][class*="isUnread_"] {
-  border-color: var(--sn-red) !important;
-}
-[class*="scrollableContainer_"] {
+[class*="message_"][class*="mentioned"]:hover { background-color: rgba(74,144,217,0.08) !important; }
+
+/* Dividers */
+[class*="divider_"] { border-color: rgba(74,144,217,0.06) !important; }
+[class*="divider_"][class*="isUnread"] { border-color: var(--sn-red) !important; }
+
+/* Text input */
+[class*="scrollableContainer"] {
   background-color: var(--sn-glass) !important;
   border: 1px solid rgba(74,144,217,0.08) !important;
   border-radius: 8px !important;
 }
-[class*="scrollableContainer_"]:focus-within {
+[class*="scrollableContainer"]:focus-within {
   border-color: rgba(74,144,217,0.3) !important;
   box-shadow: 0 0 12px rgba(74,144,217,0.1) !important;
 }
-[class*="embedWrapper_"] {
+
+/* Embeds */
+[class*="embedWrapper"] {
   background-color: var(--sn-glass) !important;
   border-color: rgba(74,144,217,0.08) !important;
 }
+
+/* Code */
 [class*="markup_"] code {
   background-color: var(--sn-glass) !important;
   border: 1px solid rgba(74,144,217,0.08) !important;
@@ -814,172 +727,132 @@ nav[aria-label="Servers sidebar"] {
   border: none !important;
   color: var(--sn-text) !important;
 }
+
+/* Reactions */
 [class*="reaction_"] {
   background-color: var(--sn-glass-light) !important;
   border: 1px solid rgba(74,144,217,0.08) !important;
 }
-[class*="reaction_"]:hover {
-  background-color: var(--sn-active) !important;
-}
-[class*="reaction_"][class*="reactionMe_"] {
+[class*="reaction_"]:hover { background-color: var(--sn-active) !important; }
+[class*="reaction_"][class*="reactionMe"] {
   background-color: rgba(74,144,217,0.15) !important;
   border-color: var(--sn-accent) !important;
 }
-[class*="popout_"],
-[class*="userPopoutOuter_"],
-[class*="userProfileOuter_"],
-[class*="userProfileModal_"] {
-  background-color: var(--sn-glass-heavy) !important;
-  border: 1px solid var(--sn-border) !important;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.7) !important;
-  backdrop-filter: blur(16px) !important;
-}
-[class*="modal_"],
-[class*="root_"][class*="fullscreenOnMobile_"],
-[class*="layer_"] > [class*="root_"] {
-  background-color: var(--sn-glass-heavy) !important;
-  border: 1px solid var(--sn-border) !important;
-  box-shadow: 0 12px 48px rgba(0,0,0,0.7) !important;
-  backdrop-filter: blur(16px) !important;
-}
-[class*="menu_"] {
-  background-color: var(--sn-glass-heavy) !important;
-  border: 1px solid var(--sn-border) !important;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.6) !important;
-  backdrop-filter: blur(16px) !important;
-}
-[class*="menu_"] [class*="item_"] {
-  color: var(--sn-text-sub) !important;
-  border-radius: 4px !important;
-}
+
+/* Context menu items */
+[class*="menu_"] [class*="item_"] { color: var(--sn-text-sub) !important; border-radius: 4px !important; }
 [class*="menu_"] [class*="item_"]:hover,
-[class*="menu_"] [class*="item_"][class*="focused_"] {
+[class*="menu_"] [class*="item_"][class*="focused"] {
   background-color: var(--sn-accent) !important;
   color: #fff !important;
 }
-[class*="menu_"] [class*="separator_"] {
-  border-color: rgba(74,144,217,0.06) !important;
-}
-[class*="menu_"] [class*="item_"][class*="colorDanger_"]:hover {
-  background-color: var(--sn-red) !important;
-}
-[class*="tooltip_"] {
-  background-color: var(--sn-glass-heavy) !important;
-  border: 1px solid var(--sn-border) !important;
-  backdrop-filter: blur(12px) !important;
-}
-[class*="tooltipPointer_"] {
-  border-top-color: var(--sn-glass-heavy) !important;
-}
-[class*="autocomplete_"] {
-  background-color: var(--sn-glass-heavy) !important;
-  border: 1px solid var(--sn-border) !important;
-  backdrop-filter: blur(16px) !important;
-}
-[class*="autocomplete_"] [class*="selectorSelected_"] {
-  background-color: var(--sn-selected) !important;
-}
-[class*="emojiPicker_"],
-[class*="contentWrapper_"][class*="picker_"],
-[class*="stickerInspected_"] {
-  background-color: var(--sn-glass-heavy) !important;
-  border: 1px solid var(--sn-border) !important;
-  backdrop-filter: blur(16px) !important;
-}
-[class*="search_"] [class*="searchBar_"] {
+[class*="menu_"] [class*="separator"] { border-color: rgba(74,144,217,0.06) !important; }
+[class*="menu_"] [class*="item_"][class*="colorDanger"]:hover { background-color: var(--sn-red) !important; }
+
+/* Autocomplete selected */
+[class*="autocomplete"] [class*="selectorSelected"] { background-color: var(--sn-selected) !important; }
+
+/* Search */
+[class*="search_"] [class*="searchBar"] {
   background-color: var(--sn-glass) !important;
   border: 1px solid rgba(74,144,217,0.08) !important;
 }
-[class*="search_"] [class*="searchBar_"]:focus-within {
-  border-color: var(--sn-accent) !important;
-}
-[class*="searchResultsWrap_"] {
-  background: var(--sn-glass) !important;
-}
-[class*="toolbar_"] [class*="iconWrapper_"] {
-  color: var(--sn-text-dim) !important;
-}
-[class*="toolbar_"] [class*="iconWrapper_"]:hover {
-  color: var(--sn-accent-bright) !important;
-}
-button[class*="lookFilled_"][class*="colorBrand_"] {
-  background-color: var(--sn-accent) !important;
-}
-button[class*="lookFilled_"][class*="colorBrand_"]:hover {
+[class*="search_"] [class*="searchBar"]:focus-within { border-color: var(--sn-accent) !important; }
+
+/* Toolbar icons */
+[class*="toolbar"] [class*="iconWrapper"] { color: var(--sn-text-dim) !important; }
+[class*="toolbar"] [class*="iconWrapper"]:hover { color: var(--sn-accent-bright) !important; }
+
+/* Buttons */
+button[class*="lookFilled"][class*="colorBrand"] { background-color: var(--sn-accent) !important; }
+button[class*="lookFilled"][class*="colorBrand"]:hover {
   background-color: var(--sn-accent-bright) !important;
   box-shadow: 0 0 15px rgba(74,144,217,0.35) !important;
 }
-button[class*="lookFilled_"][class*="colorGreen_"] {
-  background-color: var(--sn-green) !important;
-}
-button[class*="lookFilled_"][class*="colorRed_"] {
-  background-color: var(--sn-red) !important;
-}
-[class*="side_"] [class*="item_"]:hover {
-  background-color: var(--sn-hover) !important;
-}
-[class*="side_"] [class*="item_"][class*="selected_"] {
+button[class*="lookFilled"][class*="colorGreen"] { background-color: var(--sn-green) !important; }
+button[class*="lookFilled"][class*="colorRed"] { background-color: var(--sn-red) !important; }
+
+/* Settings */
+[class*="side_"] [class*="item_"]:hover { background-color: var(--sn-hover) !important; }
+[class*="side_"] [class*="item_"][class*="selected"] {
   background-color: var(--sn-selected) !important;
   color: var(--sn-accent-bright) !important;
 }
-[class*="cardPrimary_"],
-[class*="card_"]:not([class*="embedWrapper_"]) {
+
+/* Cards */
+[class*="cardPrimary"],
+[class*="card_"]:not([class*="embedWrapper"]):not([class*="imageWrapper"]) {
   background-color: var(--sn-glass-light) !important;
   border: 1px solid var(--sn-border) !important;
 }
+
+/* Roles */
 [class*="role_"] {
   background-color: var(--sn-glass-light) !important;
   border-color: rgba(74,144,217,0.08) !important;
 }
-[class*="members_"] [class*="member_"]:hover {
-  background-color: var(--sn-hover) !important;
-}
-[class*="members_"] h2[class*="membersGroup_"] {
-  color: var(--sn-text-dim) !important;
-}
-[class*="markup_"] a {
-  color: var(--sn-accent-bright) !important;
-}
+
+/* Members */
+[class*="members_"] [class*="member_"]:hover { background-color: var(--sn-hover) !important; }
+[class*="members_"] h2[class*="membersGroup"] { color: var(--sn-text-dim) !important; }
+
+/* Links */
+[class*="markup_"] a { color: var(--sn-accent-bright) !important; }
 [class*="markup_"] a:hover {
   color: #7cc0ff !important;
   text-shadow: 0 0 8px rgba(74,144,217,0.4) !important;
 }
-[class*="username_"]:hover {
-  text-shadow: 0 0 8px currentColor !important;
-}
-[class*="numberBadge_"] {
+
+/* Username glow */
+[class*="username"]:hover { text-shadow: 0 0 8px currentColor !important; }
+
+/* Badge */
+[class*="numberBadge"] {
   background-color: var(--sn-red) !important;
   box-shadow: 0 0 10px rgba(232,80,80,0.5) !important;
 }
-[class*="uploadDropModal_"] {
-  background-color: rgba(2,4,10,0.85) !important;
-}
-[class*="uploadDropModal_"] [class*="inner_"] {
+
+/* Upload */
+[class*="uploadDropModal"] { background-color: rgba(2,4,10,0.85) !important; }
+[class*="uploadDropModal"] [class*="inner"] {
   border: 2px dashed var(--sn-accent) !important;
   background-color: rgba(74,144,217,0.05) !important;
 }
-[class*="unreadBar_"],
-[class*="newMessagesBar_"] {
+
+/* Unread */
+[class*="unreadBar"],
+[class*="newMessagesBar"] {
   background-color: var(--sn-accent) !important;
   box-shadow: 0 0 12px rgba(74,144,217,0.3) !important;
 }
-[class*="jumpToPresentBar_"] {
+
+/* Jump to present */
+[class*="jumpToPresentBar"] {
   background-color: var(--sn-glass-heavy) !important;
   border: 1px solid var(--sn-border) !important;
   backdrop-filter: blur(8px) !important;
 }
-[class*="container_"][class*="card_"] {
+
+/* Nitro / Premium */
+[class*="premiumPromo"],
+[class*="upsellContainer"] {
   background-color: var(--sn-glass-light) !important;
   border: 1px solid var(--sn-border) !important;
 }
-[class*="premiumPromo_"],
-[class*="upsellContainer_"] {
-  background-color: var(--sn-glass-light) !important;
-  border: 1px solid var(--sn-border) !important;
-}
+
+/* Channel icon glow */
 [class*="containerDefault_"]:hover svg {
   filter: drop-shadow(0 0 3px rgba(74,144,217,0.35)) !important;
 }
+
+/* Voice tiles */
+[class*="tileContainer"],
+[class*="tile_"]:not([class*="videoTile"]),
+[class*="voiceUser"] {
+  border: 1px solid rgba(74,144,217,0.06) !important;
+  border-radius: 8px !important;
+}
+[class*="speaking"] { box-shadow: 0 0 12px rgba(74,144,217,0.3) !important; }
 
 /* =======================================================================
    SCROLLBAR
@@ -990,22 +863,14 @@ button[class*="lookFilled_"][class*="colorRed_"] {
   background-color: rgba(74,144,217,0.14) !important;
   border-radius: 3px !important;
 }
-::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(74,144,217,0.28) !important;
-}
+::-webkit-scrollbar-thumb:hover { background-color: rgba(74,144,217,0.28) !important; }
 ::-webkit-scrollbar-corner { background: transparent !important; }
 
 /* =======================================================================
    SELECTION & FOCUS
    ======================================================================= */
-::selection {
-  background-color: rgba(74,144,217,0.3) !important;
-  color: #fff !important;
-}
-*:focus-visible {
-  outline: 2px solid var(--sn-accent) !important;
-  outline-offset: 2px !important;
-}
+::selection { background-color: rgba(74,144,217,0.3) !important; color: #fff !important; }
+*:focus-visible { outline: 2px solid var(--sn-accent) !important; outline-offset: 2px !important; }
 
 /* =======================================================================
    Z-INDEX
