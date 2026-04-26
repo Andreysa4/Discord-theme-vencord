@@ -1,61 +1,78 @@
 /**
  * @name StarryNight
- * @description A celestial dark theme for Discord inspired by the Spicetify StarryNight theme.
+ * @description A celestial dark theme for Discord — identical to the Spicetify StarryNight theme.
+ *              Deep space background with static stars, twinkling stars, and shooting stars everywhere.
  * @author Adapted for Discord
- * @version 1.0.0
+ * @version 2.0.0
  */
 
 /* ===== ROOT VARIABLES ===== */
 :root {
-  /* Primary Colors */
-  --starry-bg-primary: #0a0e1a;
-  --starry-bg-secondary: #0f1528;
-  --starry-bg-tertiary: #141c35;
-  --starry-bg-floating: #111a30;
-  --starry-bg-accent: #1a2444;
+  /* Background Colors - Deep Space */
+  --sn-void: #000000;
+  --sn-space-deep: #020408;
+  --sn-space: #040811;
+  --sn-space-mid: #06101d;
+  --sn-space-light: #081526;
+  --sn-nebula: #0a1a2e;
+  --sn-nebula-light: #0d2035;
 
   /* Text Colors */
-  --starry-text-primary: #e2e8f5;
-  --starry-text-secondary: #8b9cc7;
-  --starry-text-muted: #5b6a8f;
-  --starry-text-link: #7aa2f7;
+  --sn-text: #e8edf5;
+  --sn-text-sub: #8e9ec0;
+  --sn-text-dim: #556080;
 
-  /* Accent Colors */
-  --starry-accent: #7aa2f7;
-  --starry-accent-hover: #89b4fa;
-  --starry-accent-active: #6690e0;
-  --starry-accent-subtle: rgba(122, 162, 247, 0.1);
+  /* Accent */
+  --sn-accent: #4a90d9;
+  --sn-accent-bright: #5ba0ec;
+  --sn-accent-dim: #3a72b0;
+  --sn-accent-glow: rgba(74, 144, 217, 0.25);
 
   /* Star Colors */
-  --starry-star-1: #c8d6e5;
-  --starry-star-2: #a4b0c5;
-  --starry-star-3: #7aa2f7;
-  --starry-star-4: #bb9af7;
-  --starry-star-5: #f7768e;
+  --sn-star-white: #ffffff;
+  --sn-star-blue: #a0c4ff;
+  --sn-star-pale: #c8d8f0;
+  --sn-star-warm: #ffecd2;
+  --sn-star-pink: #e8a0c8;
+  --sn-star-purple: #b8a0e8;
+  --sn-star-cyan: #a0e8e8;
 
-  /* Status Colors */
-  --starry-online: #9ece6a;
-  --starry-idle: #e0af68;
-  --starry-dnd: #f7768e;
-  --starry-offline: #5b6a8f;
-  --starry-streaming: #bb9af7;
+  /* Status */
+  --sn-green: #50c878;
+  --sn-yellow: #e8c050;
+  --sn-red: #e85050;
+  --sn-gray: #556080;
 
-  /* Misc */
-  --starry-border: rgba(122, 162, 247, 0.08);
-  --starry-border-hover: rgba(122, 162, 247, 0.15);
-  --starry-shadow: rgba(0, 0, 0, 0.5);
-  --starry-scrollbar-thumb: rgba(122, 162, 247, 0.2);
-  --starry-scrollbar-track: transparent;
+  /* Borders & Misc */
+  --sn-border: rgba(74, 144, 217, 0.07);
+  --sn-border-hover: rgba(74, 144, 217, 0.14);
+  --sn-glow-soft: 0 0 15px rgba(74, 144, 217, 0.08);
 }
 
-/* ===== GLOBAL BACKGROUND WITH STARS ===== */
-body,
-.app-3xd6d0,
-.bg-h5JY_x {
-  background: var(--starry-bg-primary) !important;
+/* =======================================================================
+   MASTER BACKGROUND - SPACE EVERYWHERE
+   This creates the full starfield that covers the entire Discord window.
+   Every panel, sidebar, chat, settings, etc. becomes transparent
+   so this background shows through everywhere.
+   ======================================================================= */
+
+/* Base space gradient on the app mount */
+#app-mount {
+  background:
+    /* Nebula glow - top right */
+    radial-gradient(ellipse 800px 600px at 85% 15%, rgba(30, 60, 120, 0.12) 0%, transparent 70%),
+    /* Nebula glow - bottom left */
+    radial-gradient(ellipse 600px 800px at 10% 85%, rgba(60, 30, 100, 0.08) 0%, transparent 70%),
+    /* Nebula glow - center */
+    radial-gradient(ellipse 1200px 400px at 50% 50%, rgba(20, 40, 80, 0.06) 0%, transparent 80%),
+    /* Subtle milky way band */
+    radial-gradient(ellipse 2000px 200px at 30% 40%, rgba(80, 100, 140, 0.04) 0%, transparent 80%),
+    /* Deep space base gradient */
+    radial-gradient(ellipse at 50% 50%, #060d1a 0%, #020508 50%, #000002 100%) !important;
+  background-attachment: fixed !important;
 }
 
-/* Starry background animation on the main app wrapper */
+/* ===== STATIC STARS LAYER (non-moving, dense field) ===== */
 #app-mount::before {
   content: "";
   position: fixed;
@@ -63,651 +80,936 @@ body,
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
-  background:
-    radial-gradient(1px 1px at 10% 15%, var(--starry-star-1) 50%, transparent 100%),
-    radial-gradient(1px 1px at 20% 35%, var(--starry-star-2) 50%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 30% 10%, var(--starry-star-3) 50%, transparent 100%),
-    radial-gradient(1px 1px at 40% 60%, var(--starry-star-1) 50%, transparent 100%),
-    radial-gradient(1px 1px at 50% 25%, var(--starry-star-4) 50%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 60% 80%, var(--starry-star-2) 50%, transparent 100%),
-    radial-gradient(1px 1px at 70% 45%, var(--starry-star-1) 50%, transparent 100%),
-    radial-gradient(1px 1px at 80% 70%, var(--starry-star-3) 50%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 90% 20%, var(--starry-star-5) 50%, transparent 100%),
-    radial-gradient(1px 1px at 5% 85%, var(--starry-star-2) 50%, transparent 100%),
-    radial-gradient(1px 1px at 15% 55%, var(--starry-star-1) 50%, transparent 100%),
-    radial-gradient(1px 1px at 25% 75%, var(--starry-star-4) 50%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 35% 45%, var(--starry-star-1) 50%, transparent 100%),
-    radial-gradient(1px 1px at 45% 90%, var(--starry-star-2) 50%, transparent 100%),
-    radial-gradient(1px 1px at 55% 5%, var(--starry-star-3) 50%, transparent 100%),
-    radial-gradient(1px 1px at 65% 30%, var(--starry-star-1) 50%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 75% 55%, var(--starry-star-5) 50%, transparent 100%),
-    radial-gradient(1px 1px at 85% 15%, var(--starry-star-2) 50%, transparent 100%),
-    radial-gradient(1px 1px at 95% 65%, var(--starry-star-1) 50%, transparent 100%),
-    radial-gradient(1px 1px at 12% 42%, var(--starry-star-4) 50%, transparent 100%),
-    radial-gradient(1px 1px at 22% 92%, var(--starry-star-1) 50%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 32% 62%, var(--starry-star-3) 50%, transparent 100%),
-    radial-gradient(1px 1px at 42% 18%, var(--starry-star-2) 50%, transparent 100%),
-    radial-gradient(1px 1px at 52% 48%, var(--starry-star-1) 50%, transparent 100%),
-    radial-gradient(1px 1px at 62% 72%, var(--starry-star-5) 50%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 72% 8%, var(--starry-star-1) 50%, transparent 100%),
-    radial-gradient(1px 1px at 82% 38%, var(--starry-star-4) 50%, transparent 100%),
-    radial-gradient(1px 1px at 92% 88%, var(--starry-star-2) 50%, transparent 100%),
-    radial-gradient(1px 1px at 8% 68%, var(--starry-star-1) 50%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 18% 28%, var(--starry-star-3) 50%, transparent 100%),
-    radial-gradient(1px 1px at 28% 58%, var(--starry-star-1) 50%, transparent 100%),
-    radial-gradient(1px 1px at 38% 82%, var(--starry-star-2) 50%, transparent 100%),
-    radial-gradient(1px 1px at 48% 12%, var(--starry-star-4) 50%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 58% 52%, var(--starry-star-1) 50%, transparent 100%),
-    radial-gradient(1px 1px at 68% 95%, var(--starry-star-5) 50%, transparent 100%),
-    radial-gradient(1px 1px at 78% 32%, var(--starry-star-1) 50%, transparent 100%),
-    radial-gradient(1px 1px at 88% 52%, var(--starry-star-3) 50%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 98% 42%, var(--starry-star-2) 50%, transparent 100%),
-    radial-gradient(1px 1px at 3% 22%, var(--starry-star-1) 50%, transparent 100%),
-    radial-gradient(1px 1px at 13% 78%, var(--starry-star-4) 50%, transparent 100%);
-  background-color: var(--starry-bg-primary);
-  animation: twinkle 8s ease-in-out infinite alternate;
+
+  background-image:
+    /* ---- BRIGHT STARS (larger, fewer) ---- */
+    radial-gradient(2px 2px at 7% 12%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(2px 2px at 23% 5%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 45% 8%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(2px 2px at 67% 3%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(2px 2px at 89% 11%, var(--sn-star-warm) 50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 12% 28%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(2px 2px at 34% 22%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(2px 2px at 56% 31%, var(--sn-star-purple) 50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 78% 26%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(2px 2px at 93% 35%, var(--sn-star-cyan) 50%, transparent 100%),
+    radial-gradient(2px 2px at 5% 45%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 28% 52%, var(--sn-star-warm) 50%, transparent 100%),
+    radial-gradient(2px 2px at 50% 48%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(2px 2px at 72% 55%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 95% 42%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(2px 2px at 15% 68%, var(--sn-star-pink) 50%, transparent 100%),
+    radial-gradient(2px 2px at 38% 72%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 62% 65%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(2px 2px at 83% 78%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(2px 2px at 8% 85%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 42% 88%, var(--sn-star-purple) 50%, transparent 100%),
+    radial-gradient(2px 2px at 68% 92%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(2px 2px at 90% 87%, var(--sn-star-cyan) 50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 55% 95%, var(--sn-star-white) 50%, transparent 100%),
+
+    /* ---- MEDIUM STARS ---- */
+    radial-gradient(1.5px 1.5px at 3% 7%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 11% 18%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 19% 3%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 27% 15%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 33% 9%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 41% 20%, var(--sn-star-warm) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 48% 14%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 53% 2%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 61% 18%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 69% 10%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 75% 21%, var(--sn-star-purple) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 82% 6%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 88% 19%, var(--sn-star-cyan) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 96% 8%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 6% 33%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 14% 40%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 22% 37%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 30% 44%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 37% 32%, var(--sn-star-warm) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 44% 41%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 52% 38%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 59% 46%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 66% 34%, var(--sn-star-pink) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 74% 43%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 81% 36%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 87% 48%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 94% 33%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 2% 55%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 10% 62%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 18% 58%, var(--sn-star-purple) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 25% 64%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 32% 53%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 40% 61%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 47% 57%, var(--sn-star-warm) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 54% 66%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 63% 52%, var(--sn-star-cyan) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 70% 63%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 77% 58%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 85% 66%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 92% 54%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 4% 75%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 16% 82%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 24% 78%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 36% 84%, var(--sn-star-pink) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 46% 76%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 58% 83%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 64% 79%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 76% 86%, var(--sn-star-purple) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 84% 73%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 91% 81%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 98% 77%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 9% 92%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 21% 96%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 31% 90%, var(--sn-star-warm) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 49% 94%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 57% 89%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 73% 97%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 86% 93%, var(--sn-star-cyan) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 97% 91%, var(--sn-star-white) 50%, transparent 100%),
+
+    /* ---- SMALL/DIM STARS (dense field) ---- */
+    radial-gradient(1px 1px at 1% 2%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 4% 9%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 7% 4%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 9% 16%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 12% 1%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1px 1px at 14% 11%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 16% 6%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 18% 14%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 21% 8%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 24% 19%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 26% 4%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 29% 13%, var(--sn-star-blue) 40%, transparent 100%),
+    radial-gradient(1px 1px at 31% 7%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 35% 17%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 37% 2%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 39% 12%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 42% 5%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 44% 16%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 46% 9%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1px 1px at 49% 18%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 51% 3%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 54% 11%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 57% 7%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 59% 15%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 62% 1%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 64% 10%, var(--sn-star-blue) 40%, transparent 100%),
+    radial-gradient(1px 1px at 67% 6%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 69% 14%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 71% 8%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 74% 19%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 76% 3%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 79% 13%, var(--sn-star-blue) 40%, transparent 100%),
+    radial-gradient(1px 1px at 81% 5%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 84% 17%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 86% 9%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 89% 15%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 91% 2%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 93% 11%, var(--sn-star-blue) 40%, transparent 100%),
+    radial-gradient(1px 1px at 96% 7%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 99% 18%, var(--sn-star-white) 40%, transparent 100%),
+    /* More dim stars - mid section */
+    radial-gradient(1px 1px at 2% 24%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 5% 31%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 8% 27%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 11% 35%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 13% 22%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 17% 38%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1px 1px at 20% 29%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 23% 42%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 26% 25%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 29% 39%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 33% 28%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 36% 43%, var(--sn-star-blue) 40%, transparent 100%),
+    radial-gradient(1px 1px at 38% 23%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 41% 36%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 43% 30%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 46% 44%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 48% 26%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 51% 41%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 53% 33%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1px 1px at 56% 45%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 58% 27%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 61% 37%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 63% 24%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 66% 40%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 68% 31%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 71% 46%, var(--sn-star-blue) 40%, transparent 100%),
+    radial-gradient(1px 1px at 73% 28%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 76% 42%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 78% 34%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 80% 47%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 83% 25%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 85% 38%, var(--sn-star-blue) 40%, transparent 100%),
+    radial-gradient(1px 1px at 88% 29%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 90% 43%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 92% 32%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 95% 46%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 97% 26%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 99% 39%, var(--sn-star-pale) 40%, transparent 100%),
+    /* More dim stars - lower section */
+    radial-gradient(1px 1px at 1% 52%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 3% 59%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 6% 64%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 8% 71%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1px 1px at 11% 56%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 13% 67%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 16% 73%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 19% 51%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 22% 69%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 25% 57%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1px 1px at 28% 74%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 31% 62%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 34% 70%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 37% 55%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 40% 68%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 43% 76%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1px 1px at 46% 53%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 49% 71%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 52% 60%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 55% 77%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 58% 54%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 61% 72%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1px 1px at 64% 58%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 67% 75%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 70% 51%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 73% 66%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 76% 78%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 79% 53%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1px 1px at 82% 69%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 85% 59%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 88% 74%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 91% 63%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 94% 76%, var(--sn-star-blue) 40%, transparent 100%),
+    radial-gradient(1px 1px at 97% 55%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 99% 70%, var(--sn-star-white) 40%, transparent 100%),
+    /* Bottom section */
+    radial-gradient(1px 1px at 2% 81%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 5% 88%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 8% 94%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 10% 83%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1px 1px at 14% 91%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 17% 85%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 20% 97%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 23% 82%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 27% 93%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 30% 86%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1px 1px at 34% 95%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 38% 80%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 41% 92%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 45% 87%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 48% 98%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 51% 84%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1px 1px at 55% 91%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 59% 82%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 62% 96%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 66% 85%, var(--sn-star-pale) 50%, transparent 100%),
+    radial-gradient(1px 1px at 69% 93%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 72% 81%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1px 1px at 75% 90%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 79% 98%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 82% 84%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 86% 92%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1px 1px at 89% 80%, var(--sn-star-pale) 40%, transparent 100%),
+    radial-gradient(1px 1px at 93% 95%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1px 1px at 96% 83%, var(--sn-star-white) 40%, transparent 100%),
+    radial-gradient(1px 1px at 98% 97%, var(--sn-star-pale) 50%, transparent 100%);
+
+  background-color: transparent;
+  background-attachment: fixed;
+}
+
+/* ===== TWINKLING STARS LAYER ===== */
+#app-mount::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image:
+    radial-gradient(2px 2px at 15% 20%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(2px 2px at 35% 60%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 55% 15%, var(--sn-star-warm) 50%, transparent 100%),
+    radial-gradient(2px 2px at 75% 45%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 90% 75%, var(--sn-star-purple) 50%, transparent 100%),
+    radial-gradient(2px 2px at 25% 85%, var(--sn-star-cyan) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 65% 90%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(2px 2px at 5% 50%, var(--sn-star-pink) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 45% 35%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(2px 2px at 85% 25%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 10% 70%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(2px 2px at 50% 80%, var(--sn-star-warm) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 70% 10%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(2px 2px at 30% 40%, var(--sn-star-purple) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 95% 55%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(2px 2px at 20% 95%, var(--sn-star-blue) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 40% 5%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(2px 2px at 60% 50%, var(--sn-star-cyan) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 80% 65%, var(--sn-star-white) 50%, transparent 100%),
+    radial-gradient(2px 2px at 3% 35%, var(--sn-star-pink) 50%, transparent 100%);
+
+  background-color: transparent;
+  background-attachment: fixed;
+  animation: twinkle 4s ease-in-out infinite alternate;
 }
 
 @keyframes twinkle {
+  0% { opacity: 0.3; }
+  25% { opacity: 0.7; }
+  50% { opacity: 0.4; }
+  75% { opacity: 0.9; }
+  100% { opacity: 0.5; }
+}
+
+/* ===== SHOOTING STARS ===== */
+/* We use body pseudo-elements for additional shooting star layers */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: -150px;
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(160, 196, 255, 0.8), white, transparent);
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  animation: shootingStar1 10s linear infinite;
+  animation-delay: 3s;
+  border-radius: 50%;
+  filter: blur(0.3px);
+  box-shadow: 0 0 8px 2px rgba(160, 196, 255, 0.4);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  right: -150px;
+  width: 80px;
+  height: 1.5px;
+  background: linear-gradient(to left, transparent, rgba(184, 160, 232, 0.7), white, transparent);
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  animation: shootingStar2 16s linear infinite;
+  animation-delay: 9s;
+  border-radius: 50%;
+  filter: blur(0.3px);
+  box-shadow: 0 0 6px 1px rgba(184, 160, 232, 0.3);
+}
+
+@keyframes shootingStar1 {
   0% {
-    opacity: 0.85;
+    transform: translate(0, 0) rotate(-30deg);
+    opacity: 0;
   }
-  50% {
-    opacity: 1;
+  1% { opacity: 1; }
+  7% {
+    transform: translate(calc(100vw + 300px), calc(35vh)) rotate(-30deg);
+    opacity: 0;
   }
-  100% {
-    opacity: 0.9;
-  }
+  100% { opacity: 0; }
 }
 
-/* ===== DISCORD VARIABLE OVERRIDES ===== */
+@keyframes shootingStar2 {
+  0% {
+    transform: translate(0, 0) rotate(20deg);
+    opacity: 0;
+  }
+  1% { opacity: 0.8; }
+  5% {
+    transform: translate(calc(-100vw - 300px), calc(45vh)) rotate(20deg);
+    opacity: 0;
+  }
+  100% { opacity: 0; }
+}
+
+
+/* =======================================================================
+   MAKE EVERYTHING TRANSPARENT - THE SPACE SHOWS THROUGH
+   ======================================================================= */
+
+/* Every major Discord container becomes transparent */
 .theme-dark {
-  /* Background colors */
-  --background-primary: var(--starry-bg-primary) !important;
-  --background-secondary: var(--starry-bg-secondary) !important;
-  --background-secondary-alt: var(--starry-bg-tertiary) !important;
-  --background-tertiary: #080c16 !important;
-  --background-accent: var(--starry-accent) !important;
-  --background-floating: var(--starry-bg-floating) !important;
-  --background-nested-floating: var(--starry-bg-tertiary) !important;
-  --background-mobile-primary: var(--starry-bg-primary) !important;
-  --background-mobile-secondary: var(--starry-bg-secondary) !important;
-  --background-modifier-hover: rgba(122, 162, 247, 0.06) !important;
-  --background-modifier-active: rgba(122, 162, 247, 0.1) !important;
-  --background-modifier-selected: rgba(122, 162, 247, 0.12) !important;
-  --background-modifier-accent: var(--starry-border) !important;
-  --background-mentioned: rgba(122, 162, 247, 0.06) !important;
-  --background-mentioned-hover: rgba(122, 162, 247, 0.1) !important;
-  --background-message-hover: rgba(0, 0, 0, 0.15) !important;
+  --background-primary: transparent !important;
+  --background-secondary: transparent !important;
+  --background-secondary-alt: transparent !important;
+  --background-tertiary: transparent !important;
+  --background-accent: var(--sn-accent) !important;
+  --background-floating: rgba(4, 8, 17, 0.92) !important;
+  --background-nested-floating: rgba(6, 16, 29, 0.9) !important;
+  --background-mobile-primary: transparent !important;
+  --background-mobile-secondary: transparent !important;
+  --background-modifier-hover: rgba(74, 144, 217, 0.06) !important;
+  --background-modifier-active: rgba(74, 144, 217, 0.1) !important;
+  --background-modifier-selected: rgba(74, 144, 217, 0.12) !important;
+  --background-modifier-accent: rgba(74, 144, 217, 0.06) !important;
+  --background-mentioned: rgba(74, 144, 217, 0.06) !important;
+  --background-mentioned-hover: rgba(74, 144, 217, 0.1) !important;
+  --background-message-hover: rgba(0, 0, 0, 0.08) !important;
 
-  /* Text colors */
-  --text-normal: var(--starry-text-primary) !important;
-  --text-muted: var(--starry-text-muted) !important;
-  --text-link: var(--starry-text-link) !important;
-  --text-positive: var(--starry-online) !important;
-  --text-warning: var(--starry-idle) !important;
-  --text-danger: var(--starry-dnd) !important;
+  --text-normal: var(--sn-text) !important;
+  --text-muted: var(--sn-text-dim) !important;
+  --text-link: var(--sn-accent-bright) !important;
+  --text-positive: var(--sn-green) !important;
+  --text-warning: var(--sn-yellow) !important;
+  --text-danger: var(--sn-red) !important;
 
-  /* Header colors */
-  --header-primary: var(--starry-text-primary) !important;
-  --header-secondary: var(--starry-text-secondary) !important;
+  --header-primary: var(--sn-text) !important;
+  --header-secondary: var(--sn-text-sub) !important;
 
-  /* Interactive colors */
-  --interactive-normal: var(--starry-text-secondary) !important;
-  --interactive-hover: var(--starry-text-primary) !important;
+  --interactive-normal: var(--sn-text-sub) !important;
+  --interactive-hover: var(--sn-text) !important;
   --interactive-active: #ffffff !important;
-  --interactive-muted: var(--starry-text-muted) !important;
+  --interactive-muted: var(--sn-text-dim) !important;
 
-  /* Channel colors */
-  --channels-default: var(--starry-text-secondary) !important;
-  --channel-icon: var(--starry-text-secondary) !important;
-  --channel-text-area-placeholder: var(--starry-text-muted) !important;
+  --channels-default: var(--sn-text-sub) !important;
+  --channel-icon: var(--sn-text-sub) !important;
 
-  /* Deprecated text input */
-  --deprecated-text-input-bg: var(--starry-bg-tertiary) !important;
-  --deprecated-text-input-border: var(--starry-border) !important;
-  --deprecated-text-input-border-hover: var(--starry-border-hover) !important;
+  --brand-experiment: var(--sn-accent) !important;
+  --brand-experiment-560: var(--sn-accent) !important;
+  --brand-experiment-600: var(--sn-accent-dim) !important;
 
-  /* Brand colors */
-  --brand-experiment: var(--starry-accent) !important;
-  --brand-experiment-560: var(--starry-accent) !important;
-  --brand-experiment-600: var(--starry-accent-active) !important;
+  --scrollbar-thin-thumb: rgba(74, 144, 217, 0.18) !important;
+  --scrollbar-thin-track: transparent !important;
+  --scrollbar-auto-thumb: rgba(74, 144, 217, 0.18) !important;
+  --scrollbar-auto-track: transparent !important;
+  --scrollbar-auto-scrollbar-color-thumb: rgba(74, 144, 217, 0.18) !important;
+  --scrollbar-auto-scrollbar-color-track: transparent !important;
 
-  /* Elevation / Shadows */
-  --elevation-stroke: 0 0 0 1px var(--starry-border) !important;
-  --elevation-low: 0 1px 5px var(--starry-shadow) !important;
-  --elevation-medium: 0 4px 12px var(--starry-shadow) !important;
-  --elevation-high: 0 8px 24px var(--starry-shadow) !important;
+  --input-background: rgba(4, 8, 17, 0.6) !important;
+  --input-placeholder-text: var(--sn-text-dim) !important;
 
-  /* Scrollbar */
-  --scrollbar-thin-thumb: var(--starry-scrollbar-thumb) !important;
-  --scrollbar-thin-track: var(--starry-scrollbar-track) !important;
-  --scrollbar-auto-thumb: var(--starry-scrollbar-thumb) !important;
-  --scrollbar-auto-track: var(--starry-scrollbar-track) !important;
-  --scrollbar-auto-scrollbar-color-thumb: var(--starry-scrollbar-thumb) !important;
-  --scrollbar-auto-scrollbar-color-track: var(--starry-scrollbar-track) !important;
+  --activity-card-background: rgba(4, 8, 17, 0.5) !important;
+  --modal-background: rgba(4, 8, 17, 0.95) !important;
+  --modal-footer-background: rgba(2, 4, 8, 0.95) !important;
 
-  /* Info / Status colors */
-  --info-positive-foreground: var(--starry-online) !important;
-  --info-warning-foreground: var(--starry-idle) !important;
-  --info-danger-foreground: var(--starry-dnd) !important;
-  --status-positive: var(--starry-online) !important;
-  --status-warning: var(--starry-idle) !important;
-  --status-danger: var(--starry-dnd) !important;
+  --deprecated-text-input-bg: rgba(4, 8, 17, 0.6) !important;
+  --deprecated-text-input-border: var(--sn-border) !important;
+  --deprecated-text-input-border-hover: var(--sn-border-hover) !important;
 
-  /* Input */
-  --input-background: var(--starry-bg-tertiary) !important;
-  --input-placeholder-text: var(--starry-text-muted) !important;
+  --elevation-stroke: 0 0 0 1px var(--sn-border) !important;
+  --elevation-low: 0 1px 5px rgba(0, 0, 0, 0.4) !important;
+  --elevation-medium: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+  --elevation-high: 0 8px 24px rgba(0, 0, 0, 0.6) !important;
 
-  /* Activity card */
-  --activity-card-background: var(--starry-bg-secondary) !important;
-
-  /* Misc */
-  --modal-background: var(--starry-bg-secondary) !important;
-  --modal-footer-background: var(--starry-bg-tertiary) !important;
+  --info-positive-foreground: var(--sn-green) !important;
+  --info-warning-foreground: var(--sn-yellow) !important;
+  --info-danger-foreground: var(--sn-red) !important;
+  --status-positive: var(--sn-green) !important;
+  --status-warning: var(--sn-yellow) !important;
+  --status-danger: var(--sn-red) !important;
 }
 
-/* ===== GUILD / SERVER LIST (LEFT SIDEBAR) ===== */
+/* ===== FORCE TRANSPARENT ON ALL MAJOR AREAS ===== */
+
+/* App base */
+.app-3xd6d0,
+.bg-h5JY_x,
+.layers-OrUESM,
+.layer-86YKbF,
+[class*="app_"],
+[class*="layers_"],
+[class*="layer_"],
+[class*="baseLayer_"],
+[class*="bg_"] {
+  background: transparent !important;
+}
+
+/* Guild / Server list */
+nav[aria-label="Servers sidebar"],
+[class*="wrapper_"][class*="guilds_"],
+[class*="scroller_"][class*="none_"],
+[class*="guilds_"],
+[class*="sidebar_ina_"],
+[class*="tree_"] {
+  background: transparent !important;
+}
+
+/* Channel sidebar */
+[class*="sidebar_"],
+[class*="container_"][class*="privateChannels_"],
+[class*="privateChannels_"],
+[class*="sidebarRegion_"],
+[class*="sidebarRegionScroller_"] {
+  background: transparent !important;
+}
+
+/* Chat area */
+[class*="chat_"],
+[class*="chatContent_"],
+[class*="messagesWrapper_"] {
+  background: transparent !important;
+}
+
+/* Members list */
+[class*="members_"],
+[class*="membersWrap_"] {
+  background: transparent !important;
+}
+
+/* User panel area (bottom left) */
+[class*="panels_"],
+[class*="panel_"] {
+  background: transparent !important;
+}
+
+/* Title / header bar */
+[class*="title_"][class*="container_"],
+[class*="chat_"] > [class*="title_"],
+[class*="titleBar_"],
+[class*="toolbar_"] {
+  background: transparent !important;
+}
+
+/* Server header */
+[class*="header_"][class*="container_"] {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Settings pages */
+[class*="contentRegion_"],
+[class*="contentRegionScroller_"],
+[class*="standardSidebarView_"],
+[class*="sidebarRegion_"] [class*="sidebar_"],
+[class*="contentColumn_"],
+[class*="pageWrapper_"] {
+  background: transparent !important;
+}
+
+/* Friends / Home page */
+[class*="container_"][class*="base_"],
+[class*="peopleColumn_"],
+[class*="peopleList_"],
+[class*="nowPlayingColumn_"],
+[class*="applicationStore_"],
+[class*="hubContainer_"],
+[class*="directoryContainer_"] {
+  background: transparent !important;
+}
+
+/* Search results */
+[class*="searchResultsWrap_"] {
+  background: rgba(4, 8, 17, 0.85) !important;
+}
+
+/* Thread sidebar */
+[class*="threadSidebar_"] {
+  background: rgba(4, 8, 17, 0.5) !important;
+}
+
+/* Voice connected area */
+[class*="activityPanel_"],
+[class*="actionButtons_"] {
+  background: transparent !important;
+}
+
+/* Typing indicator bar */
+[class*="typing_"] {
+  background: transparent !important;
+}
+
+/* Content region within any view */
+[class*="content_"][class*="container_"],
+[class*="noChannel_"],
+[class*="emptyChannelIcon_"] {
+  background: transparent !important;
+}
+
+/* Discovery / Explore pages */
+[class*="pageWrapper_"],
+[class*="scroller_"] {
+  background: transparent !important;
+}
+
+/* Notice / update bar - keep slightly visible */
+[class*="notice_"] {
+  background: rgba(74, 144, 217, 0.85) !important;
+}
+
+/* Nitro pages */
+[class*="premiumTab_"],
+[class*="applicationStore_"],
+[class*="storeWrapper_"] {
+  background: transparent !important;
+}
+
+
+/* =======================================================================
+   PANEL / ELEMENT STYLING (semi-transparent overlays for readability)
+   ======================================================================= */
+
+/* ===== SUBTLE PANEL DIVIDERS ===== */
+/* These add very subtle separators between panels so you can tell them apart
+   while still seeing the space background through everything */
+
+/* Guild list subtle right edge */
 nav[aria-label="Servers sidebar"] {
-  background-color: #060a14 !important;
+  border-right: 1px solid rgba(74, 144, 217, 0.04) !important;
 }
 
-[class*="wrapper_"] > [class*="listItem_"],
-[class*="guilds_"] {
-  background-color: transparent !important;
-}
-
-/* Guild icons */
-[class*="wrapper_"] [class*="icon_"] {
-  transition: border-radius 0.3s ease, box-shadow 0.3s ease !important;
-}
-
-[class*="wrapper_"] [class*="icon_"]:hover {
-  box-shadow: 0 0 10px rgba(122, 162, 247, 0.3) !important;
-}
-
-/* Selected guild pill */
-[class*="pill_"] span[class*="item_"] {
-  background-color: var(--starry-accent) !important;
-}
-
-/* Guild separator */
-[class*="guildSeparator_"] {
-  background-color: var(--starry-border) !important;
-}
-
-/* ===== CHANNEL SIDEBAR ===== */
+/* Channel sidebar subtle right edge */
 [class*="sidebar_"] {
-  background-color: var(--starry-bg-secondary) !important;
+  border-right: 1px solid rgba(74, 144, 217, 0.04) !important;
 }
 
-/* Channel name on hover */
-[class*="containerDefault_"] [class*="wrapper_"]:hover,
+/* Header bar subtle bottom edge */
+[class*="title_"][class*="container_"],
+[class*="chat_"] > [class*="title_"] {
+  border-bottom: 1px solid rgba(74, 144, 217, 0.04) !important;
+  box-shadow: none !important;
+}
+
+/* Server header bottom edge */
+[class*="header_"][class*="container_"] {
+  border-bottom: 1px solid rgba(74, 144, 217, 0.04) !important;
+}
+
+/* User panel top edge */
+[class*="panels_"] {
+  border-top: 1px solid rgba(74, 144, 217, 0.04) !important;
+}
+
+/* Members list left edge */
+[class*="membersWrap_"] {
+  border-left: 1px solid rgba(74, 144, 217, 0.04) !important;
+}
+
+
+/* ===== CHANNEL SIDEBAR ITEMS ===== */
 [class*="containerDefault_"]:hover {
-  background-color: rgba(122, 162, 247, 0.06) !important;
+  background-color: rgba(74, 144, 217, 0.06) !important;
 }
 
-/* Selected channel */
 [class*="containerDefault_"][class*="modeSelected_"],
 [class*="containerDefault_"][class*="modeSelected_"] [class*="wrapper_"] {
-  background-color: rgba(122, 162, 247, 0.12) !important;
+  background-color: rgba(74, 144, 217, 0.1) !important;
 }
 
 [class*="containerDefault_"][class*="modeSelected_"] [class*="name_"],
 [class*="containerDefault_"][class*="modeSelected_"] [class*="icon_"] {
-  color: var(--starry-accent) !important;
+  color: var(--sn-accent-bright) !important;
 }
 
-/* Category headers */
-[class*="containerDefault_"] [class*="iconContainer_"],
-[class*="containerDefault_"] [class*="name_"][class*="overflow_"] {
-  color: var(--starry-text-muted) !important;
-  transition: color 0.2s ease !important;
-}
-
-[class*="containerDefault_"]:hover [class*="name_"][class*="overflow_"] {
-  color: var(--starry-text-secondary) !important;
-}
-
-/* Unread channel indicator */
 [class*="containerDefault_"][class*="modeUnread_"] [class*="name_"] {
-  color: var(--starry-text-primary) !important;
+  color: var(--sn-text) !important;
 }
 
-/* ===== SERVER HEADER ===== */
-[class*="header_"][class*="container_"] {
-  background-color: var(--starry-bg-secondary) !important;
-  border-bottom: 1px solid var(--starry-border) !important;
-  box-shadow: none !important;
+/* ===== GUILD ICONS ===== */
+[class*="wrapper_"] [class*="icon_"] {
+  transition: box-shadow 0.3s ease !important;
 }
 
-[class*="header_"][class*="container_"]:hover {
-  background-color: var(--starry-bg-tertiary) !important;
+[class*="wrapper_"] [class*="icon_"]:hover {
+  box-shadow: 0 0 12px rgba(74, 144, 217, 0.3) !important;
 }
 
-/* ===== TOOLBAR / HEADER BAR ===== */
-[class*="title_"][class*="container_"],
-[class*="chat_"] > [class*="title_"] {
-  background-color: var(--starry-bg-primary) !important;
-  border-bottom: 1px solid var(--starry-border) !important;
-  box-shadow: none !important;
+[class*="pill_"] span[class*="item_"] {
+  background-color: var(--sn-accent) !important;
 }
 
-/* Toolbar icons */
-[class*="toolbar_"] [class*="iconWrapper_"] {
-  color: var(--starry-text-muted) !important;
-  transition: color 0.2s ease !important;
+[class*="guildSeparator_"] {
+  background-color: rgba(74, 144, 217, 0.06) !important;
 }
 
-[class*="toolbar_"] [class*="iconWrapper_"]:hover {
-  color: var(--starry-accent) !important;
+/* Home icon glow */
+[class*="tutorialContainer_"] [class*="childWrapper_"] {
+  background-color: rgba(74, 144, 217, 0.1) !important;
+  transition: all 0.3s ease !important;
 }
 
-/* ===== CHAT AREA ===== */
-[class*="chat_"] {
-  background-color: var(--starry-bg-primary) !important;
+[class*="tutorialContainer_"] [class*="childWrapper_"]:hover {
+  background-color: var(--sn-accent) !important;
+  box-shadow: 0 0 20px rgba(74, 144, 217, 0.4) !important;
 }
 
-[class*="chatContent_"] {
-  background-color: transparent !important;
-}
-
-/* Messages */
+/* ===== MESSAGES ===== */
 [class*="message_"][class*="cozy_"] {
-  background-color: transparent !important;
-  border-radius: 6px !important;
-  margin-left: 4px !important;
-  margin-right: 4px !important;
+  border-radius: 4px !important;
 }
 
 [class*="message_"][class*="cozy_"]:hover {
-  background-color: rgba(122, 162, 247, 0.03) !important;
+  background-color: rgba(74, 144, 217, 0.03) !important;
 }
 
-/* Message divider */
-[class*="divider_"] {
-  border-color: var(--starry-border) !important;
-}
-
-[class*="divider_"] [class*="content_"] {
-  color: var(--starry-text-muted) !important;
-}
-
-/* Unread divider */
-[class*="divider_"][class*="isUnread_"] {
-  border-color: var(--starry-dnd) !important;
-}
-
-[class*="divider_"][class*="isUnread_"] [class*="content_"],
-[class*="divider_"][class*="isUnread_"] [class*="unreadPill_"] {
-  color: var(--starry-dnd) !important;
-  background-color: var(--starry-dnd) !important;
-}
-
-/* ===== MESSAGE INPUT / TEXT AREA ===== */
-[class*="channelTextArea_"] {
-  background-color: transparent !important;
-}
-
-[class*="scrollableContainer_"] {
-  background-color: var(--starry-bg-tertiary) !important;
-  border: 1px solid var(--starry-border) !important;
-  border-radius: 8px !important;
-  transition: border-color 0.2s ease !important;
-}
-
-[class*="scrollableContainer_"]:focus-within {
-  border-color: var(--starry-accent) !important;
-  box-shadow: 0 0 8px rgba(122, 162, 247, 0.15) !important;
-}
-
-/* ===== MENTIONED MESSAGES ===== */
+/* Mentioned messages */
 [class*="message_"][class*="mentioned_"] {
-  background-color: rgba(122, 162, 247, 0.06) !important;
-  border-left: 3px solid var(--starry-accent) !important;
+  background-color: rgba(74, 144, 217, 0.05) !important;
+  border-left: 3px solid var(--sn-accent) !important;
 }
 
 [class*="message_"][class*="mentioned_"]:hover {
-  background-color: rgba(122, 162, 247, 0.1) !important;
+  background-color: rgba(74, 144, 217, 0.08) !important;
+}
+
+/* Message dividers */
+[class*="divider_"] {
+  border-color: rgba(74, 144, 217, 0.06) !important;
+}
+
+[class*="divider_"] [class*="content_"] {
+  color: var(--sn-text-dim) !important;
+}
+
+[class*="divider_"][class*="isUnread_"] {
+  border-color: var(--sn-red) !important;
+}
+
+/* ===== TEXT INPUT ===== */
+[class*="scrollableContainer_"] {
+  background-color: rgba(4, 8, 17, 0.6) !important;
+  border: 1px solid rgba(74, 144, 217, 0.08) !important;
+  border-radius: 8px !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+[class*="scrollableContainer_"]:focus-within {
+  border-color: rgba(74, 144, 217, 0.3) !important;
+  box-shadow: 0 0 12px rgba(74, 144, 217, 0.1) !important;
+}
+
+[class*="channelTextArea_"] {
+  background: transparent !important;
 }
 
 /* ===== EMBEDS ===== */
 [class*="embedWrapper_"] {
-  background-color: var(--starry-bg-secondary) !important;
-  border-color: var(--starry-border) !important;
+  background-color: rgba(4, 8, 17, 0.6) !important;
+  border-color: rgba(74, 144, 217, 0.08) !important;
   border-radius: 6px !important;
 }
 
 /* ===== CODE BLOCKS ===== */
 [class*="markup_"] code {
-  background-color: var(--starry-bg-tertiary) !important;
-  border: 1px solid var(--starry-border) !important;
-  border-radius: 4px !important;
-  color: var(--starry-star-3) !important;
+  background-color: rgba(4, 8, 17, 0.6) !important;
+  border: 1px solid rgba(74, 144, 217, 0.08) !important;
+  color: var(--sn-star-blue) !important;
 }
 
 [class*="markup_"] pre {
-  background-color: var(--starry-bg-tertiary) !important;
-  border: 1px solid var(--starry-border) !important;
-  border-radius: 6px !important;
+  background-color: rgba(4, 8, 17, 0.6) !important;
+  border: 1px solid rgba(74, 144, 217, 0.08) !important;
 }
 
 [class*="markup_"] pre code {
-  background-color: transparent !important;
+  background: transparent !important;
   border: none !important;
-  color: var(--starry-text-primary) !important;
+  color: var(--sn-text) !important;
 }
 
-/* ===== MEMBER LIST ===== */
-[class*="members_"] {
-  background-color: var(--starry-bg-secondary) !important;
+/* ===== REACTIONS ===== */
+[class*="reaction_"] {
+  background-color: rgba(4, 8, 17, 0.5) !important;
+  border: 1px solid rgba(74, 144, 217, 0.08) !important;
+  border-radius: 6px !important;
 }
 
-[class*="members_"] [class*="member_"] {
-  transition: background-color 0.15s ease !important;
+[class*="reaction_"]:hover {
+  background-color: rgba(74, 144, 217, 0.1) !important;
 }
 
-[class*="members_"] [class*="member_"]:hover {
-  background-color: rgba(122, 162, 247, 0.06) !important;
-}
-
-/* Member list category header */
-[class*="members_"] h2[class*="membersGroup_"] {
-  color: var(--starry-text-muted) !important;
-  font-size: 11px !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.5px !important;
-}
-
-/* ===== USER PANEL (BOTTOM LEFT) ===== */
-[class*="panels_"] {
-  background-color: #080c16 !important;
-  border-top: 1px solid var(--starry-border) !important;
-}
-
-[class*="panels_"] [class*="container_"] {
-  background-color: transparent !important;
-}
-
-/* User panel buttons */
-[class*="panels_"] button {
-  color: var(--starry-text-muted) !important;
-  transition: color 0.2s ease, background-color 0.2s ease !important;
-}
-
-[class*="panels_"] button:hover {
-  color: var(--starry-text-primary) !important;
-  background-color: rgba(122, 162, 247, 0.08) !important;
-}
-
-/* ===== BUTTONS ===== */
-/* Primary buttons */
-button[class*="button_"][class*="lookFilled_"][class*="colorBrand_"],
-[class*="button_"][class*="lookFilled_"][class*="colorBrand_"] {
-  background-color: var(--starry-accent) !important;
-  transition: all 0.2s ease !important;
-}
-
-button[class*="button_"][class*="lookFilled_"][class*="colorBrand_"]:hover,
-[class*="button_"][class*="lookFilled_"][class*="colorBrand_"]:hover {
-  background-color: var(--starry-accent-hover) !important;
-  box-shadow: 0 0 12px rgba(122, 162, 247, 0.3) !important;
-}
-
-/* Green / positive buttons */
-button[class*="button_"][class*="lookFilled_"][class*="colorGreen_"] {
-  background-color: var(--starry-online) !important;
-}
-
-/* Red / danger buttons */
-button[class*="button_"][class*="lookFilled_"][class*="colorRed_"] {
-  background-color: var(--starry-dnd) !important;
+[class*="reaction_"][class*="reactionMe_"] {
+  background-color: rgba(74, 144, 217, 0.15) !important;
+  border-color: var(--sn-accent) !important;
 }
 
 /* ===== POPOUTS & MODALS ===== */
 [class*="popout_"],
 [class*="userPopoutOuter_"] {
-  background-color: var(--starry-bg-floating) !important;
-  border: 1px solid var(--starry-border) !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6) !important;
-  border-radius: 8px !important;
+  background-color: rgba(4, 8, 17, 0.95) !important;
+  border: 1px solid rgba(74, 144, 217, 0.08) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7) !important;
+  backdrop-filter: blur(12px) !important;
 }
 
-/* User popout banner gradient */
-[class*="userPopoutOuter_"] [class*="banner_"]::after {
-  background: linear-gradient(
-    to bottom,
-    transparent 40%,
-    var(--starry-bg-floating) 100%
-  ) !important;
-}
-
-/* Modal content */
 [class*="modal_"],
 [class*="root_"][class*="fullscreenOnMobile_"],
 [class*="layer_"] [class*="root_"] {
-  background-color: var(--starry-bg-secondary) !important;
-  border: 1px solid var(--starry-border) !important;
+  background-color: rgba(4, 8, 17, 0.95) !important;
+  border: 1px solid rgba(74, 144, 217, 0.08) !important;
   box-shadow: 0 12px 48px rgba(0, 0, 0, 0.7) !important;
+  backdrop-filter: blur(12px) !important;
 }
 
 /* ===== CONTEXT MENUS ===== */
 [class*="menu_"] {
-  background-color: var(--starry-bg-floating) !important;
-  border: 1px solid var(--starry-border) !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+  background-color: rgba(4, 8, 17, 0.95) !important;
+  border: 1px solid rgba(74, 144, 217, 0.08) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(12px) !important;
   border-radius: 6px !important;
 }
 
 [class*="menu_"] [class*="item_"] {
-  color: var(--starry-text-secondary) !important;
+  color: var(--sn-text-sub) !important;
   border-radius: 4px !important;
-  transition: background-color 0.1s ease, color 0.1s ease !important;
 }
 
 [class*="menu_"] [class*="item_"]:hover,
 [class*="menu_"] [class*="item_"][class*="focused_"] {
-  background-color: var(--starry-accent) !important;
+  background-color: var(--sn-accent) !important;
   color: #ffffff !important;
 }
 
 [class*="menu_"] [class*="separator_"] {
-  border-color: var(--starry-border) !important;
+  border-color: rgba(74, 144, 217, 0.06) !important;
 }
 
-/* Danger items in context menu */
 [class*="menu_"] [class*="item_"][class*="colorDanger_"] {
-  color: var(--starry-dnd) !important;
+  color: var(--sn-red) !important;
 }
 
 [class*="menu_"] [class*="item_"][class*="colorDanger_"]:hover {
-  background-color: var(--starry-dnd) !important;
+  background-color: var(--sn-red) !important;
   color: #ffffff !important;
-}
-
-/* ===== AUTOCOMPLETE / MENTIONS POPUP ===== */
-[class*="autocomplete_"] {
-  background-color: var(--starry-bg-floating) !important;
-  border: 1px solid var(--starry-border) !important;
-}
-
-[class*="autocomplete_"] [class*="selectorSelected_"] {
-  background-color: var(--starry-accent-subtle) !important;
 }
 
 /* ===== TOOLTIPS ===== */
 [class*="tooltip_"] {
-  background-color: var(--starry-bg-floating) !important;
-  border: 1px solid var(--starry-border) !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+  background-color: rgba(4, 8, 17, 0.95) !important;
+  border: 1px solid rgba(74, 144, 217, 0.08) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(8px) !important;
 }
 
 [class*="tooltipPointer_"] {
-  border-top-color: var(--starry-bg-floating) !important;
+  border-top-color: rgba(4, 8, 17, 0.95) !important;
+}
+
+/* ===== AUTOCOMPLETE ===== */
+[class*="autocomplete_"] {
+  background-color: rgba(4, 8, 17, 0.95) !important;
+  border: 1px solid rgba(74, 144, 217, 0.08) !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+[class*="autocomplete_"] [class*="selectorSelected_"] {
+  background-color: rgba(74, 144, 217, 0.12) !important;
+}
+
+/* ===== EMOJI / GIF / STICKER PICKERS ===== */
+[class*="emojiPicker_"],
+[class*="contentWrapper_"],
+[class*="stickerInspected_"],
+[class*="inspector_"] {
+  background-color: rgba(4, 8, 17, 0.95) !important;
+  border: 1px solid rgba(74, 144, 217, 0.08) !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+[class*="emojiPicker_"] [class*="header_"] {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(74, 144, 217, 0.06) !important;
+}
+
+[class*="emojiPicker_"] [class*="searchBar_"],
+[class*="emojiPicker_"] [class*="search_"] {
+  background-color: rgba(4, 8, 17, 0.6) !important;
 }
 
 /* ===== SEARCH BAR ===== */
 [class*="search_"] [class*="searchBar_"] {
-  background-color: var(--starry-bg-tertiary) !important;
-  border: 1px solid var(--starry-border) !important;
-  transition: border-color 0.2s ease !important;
+  background-color: rgba(4, 8, 17, 0.6) !important;
+  border: 1px solid rgba(74, 144, 217, 0.08) !important;
 }
 
 [class*="search_"] [class*="searchBar_"]:focus-within {
-  border-color: var(--starry-accent) !important;
+  border-color: var(--sn-accent) !important;
 }
 
-/* Search results */
-[class*="searchResultsWrap_"] {
-  background-color: var(--starry-bg-secondary) !important;
+/* ===== TOOLBAR ICONS ===== */
+[class*="toolbar_"] [class*="iconWrapper_"] {
+  color: var(--sn-text-dim) !important;
+  transition: color 0.2s ease !important;
 }
 
-/* ===== ROLE BADGES ===== */
-[class*="role_"] {
-  background-color: var(--starry-bg-tertiary) !important;
-  border-color: var(--starry-border) !important;
+[class*="toolbar_"] [class*="iconWrapper_"]:hover {
+  color: var(--sn-accent-bright) !important;
 }
 
-/* ===== REACTIONS ===== */
-[class*="reaction_"] {
-  background-color: var(--starry-bg-tertiary) !important;
-  border: 1px solid var(--starry-border) !important;
-  border-radius: 6px !important;
-  transition: all 0.15s ease !important;
+/* ===== BUTTONS ===== */
+button[class*="button_"][class*="lookFilled_"][class*="colorBrand_"],
+[class*="button_"][class*="lookFilled_"][class*="colorBrand_"] {
+  background-color: var(--sn-accent) !important;
+  transition: all 0.2s ease !important;
 }
 
-[class*="reaction_"]:hover {
-  background-color: var(--starry-bg-accent) !important;
-  border-color: var(--starry-border-hover) !important;
+button[class*="button_"][class*="lookFilled_"][class*="colorBrand_"]:hover,
+[class*="button_"][class*="lookFilled_"][class*="colorBrand_"]:hover {
+  background-color: var(--sn-accent-bright) !important;
+  box-shadow: 0 0 15px rgba(74, 144, 217, 0.35) !important;
 }
 
-[class*="reaction_"][class*="reactionMe_"] {
-  background-color: rgba(122, 162, 247, 0.15) !important;
-  border-color: var(--starry-accent) !important;
+button[class*="button_"][class*="lookFilled_"][class*="colorGreen_"] {
+  background-color: var(--sn-green) !important;
+}
+
+button[class*="button_"][class*="lookFilled_"][class*="colorRed_"] {
+  background-color: var(--sn-red) !important;
 }
 
 /* ===== SETTINGS ===== */
-[class*="contentRegion_"] {
-  background-color: var(--starry-bg-primary) !important;
-}
-
-[class*="sidebarRegion_"] {
-  background-color: var(--starry-bg-secondary) !important;
-}
-
 [class*="sidebarRegion_"] [class*="side_"] [class*="item_"] {
-  color: var(--starry-text-secondary) !important;
   border-radius: 4px !important;
   transition: all 0.15s ease !important;
 }
 
 [class*="sidebarRegion_"] [class*="side_"] [class*="item_"]:hover {
-  background-color: rgba(122, 162, 247, 0.06) !important;
-  color: var(--starry-text-primary) !important;
+  background-color: rgba(74, 144, 217, 0.06) !important;
 }
 
 [class*="sidebarRegion_"] [class*="side_"] [class*="item_"][class*="selected_"] {
-  background-color: rgba(122, 162, 247, 0.12) !important;
-  color: var(--starry-accent) !important;
+  background-color: rgba(74, 144, 217, 0.12) !important;
+  color: var(--sn-accent-bright) !important;
 }
 
 /* Settings cards */
 [class*="cardPrimary_"],
 [class*="card_"] {
-  background-color: var(--starry-bg-secondary) !important;
-  border: 1px solid var(--starry-border) !important;
+  background-color: rgba(4, 8, 17, 0.5) !important;
+  border: 1px solid rgba(74, 144, 217, 0.06) !important;
 }
 
-/* ===== SCROLLBAR ===== */
-::-webkit-scrollbar {
-  width: 8px !important;
-  height: 8px !important;
+/* ===== ROLES ===== */
+[class*="role_"] {
+  background-color: rgba(4, 8, 17, 0.4) !important;
+  border-color: rgba(74, 144, 217, 0.08) !important;
 }
 
-::-webkit-scrollbar-track {
-  background: transparent !important;
+/* ===== MEMBER LIST ===== */
+[class*="members_"] [class*="member_"]:hover {
+  background-color: rgba(74, 144, 217, 0.06) !important;
 }
 
-::-webkit-scrollbar-thumb {
-  background-color: var(--starry-scrollbar-thumb) !important;
-  border-radius: 4px !important;
-  border: 2px solid transparent !important;
-  transition: background-color 0.2s ease !important;
+[class*="members_"] h2[class*="membersGroup_"] {
+  color: var(--sn-text-dim) !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(122, 162, 247, 0.35) !important;
-}
-
-::-webkit-scrollbar-corner {
-  background: transparent !important;
-}
-
-/* ===== VOICE CONNECTED ===== */
-[class*="activityPanel_"],
-[class*="actionButtons_"] {
-  background-color: transparent !important;
-}
-
-/* ===== THREAD / FORUM ===== */
-[class*="container_"][class*="card_"] {
-  background-color: var(--starry-bg-secondary) !important;
-  border: 1px solid var(--starry-border) !important;
-}
-
-/* ===== NOTICE / BANNERS ===== */
-[class*="notice_"] {
-  background-color: var(--starry-accent) !important;
-}
-
-/* ===== NITRO / PREMIUM PROMPTS ===== */
-[class*="premiumPromo_"],
-[class*="upsellContainer_"] {
-  background-color: var(--starry-bg-tertiary) !important;
-  border: 1px solid var(--starry-border) !important;
-}
-
-/* ===== STATUS COLORS ===== */
-rect[fill="#23a55a"],
-[style*="background-color: #23a55a"],
-[style*="background-color: rgb(35, 165, 90)"] {
-  fill: var(--starry-online) !important;
-  background-color: var(--starry-online) !important;
-}
-
-rect[fill="#f0b232"],
-[style*="background-color: #f0b232"],
-[style*="background-color: rgb(240, 178, 50)"] {
-  fill: var(--starry-idle) !important;
-  background-color: var(--starry-idle) !important;
-}
-
-rect[fill="#f23f43"],
-[style*="background-color: #f23f43"],
-[style*="background-color: rgb(242, 63, 67)"] {
-  fill: var(--starry-dnd) !important;
-  background-color: var(--starry-dnd) !important;
-}
-
-/* ===== LINKS ===== */
+/* ===== LINK STYLING ===== */
 [class*="markup_"] a {
-  color: var(--starry-text-link) !important;
-  transition: color 0.15s ease !important;
+  color: var(--sn-accent-bright) !important;
+  transition: all 0.15s ease !important;
 }
 
 [class*="markup_"] a:hover {
-  color: var(--starry-accent-hover) !important;
-  text-shadow: 0 0 8px rgba(122, 162, 247, 0.3) !important;
+  color: #7cc0ff !important;
+  text-shadow: 0 0 8px rgba(74, 144, 217, 0.4) !important;
 }
 
-/* ===== TIMESTAMPS ===== */
-[class*="timestamp_"] {
-  color: var(--starry-text-muted) !important;
-}
-
-/* ===== USERNAME STYLING ===== */
+/* ===== USERNAME GLOW ON HOVER ===== */
 [class*="username_"] {
   transition: text-shadow 0.2s ease !important;
 }
@@ -716,188 +1018,143 @@ rect[fill="#f23f43"],
   text-shadow: 0 0 8px currentColor !important;
 }
 
-/* ===== TYPING INDICATOR ===== */
-[class*="typing_"] {
-  background-color: var(--starry-bg-primary) !important;
+/* ===== NOTIFICATION BADGES ===== */
+[class*="numberBadge_"] {
+  background-color: var(--sn-red) !important;
+  box-shadow: 0 0 10px rgba(232, 80, 80, 0.5) !important;
 }
 
-/* ===== CALL / VOICE CHANNEL ===== */
-[class*="voiceCallWrapper_"],
-[class*="callContainer_"] {
-  background-color: var(--starry-bg-primary) !important;
-}
-
-/* ===== EMOJI PICKER ===== */
-[class*="emojiPicker_"] {
-  background-color: var(--starry-bg-floating) !important;
-  border: 1px solid var(--starry-border) !important;
-}
-
-[class*="emojiPicker_"] [class*="header_"] {
-  background-color: var(--starry-bg-floating) !important;
-  border-bottom: 1px solid var(--starry-border) !important;
-}
-
-[class*="emojiPicker_"] [class*="searchBar_"] {
-  background-color: var(--starry-bg-tertiary) !important;
-}
-
-[class*="emojiPicker_"] [class*="categoryItem_"]:hover {
-  background-color: rgba(122, 162, 247, 0.08) !important;
-}
-
-/* ===== GIF PICKER ===== */
-[class*="contentWrapper_"] {
-  background-color: var(--starry-bg-floating) !important;
-}
-
-/* ===== STICKER PICKER ===== */
-[class*="stickerInspected_"],
-[class*="inspector_"] {
-  background-color: var(--starry-bg-secondary) !important;
-}
-
-/* ===== DRAG AND DROP OVERLAY ===== */
+/* ===== DRAG & DROP ===== */
 [class*="uploadDropModal_"] {
-  background-color: rgba(10, 14, 26, 0.85) !important;
+  background-color: rgba(4, 8, 17, 0.85) !important;
 }
 
 [class*="uploadDropModal_"] [class*="inner_"] {
-  border: 2px dashed var(--starry-accent) !important;
-  background-color: rgba(122, 162, 247, 0.05) !important;
+  border: 2px dashed var(--sn-accent) !important;
+  background-color: rgba(74, 144, 217, 0.05) !important;
   border-radius: 12px !important;
 }
 
-/* ===== CHANNEL ICON GLOW ON HOVER ===== */
-[class*="containerDefault_"]:hover svg {
-  filter: drop-shadow(0 0 3px rgba(122, 162, 247, 0.4)) !important;
+/* ===== CALL / VOICE ===== */
+[class*="voiceCallWrapper_"],
+[class*="callContainer_"] {
+  background: transparent !important;
 }
 
-/* ===== MISC IMPROVEMENTS ===== */
-
-/* Remove ugly focus rings and replace with themed ones */
-*:focus-visible {
-  outline: 2px solid var(--starry-accent) !important;
-  outline-offset: 2px !important;
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
 }
 
-/* Smooth transitions for everything */
-*,
-*::before,
-*::after {
-  transition-property: background-color, border-color, box-shadow, color, opacity;
-  transition-duration: 0.15s;
-  transition-timing-function: ease;
+::-webkit-scrollbar-track {
+  background: transparent !important;
 }
 
-/* Prevent transition on specific elements to avoid jank */
-[class*="message_"],
-[class*="avatar_"],
-img,
-video,
-canvas {
-  transition-property: none !important;
+::-webkit-scrollbar-thumb {
+  background-color: rgba(74, 144, 217, 0.15) !important;
+  border-radius: 3px !important;
 }
 
-/* New pills / badges glow */
-[class*="numberBadge_"] {
-  background-color: var(--starry-dnd) !important;
-  box-shadow: 0 0 8px rgba(247, 118, 142, 0.4) !important;
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(74, 144, 217, 0.3) !important;
 }
 
-/* Subtle glow on the home icon */
-[class*="tutorialContainer_"] [class*="childWrapper_"] {
-  background-color: var(--starry-bg-tertiary) !important;
-  transition: all 0.3s ease !important;
+::-webkit-scrollbar-corner {
+  background: transparent !important;
 }
 
-[class*="tutorialContainer_"] [class*="childWrapper_"]:hover {
-  background-color: var(--starry-accent) !important;
-  box-shadow: 0 0 15px rgba(122, 162, 247, 0.4) !important;
-}
-
-/* Selection color */
+/* ===== SELECTION ===== */
 ::selection {
-  background-color: rgba(122, 162, 247, 0.3) !important;
+  background-color: rgba(74, 144, 217, 0.3) !important;
   color: #ffffff !important;
 }
 
-/* ===== SHOOTING STAR ANIMATION (SUBTLE) ===== */
-#app-mount::after {
-  content: "";
-  position: fixed;
-  top: -2px;
-  left: -100px;
-  width: 80px;
-  height: 2px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    var(--starry-accent),
-    var(--starry-star-1),
-    transparent
-  );
-  border-radius: 50%;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0;
-  animation: shootingStar 12s linear infinite;
-  animation-delay: 5s;
+/* ===== FOCUS VISIBLE ===== */
+*:focus-visible {
+  outline: 2px solid var(--sn-accent) !important;
+  outline-offset: 2px !important;
 }
 
-@keyframes shootingStar {
-  0% {
-    transform: translate(0, 0) rotate(-35deg);
-    opacity: 0;
-  }
-  2% {
-    opacity: 0.8;
-  }
-  8% {
-    transform: translate(calc(100vw + 200px), calc(40vh)) rotate(-35deg);
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
+/* ===== CHANNEL ICON GLOW ===== */
+[class*="containerDefault_"]:hover svg {
+  filter: drop-shadow(0 0 3px rgba(74, 144, 217, 0.35)) !important;
 }
 
-/* Second shooting star with different timing */
-body::after {
-  content: "";
-  position: fixed;
-  top: -2px;
-  right: -100px;
-  width: 60px;
-  height: 1.5px;
-  background: linear-gradient(
-    to left,
-    transparent,
-    var(--starry-star-4),
-    var(--starry-star-1),
-    transparent
-  );
-  border-radius: 50%;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0;
-  animation: shootingStar2 18s linear infinite;
-  animation-delay: 11s;
+/* ===== PREVENT BACKGROUND ON ABSOLUTELY EVERYTHING ELSE ===== */
+/* Catch-all for any remaining opaque backgrounds in major layout areas */
+[class*="base_"] > [class*="content_"],
+[class*="sidebar_"] > nav,
+[class*="sidebar_"] > [class*="container_"],
+[class*="container_"][class*="themed_"],
+[class*="themed_"],
+[class*="panels_"] > [class*="container_"],
+[class*="akaBadge_"],
+[class*="emptyPage_"],
+[class*="noChannel_"],
+[class*="empty_"],
+[class*="imageWrapper_"],
+[class*="welcomeCTA_"],
+[class*="homeContainer_"],
+[class*="libraryHeader_"] {
+  background: transparent !important;
 }
 
-@keyframes shootingStar2 {
-  0% {
-    transform: translate(0, 0) rotate(25deg);
-    opacity: 0;
-  }
-  1% {
-    opacity: 0.6;
-  }
-  6% {
-    transform: translate(calc(-100vw - 200px), calc(50vh)) rotate(25deg);
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
+/* Windows title bar - very dark */
+[class*="titleBar_"],
+[class*="wordmark_"] {
+  background: transparent !important;
+}
+
+/* Unread bar */
+[class*="unreadBar_"] {
+  background-color: var(--sn-accent) !important;
+  box-shadow: 0 0 12px rgba(74, 144, 217, 0.3) !important;
+}
+
+/* New messages bar */
+[class*="newMessagesBar_"] {
+  background-color: var(--sn-accent) !important;
+  border-radius: 0 !important;
+  box-shadow: 0 0 12px rgba(74, 144, 217, 0.3) !important;
+}
+
+/* Jump to present */
+[class*="jumpToPresentBar_"] {
+  background-color: rgba(4, 8, 17, 0.85) !important;
+  border: 1px solid rgba(74, 144, 217, 0.08) !important;
+  border-radius: 8px !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+/* ===== THREAD/FORUM CARDS ===== */
+[class*="container_"][class*="card_"] {
+  background-color: rgba(4, 8, 17, 0.5) !important;
+  border: 1px solid rgba(74, 144, 217, 0.06) !important;
+}
+
+/* ===== PREMIUM / NITRO PROMOS ===== */
+[class*="premiumPromo_"],
+[class*="upsellContainer_"] {
+  background-color: rgba(4, 8, 17, 0.5) !important;
+  border: 1px solid rgba(74, 144, 217, 0.06) !important;
+}
+
+/* ===== Z-INDEX FIX ===== */
+/* Make sure UI content renders above the star backgrounds */
+[class*="app_"],
+[class*="layers_"],
+[class*="layer_"],
+[class*="baseLayer_"] {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Popouts, modals, tooltips above everything */
+[class*="popout_"],
+[class*="modal_"],
+[class*="tooltip_"],
+[class*="menu_"],
+[class*="layerContainer_"] {
+  z-index: 1000 !important;
 }
