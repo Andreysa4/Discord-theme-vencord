@@ -2,10 +2,10 @@
  * @name StarryNight
  * @description A celestial deep-space theme for Discord. Starry sky background visible EVERYWHERE.
  *              Exosphere gradient (black top → blue bottom), static stars, random brightening stars,
- *              shooting stars falling down with fading tails. EVERY container has the space background
- *              except profile banners and avatars.
+ *              shooting stars falling down with fading tails. Every container transparent.
+ *              Voice chat keeps its background. Profile banners and avatars untouched.
  * @author Adapted for Discord
- * @version 8.0.0
+ * @version 9.0.0
  */
 
 /* =======================================================================
@@ -55,7 +55,7 @@ html {
 }
 
 /* =======================================================================
-   STATIC STARS
+   STATIC STARS on html::before
    ======================================================================= */
 html::before {
   content: "";
@@ -399,233 +399,293 @@ body::after {
   --status-warning: var(--sn-yellow) !important;
   --status-danger: var(--sn-red) !important;
   --profile-body-background-color: var(--sn-glass-heavy) !important;
-  --card-primary-bg: transparent !important;
-  --card-secondary-bg: transparent !important;
 }
 
 /* =======================================================================
-   ABSOLUTE NUCLEAR TRANSPARENCY
-   
-   This section makes EVERY possible container transparent.
-   We use the wildcard attribute selector on class names.
-   Then we PROTECT profile banners and avatars with explicit overrides.
+   TRANSPARENCY - EVERY CONTAINER
+   Same proven approach from v7 that worked, with additional selectors
+   for containers that were still opaque.
    ======================================================================= */
-
-/* --- The universal wipe --- */
-/* Target literally every div/section/nav/aside/main/header/footer
-   that has a class attribute, and kill its background.
-   This is aggressive but effective. */
-#app-mount *:not(img):not(video):not(canvas):not(svg):not(foreignObject):not([class*="avatar"]):not([class*="Avatar"]):not([class*="banner"]):not([class*="Banner"]):not([class*="profileBanner"]):not([class*="userBanner"]):not([class*="animatedContainer"]):not([class*="popoutBanner"]):not([class*="panelBanner"]):not([class*="profileHero"]):not([class*="badgeList"]):not([class*="emoji"]):not([class*="stickerAsset"]):not([class*="imageContent"]):not([class*="imageWrapper"]):not([class*="visualMediaItemContainer"]):not([class*="spoilerContent"]):not([class*="attachment"]):not([class*="mediaBarInteraction"]):not([class*="progressBar"]):not([class*="slider"]):not([class*="switch"]):not([class*="checkbox"]):not([class*="radioBar"]):not([class*="colorSwatch"]):not([class*="hoverBar"]):not([class*="status"]):not([class*="typing"]) {
-  background-color: transparent !important;
-}
-
-/* Some elements use background shorthand, catch those too */
-#app-mount [class*="app_"],
-#app-mount [class*="layers_"],
-#app-mount [class*="layer_"],
-#app-mount [class*="base_"],
-#app-mount [class*="sidebar_"],
-#app-mount [class*="chat_"],
-#app-mount [class*="content_"],
-#app-mount [class*="container_"],
-#app-mount [class*="members_"],
-#app-mount [class*="panels_"],
-#app-mount [class*="guilds_"],
-#app-mount [class*="scroller_"],
-#app-mount [class*="wrapper_"],
-#app-mount [class*="header_"],
-#app-mount [class*="title_"],
-#app-mount [class*="toolbar_"],
-#app-mount [class*="tabBar_"],
-#app-mount [class*="tabBody_"],
-#app-mount [class*="tree_"],
-#app-mount [class*="themed_"],
-#app-mount [class*="Region_"],
-#app-mount [class*="Column_"],
-#app-mount [class*="Scroller_"],
-#app-mount [class*="pageWrapper_"],
-#app-mount [class*="Settings_"],
-#app-mount [class*="Page_"],
-#app-mount [class*="home_"],
-#app-mount [class*="store_"],
-#app-mount [class*="library_"],
-#app-mount [class*="channel_"],
-#app-mount [class*="voice_"],
-#app-mount [class*="call_"],
-#app-mount [class*="video_"],
-#app-mount [class*="rtc_"],
-#app-mount [class*="stage_"],
-#app-mount [class*="people_"],
-#app-mount [class*="friends_"],
-#app-mount [class*="private_"],
-#app-mount [class*="forum_"],
-#app-mount [class*="thread_"],
-#app-mount [class*="directory_"],
-#app-mount [class*="hub_"],
-#app-mount [class*="discovery_"],
-#app-mount [class*="nitro_"],
-#app-mount [class*="premium_"],
-#app-mount [class*="profile_"]:not([class*="profileBanner"]):not([class*="Banner"]),
-#app-mount [class*="user_"]:not([class*="userBanner"]):not([class*="Banner"]):not([class*="Avatar"]):not([class*="avatar"]),
-#app-mount [class*="panel_"],
-#app-mount [class*="activity_"],
-#app-mount [class*="game_"],
-#app-mount [class*="embed_"]:not([class*="embedThumbnail"]):not([class*="embedImage"]),
-#app-mount [class*="notice_"],
-#app-mount [class*="bar_"],
-#app-mount [class*="typing_"],
-#app-mount [class*="upload_"],
-#app-mount [class*="guild_"]:not([class*="guildIcon"]),
-#app-mount [class*="listItem_"],
-#app-mount [class*="messages_"],
-#app-mount [class*="message_"],
-#app-mount [class*="divider_"],
-#app-mount nav,
-#app-mount aside,
-#app-mount main,
-#app-mount section,
-#app-mount [role="tabpanel"],
-#app-mount [role="tablist"],
-#app-mount [role="list"],
-#app-mount [role="listitem"],
-#app-mount [role="complementary"],
-#app-mount [role="navigation"] {
+#app-mount,
+#app-mount > div,
+[class*="app_"],
+[class*="appMount"],
+[class*="layers_"],
+[class*="layer_"],
+[class*="baseLayer_"],
+[class*="base_"],
+[class*="bg_"],
+[class*="content_"],
+[class*="chat_"],
+[class*="chatContent_"],
+[class*="messagesWrapper_"],
+[class*="sidebar_"],
+[class*="guilds_"],
+[class*="panels_"],
+[class*="panel_"],
+[class*="members_"],
+[class*="membersWrap_"],
+[class*="container_"],
+[class*="privateChannels_"],
+[class*="scroller_"],
+[class*="tree_"],
+[class*="themed_"],
+[class*="contentRegion_"],
+[class*="contentRegionScroller_"],
+[class*="standardSidebarView_"],
+[class*="sidebarRegion_"],
+[class*="sidebarRegionScroller_"],
+[class*="contentColumn_"],
+[class*="pageWrapper_"],
+[class*="peopleColumn_"],
+[class*="peopleList_"],
+[class*="nowPlayingColumn_"],
+[class*="applicationStore_"],
+[class*="hubContainer_"],
+[class*="directoryContainer_"],
+[class*="threadSidebar_"],
+[class*="typing_"],
+[class*="noChannel_"],
+[class*="emptyPage_"],
+[class*="empty_"],
+[class*="homeContainer_"],
+[class*="libraryHeader_"],
+[class*="premiumTab_"],
+[class*="storeWrapper_"],
+[class*="titleBar_"],
+[class*="wordmark_"],
+[class*="toolbar_"],
+[class*="title_"],
+[class*="header_"],
+[class*="headerBar_"],
+[class*="tabBar_"],
+[class*="tabBody_"],
+[class*="searchBar_"],
+[class*="searchHeader_"],
+[class*="searchResult_"],
+[class*="channelTextArea_"],
+[class*="welcomeCTA_"],
+[class*="wrapper_"],
+[class*="perksModal_"],
+[class*="forumPostList_"],
+[class*="uploadArea_"],
+[class*="noChat_"],
+[class*="guildIcon_"],
+[class*="settingsContainer_"],
+[class*="userSettingsAccount_"],
+[class*="inspector_"],
+[class*="categoryItem_"],
+[class*="appAsidePanelWrapper_"],
+[class*="notAppAsidePanel_"],
+[class*="channelPanelTitle_"],
+[class*="profilePanel_"],
+[class*="profilePanelScroller_"],
+[class*="userPanelOuter_"],
+[class*="userPanelInner_"],
+[class*="infoScroller_"],
+[class*="userInfoSection_"],
+[class*="connectedAccounts_"],
+[class*="body_"],
+[class*="tabBarContainer_"],
+[class*="peopleTabBar_"],
+[class*="searchResultsWrap_"],
+nav[aria-label="Servers sidebar"],
+nav[aria-label="Servers sidebar"] > ul,
+nav[aria-label="Servers sidebar"] > div,
+/* === ADDITIONAL containers that were still opaque === */
+[class*="peopleListItem_"],
+[class*="outer_"],
+[class*="inner_"],
+[class*="mainContent_"],
+[class*="children_"],
+[class*="form_"],
+[class*="channelHeader_"],
+[class*="topic_"],
+[class*="headerChildren_"],
+[class*="upperContainer_"],
+[class*="lowerContainer_"],
+[class*="sectionHeader_"],
+[class*="emptyState_"],
+[class*="friendsEmpty_"],
+[class*="noFriends_"],
+[class*="wumpus_"],
+[class*="imageUploaderInner_"],
+[class*="notice_"],
+[class*="colorDefault_"],
+[class*="lookBlank_"],
+[class*="customColumn_"],
+[class*="contentWrapper_"],
+[class*="listItems_"],
+[class*="listDefault_"],
+[class*="sectionDesign_"],
+[class*="scrollerBase_"],
+[class*="thin_"],
+[class*="fade_"],
+[class*="scrollerContent_"],
+[class*="navRow_"],
+[class*="settingsList_"],
+[class*="background_"],
+[class*="nitroBackground_"],
+[class*="premiumSettings_"],
+[class*="viewBody_"],
+[class*="animatedContainer_"],
+[class*="focusLock_"],
+[class*="root_"],
+[class*="fullWidth_"],
+[class*="detailsWrapper_"],
+[class*="markup_"],
+[class*="messageContent_"],
+[class*="reactions_"],
+[class*="buttonContainer_"],
+[class*="quickswitcher_"],
+[class*="inputWrapper_"],
+[class*="resultFocused_"],
+[class*="option_"],
+[class*="searchOption_"],
+[class*="item_"],
+[class*="gameItem_"],
+[class*="nowPlayingCard_"],
+[class*="nowPlayingAdd_"],
+[class*="connectedAccount_"],
+[class*="accountList_"],
+[class*="settingsSection_"],
+[class*="socialLinks_"],
+[class*="game_"],
+[class*="row_"],
+[class*="labelRow_"],
+[class*="card_"],
+[class*="cardHeader_"],
+[class*="cardBody_"],
+[class*="feature_"],
+[class*="featureHeader_"],
+[class*="closeButton_"],
+[class*="flex_"],
+[class*="horizontal_"],
+[class*="vertical_"],
+/* Semantic HTML elements */
+main,
+aside,
+section,
+nav,
+[role="tabpanel"],
+[role="tablist"],
+[role="list"],
+[role="complementary"],
+[role="navigation"],
+[role="main"] {
   background: transparent !important;
   background-color: transparent !important;
 }
 
-/* Inline style overrides */
-#app-mount [style*="background-color"] {
+/* Catch inline styles Discord injects */
+[style*="background-color: var(--background-primary)"],
+[style*="background-color: var(--background-secondary)"],
+[style*="background-color: var(--background-tertiary)"],
+[style*="background-color: var(--background-secondary-alt)"] {
   background-color: transparent !important;
 }
-#app-mount [style*="background:"] {
+
+/* =======================================================================
+   VOICE CHANNEL LIST - transparent (just the channel listing in sidebar)
+   ======================================================================= */
+[class*="containerDefault_"][class*="voice_"],
+[class*="containerDefault_"] [class*="voiceUsers_"],
+[class*="voiceUsers_"],
+[class*="voiceUser_"],
+[class*="listDefault_"] [class*="voice_"] {
   background: transparent !important;
+  background-color: transparent !important;
 }
 
 /* =======================================================================
-   PROTECT: Profile banners, avatars, images, media
-   These should NOT be transparent.
+   VOICE CHAT / CALL - KEEP OPAQUE (not transparent)
+   The actual voice/video call UI when you're connected stays dark.
    ======================================================================= */
-[class*="banner"],
-[class*="Banner"],
-[class*="profileBanner"],
-[class*="userBanner"],
-[class*="popoutBanner"],
-[class*="panelBanner"],
-[class*="profileHero"],
-[class*="animatedContainer"] {
-  background-color: unset !important;
-  background: unset !important;
+[class*="callContainer_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="voiceCallWrapper_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="voiceCall_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="videoWrapper_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="gridContainer_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="grid_"][class*="video_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="centeringWrapper_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="videoContainer_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="videoGrid_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="videoTile_"] {
+  background: #0e1525 !important;
+  background-color: #0e1525 !important;
+}
+[class*="noVideoTile_"] {
+  background: #0e1525 !important;
+  background-color: #0e1525 !important;
+}
+[class*="tileContainer_"] {
+  background: #0e1525 !important;
+  background-color: #0e1525 !important;
+  border: 1px solid rgba(74,144,217,0.06) !important;
+  border-radius: 8px !important;
+}
+[class*="tile_"][class*="voice_"],
+[class*="tile_"][class*="video_"] {
+  background: #0e1525 !important;
+  background-color: #0e1525 !important;
+}
+[class*="pictureInPictureWindow_"],
+[class*="pictureInPicture_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
+}
+[class*="controlsContainer_"],
+[class*="voiceControls_"],
+[class*="bottomControls_"],
+[class*="bottomSection_"] {
+  background: #080c16 !important;
+  background-color: #080c16 !important;
+}
+[class*="stageSection_"],
+[class*="stageSpeaker_"],
+[class*="audienceSection_"] {
+  background: #0a0e1a !important;
+  background-color: #0a0e1a !important;
 }
 
-[class*="avatar"],
-[class*="Avatar"] {
-  background-color: unset !important;
-  background: unset !important;
+/* Speaking glow in voice */
+[class*="speaking_"] {
+  box-shadow: 0 0 12px rgba(74,144,217,0.3) !important;
 }
 
-/* Protect actual images, thumbnails, video embeds */
-img, video, canvas, svg,
-[class*="imageWrapper"] img,
-[class*="imageContent"],
-[class*="visualMediaItemContainer"],
-[class*="embedThumbnail"],
-[class*="embedImage"],
-[class*="embedVideo"],
-[class*="attachment"],
-[class*="spoilerContent"],
-[class*="stickerAsset"],
-[class*="emoji"] {
-  background-color: unset !important;
-  background: unset !important;
-}
-
-/* Protect interactive controls */
-[class*="switch"],
-[class*="Switch"],
-[class*="checkbox"],
-[class*="Checkbox"],
-[class*="radioBar"],
-[class*="slider"],
-[class*="Slider"],
-[class*="progressBar"],
-[class*="colorSwatch"],
-[class*="hoverBar"],
-[class*="grabber"] {
-  background-color: unset !important;
-  background: unset !important;
-}
-
-/* Protect status indicators */
-rect[fill], circle[fill] {
-  background: unset !important;
-}
-
-[class*="status_"],
-[class*="Status"] {
-  background-color: unset !important;
-  background: unset !important;
-}
-
-/* =======================================================================
-   POPOUTS, MODALS, MENUS - glass effect (must be readable)
-   These need a semi-transparent background, not fully transparent.
-   ======================================================================= */
-[class*="popout_"],
-[class*="Popout"],
-[class*="userPopoutOuter"],
-[class*="userProfileOuter"],
-[class*="userProfileModal"] {
-  background-color: var(--sn-glass-heavy) !important;
-  border: 1px solid var(--sn-border) !important;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.7) !important;
-  backdrop-filter: blur(16px) !important;
-}
-
-[class*="modal_"],
-[class*="Modal"],
-[class*="root_"][class*="fullscreenOnMobile"],
-[class*="layer_"] > [class*="root_"],
-[class*="focusLock"] > [class*="root_"] {
-  background-color: var(--sn-glass-heavy) !important;
-  border: 1px solid var(--sn-border) !important;
-  box-shadow: 0 12px 48px rgba(0,0,0,0.7) !important;
-  backdrop-filter: blur(16px) !important;
-}
-
-[class*="menu_"],
-[class*="Menu"] {
-  background-color: var(--sn-glass-heavy) !important;
-  border: 1px solid var(--sn-border) !important;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.6) !important;
-  backdrop-filter: blur(16px) !important;
-}
-
-[class*="tooltip_"],
-[class*="Tooltip"] {
-  background-color: var(--sn-glass-heavy) !important;
-  border: 1px solid var(--sn-border) !important;
-  backdrop-filter: blur(12px) !important;
-}
-[class*="tooltipPointer"] {
-  border-top-color: var(--sn-glass-heavy) !important;
-}
-
-[class*="autocomplete_"],
-[class*="Autocomplete"] {
-  background-color: var(--sn-glass-heavy) !important;
-  border: 1px solid var(--sn-border) !important;
-  backdrop-filter: blur(16px) !important;
-}
-
-[class*="emojiPicker"],
-[class*="EmojiPicker"],
-[class*="stickerPicker"],
-[class*="gifPicker"],
-[class*="expressionPicker"] {
-  background-color: var(--sn-glass-heavy) !important;
-  border: 1px solid var(--sn-border) !important;
-  backdrop-filter: blur(16px) !important;
+/* Voice connection bar in bottom panel - keep slightly visible */
+[class*="connection_"],
+[class*="rtcConnection_"],
+[class*="rtcConnectionStatus_"] {
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
 /* =======================================================================
@@ -634,10 +694,10 @@ rect[fill], circle[fill] {
 nav[aria-label="Servers sidebar"] {
   border-right: 1px solid rgba(74,144,217,0.04) !important;
 }
-[class*="sidebar_"]:not([class*="threadSidebar"]) {
+[class*="sidebar_"]:not([class*="threadSidebar_"]) {
   border-right: 1px solid rgba(74,144,217,0.04) !important;
 }
-[class*="membersWrap"] {
+[class*="membersWrap_"] {
   border-left: 1px solid rgba(74,144,217,0.04) !important;
 }
 [class*="panels_"] {
@@ -655,16 +715,18 @@ nav[aria-label="Servers sidebar"] {
    ======================================================================= */
 
 /* Channels */
-[class*="containerDefault_"]:hover { background-color: var(--sn-hover) !important; }
-[class*="containerDefault_"][class*="modeSelected"],
-[class*="containerDefault_"][class*="modeSelected"] [class*="wrapper_"] {
+[class*="containerDefault_"]:hover {
+  background-color: var(--sn-hover) !important;
+}
+[class*="containerDefault_"][class*="modeSelected_"],
+[class*="containerDefault_"][class*="modeSelected_"] [class*="wrapper_"] {
   background-color: var(--sn-selected) !important;
 }
-[class*="containerDefault_"][class*="modeSelected"] [class*="name_"],
-[class*="containerDefault_"][class*="modeSelected"] [class*="icon_"] {
+[class*="containerDefault_"][class*="modeSelected_"] [class*="name_"],
+[class*="containerDefault_"][class*="modeSelected_"] [class*="icon_"] {
   color: var(--sn-accent-bright) !important;
 }
-[class*="containerDefault_"][class*="modeUnread"] [class*="name_"] {
+[class*="containerDefault_"][class*="modeUnread_"] [class*="name_"] {
   color: var(--sn-text) !important;
 }
 
@@ -672,42 +734,54 @@ nav[aria-label="Servers sidebar"] {
 [class*="listItem_"] [class*="icon_"]:hover {
   box-shadow: 0 0 12px rgba(74,144,217,0.3) !important;
 }
-[class*="pill_"] span[class*="item_"] { background-color: var(--sn-accent) !important; }
-[class*="guildSeparator"] { background-color: rgba(74,144,217,0.06) !important; }
-[class*="tutorialContainer"] [class*="childWrapper"] {
+[class*="pill_"] span[class*="item_"] {
+  background-color: var(--sn-accent) !important;
+}
+[class*="guildSeparator_"] {
+  background-color: rgba(74,144,217,0.06) !important;
+}
+[class*="tutorialContainer_"] [class*="childWrapper_"] {
   background-color: rgba(74,144,217,0.1) !important;
   transition: all 0.3s ease !important;
 }
-[class*="tutorialContainer"] [class*="childWrapper"]:hover {
+[class*="tutorialContainer_"] [class*="childWrapper_"]:hover {
   background-color: var(--sn-accent) !important;
   box-shadow: 0 0 20px rgba(74,144,217,0.4) !important;
 }
 
 /* Messages */
-[class*="message_"][class*="cozy"]:hover { background-color: rgba(74,144,217,0.03) !important; }
-[class*="message_"][class*="mentioned"] {
+[class*="message_"][class*="cozy_"]:hover {
+  background-color: rgba(74,144,217,0.03) !important;
+}
+[class*="message_"][class*="mentioned_"] {
   background-color: rgba(74,144,217,0.05) !important;
   border-left: 3px solid var(--sn-accent) !important;
 }
-[class*="message_"][class*="mentioned"]:hover { background-color: rgba(74,144,217,0.08) !important; }
+[class*="message_"][class*="mentioned_"]:hover {
+  background-color: rgba(74,144,217,0.08) !important;
+}
 
 /* Dividers */
-[class*="divider_"] { border-color: rgba(74,144,217,0.06) !important; }
-[class*="divider_"][class*="isUnread"] { border-color: var(--sn-red) !important; }
+[class*="divider_"] {
+  border-color: rgba(74,144,217,0.06) !important;
+}
+[class*="divider_"][class*="isUnread_"] {
+  border-color: var(--sn-red) !important;
+}
 
 /* Text input */
-[class*="scrollableContainer"] {
+[class*="scrollableContainer_"] {
   background-color: var(--sn-glass) !important;
   border: 1px solid rgba(74,144,217,0.08) !important;
   border-radius: 8px !important;
 }
-[class*="scrollableContainer"]:focus-within {
+[class*="scrollableContainer_"]:focus-within {
   border-color: rgba(74,144,217,0.3) !important;
   box-shadow: 0 0 12px rgba(74,144,217,0.1) !important;
 }
 
 /* Embeds */
-[class*="embedWrapper"] {
+[class*="embedWrapper_"] {
   background-color: var(--sn-glass) !important;
   border-color: rgba(74,144,217,0.08) !important;
 }
@@ -733,55 +807,133 @@ nav[aria-label="Servers sidebar"] {
   background-color: var(--sn-glass-light) !important;
   border: 1px solid rgba(74,144,217,0.08) !important;
 }
-[class*="reaction_"]:hover { background-color: var(--sn-active) !important; }
-[class*="reaction_"][class*="reactionMe"] {
+[class*="reaction_"]:hover {
+  background-color: var(--sn-active) !important;
+}
+[class*="reaction_"][class*="reactionMe_"] {
   background-color: rgba(74,144,217,0.15) !important;
   border-color: var(--sn-accent) !important;
 }
 
-/* Context menu items */
-[class*="menu_"] [class*="item_"] { color: var(--sn-text-sub) !important; border-radius: 4px !important; }
+/* Popouts / Modals */
+[class*="popout_"],
+[class*="userPopoutOuter_"],
+[class*="userProfileOuter_"],
+[class*="userProfileModal_"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.7) !important;
+  backdrop-filter: blur(16px) !important;
+}
+[class*="modal_"],
+[class*="root_"][class*="fullscreenOnMobile_"],
+[class*="layer_"] > [class*="root_"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.7) !important;
+  backdrop-filter: blur(16px) !important;
+}
+
+/* Context menus */
+[class*="menu_"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6) !important;
+  backdrop-filter: blur(16px) !important;
+}
+[class*="menu_"] [class*="item_"] {
+  color: var(--sn-text-sub) !important;
+  border-radius: 4px !important;
+}
 [class*="menu_"] [class*="item_"]:hover,
-[class*="menu_"] [class*="item_"][class*="focused"] {
+[class*="menu_"] [class*="item_"][class*="focused_"] {
   background-color: var(--sn-accent) !important;
   color: #fff !important;
 }
-[class*="menu_"] [class*="separator"] { border-color: rgba(74,144,217,0.06) !important; }
-[class*="menu_"] [class*="item_"][class*="colorDanger"]:hover { background-color: var(--sn-red) !important; }
+[class*="menu_"] [class*="separator_"] {
+  border-color: rgba(74,144,217,0.06) !important;
+}
+[class*="menu_"] [class*="item_"][class*="colorDanger_"]:hover {
+  background-color: var(--sn-red) !important;
+}
 
-/* Autocomplete selected */
-[class*="autocomplete"] [class*="selectorSelected"] { background-color: var(--sn-selected) !important; }
+/* Tooltips */
+[class*="tooltip_"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  backdrop-filter: blur(12px) !important;
+}
+[class*="tooltipPointer_"] {
+  border-top-color: var(--sn-glass-heavy) !important;
+}
+
+/* Autocomplete */
+[class*="autocomplete_"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  backdrop-filter: blur(16px) !important;
+}
+[class*="autocomplete_"] [class*="selectorSelected_"] {
+  background-color: var(--sn-selected) !important;
+}
+
+/* Pickers */
+[class*="emojiPicker_"],
+[class*="contentWrapper_"][class*="picker_"],
+[class*="stickerInspected_"],
+[class*="expressionPicker_"] {
+  background-color: var(--sn-glass-heavy) !important;
+  border: 1px solid var(--sn-border) !important;
+  backdrop-filter: blur(16px) !important;
+}
 
 /* Search */
-[class*="search_"] [class*="searchBar"] {
+[class*="search_"] [class*="searchBar_"] {
   background-color: var(--sn-glass) !important;
   border: 1px solid rgba(74,144,217,0.08) !important;
 }
-[class*="search_"] [class*="searchBar"]:focus-within { border-color: var(--sn-accent) !important; }
+[class*="search_"] [class*="searchBar_"]:focus-within {
+  border-color: var(--sn-accent) !important;
+}
+[class*="searchResultsWrap_"] {
+  background: var(--sn-glass) !important;
+}
 
 /* Toolbar icons */
-[class*="toolbar"] [class*="iconWrapper"] { color: var(--sn-text-dim) !important; }
-[class*="toolbar"] [class*="iconWrapper"]:hover { color: var(--sn-accent-bright) !important; }
+[class*="toolbar_"] [class*="iconWrapper_"] {
+  color: var(--sn-text-dim) !important;
+}
+[class*="toolbar_"] [class*="iconWrapper_"]:hover {
+  color: var(--sn-accent-bright) !important;
+}
 
 /* Buttons */
-button[class*="lookFilled"][class*="colorBrand"] { background-color: var(--sn-accent) !important; }
-button[class*="lookFilled"][class*="colorBrand"]:hover {
+button[class*="lookFilled_"][class*="colorBrand_"] {
+  background-color: var(--sn-accent) !important;
+}
+button[class*="lookFilled_"][class*="colorBrand_"]:hover {
   background-color: var(--sn-accent-bright) !important;
   box-shadow: 0 0 15px rgba(74,144,217,0.35) !important;
 }
-button[class*="lookFilled"][class*="colorGreen"] { background-color: var(--sn-green) !important; }
-button[class*="lookFilled"][class*="colorRed"] { background-color: var(--sn-red) !important; }
+button[class*="lookFilled_"][class*="colorGreen_"] {
+  background-color: var(--sn-green) !important;
+}
+button[class*="lookFilled_"][class*="colorRed_"] {
+  background-color: var(--sn-red) !important;
+}
 
-/* Settings */
-[class*="side_"] [class*="item_"]:hover { background-color: var(--sn-hover) !important; }
-[class*="side_"] [class*="item_"][class*="selected"] {
+/* Settings sidebar */
+[class*="side_"] [class*="item_"]:hover {
+  background-color: var(--sn-hover) !important;
+}
+[class*="side_"] [class*="item_"][class*="selected_"] {
   background-color: var(--sn-selected) !important;
   color: var(--sn-accent-bright) !important;
 }
 
 /* Cards */
-[class*="cardPrimary"],
-[class*="card_"]:not([class*="embedWrapper"]):not([class*="imageWrapper"]) {
+[class*="cardPrimary_"],
+[class*="card_"]:not([class*="embedWrapper_"]) {
   background-color: var(--sn-glass-light) !important;
   border: 1px solid var(--sn-border) !important;
 }
@@ -793,49 +945,65 @@ button[class*="lookFilled"][class*="colorRed"] { background-color: var(--sn-red)
 }
 
 /* Members */
-[class*="members_"] [class*="member_"]:hover { background-color: var(--sn-hover) !important; }
-[class*="members_"] h2[class*="membersGroup"] { color: var(--sn-text-dim) !important; }
+[class*="members_"] [class*="member_"]:hover {
+  background-color: var(--sn-hover) !important;
+}
+[class*="members_"] h2[class*="membersGroup_"] {
+  color: var(--sn-text-dim) !important;
+}
 
 /* Links */
-[class*="markup_"] a { color: var(--sn-accent-bright) !important; }
+[class*="markup_"] a {
+  color: var(--sn-accent-bright) !important;
+}
 [class*="markup_"] a:hover {
   color: #7cc0ff !important;
   text-shadow: 0 0 8px rgba(74,144,217,0.4) !important;
 }
 
 /* Username glow */
-[class*="username"]:hover { text-shadow: 0 0 8px currentColor !important; }
+[class*="username_"]:hover {
+  text-shadow: 0 0 8px currentColor !important;
+}
 
 /* Badge */
-[class*="numberBadge"] {
+[class*="numberBadge_"] {
   background-color: var(--sn-red) !important;
   box-shadow: 0 0 10px rgba(232,80,80,0.5) !important;
 }
 
 /* Upload */
-[class*="uploadDropModal"] { background-color: rgba(2,4,10,0.85) !important; }
-[class*="uploadDropModal"] [class*="inner"] {
+[class*="uploadDropModal_"] {
+  background-color: rgba(2,4,10,0.85) !important;
+}
+[class*="uploadDropModal_"] [class*="inner_"] {
   border: 2px dashed var(--sn-accent) !important;
   background-color: rgba(74,144,217,0.05) !important;
 }
 
 /* Unread */
-[class*="unreadBar"],
-[class*="newMessagesBar"] {
+[class*="unreadBar_"],
+[class*="newMessagesBar_"] {
   background-color: var(--sn-accent) !important;
   box-shadow: 0 0 12px rgba(74,144,217,0.3) !important;
 }
 
 /* Jump to present */
-[class*="jumpToPresentBar"] {
+[class*="jumpToPresentBar_"] {
   background-color: var(--sn-glass-heavy) !important;
   border: 1px solid var(--sn-border) !important;
   backdrop-filter: blur(8px) !important;
 }
 
-/* Nitro / Premium */
-[class*="premiumPromo"],
-[class*="upsellContainer"] {
+/* Forum cards */
+[class*="container_"][class*="card_"] {
+  background-color: var(--sn-glass-light) !important;
+  border: 1px solid var(--sn-border) !important;
+}
+
+/* Nitro */
+[class*="premiumPromo_"],
+[class*="upsellContainer_"] {
   background-color: var(--sn-glass-light) !important;
   border: 1px solid var(--sn-border) !important;
 }
@@ -844,15 +1012,6 @@ button[class*="lookFilled"][class*="colorRed"] { background-color: var(--sn-red)
 [class*="containerDefault_"]:hover svg {
   filter: drop-shadow(0 0 3px rgba(74,144,217,0.35)) !important;
 }
-
-/* Voice tiles */
-[class*="tileContainer"],
-[class*="tile_"]:not([class*="videoTile"]),
-[class*="voiceUser"] {
-  border: 1px solid rgba(74,144,217,0.06) !important;
-  border-radius: 8px !important;
-}
-[class*="speaking"] { box-shadow: 0 0 12px rgba(74,144,217,0.3) !important; }
 
 /* =======================================================================
    SCROLLBAR
@@ -863,14 +1022,22 @@ button[class*="lookFilled"][class*="colorRed"] { background-color: var(--sn-red)
   background-color: rgba(74,144,217,0.14) !important;
   border-radius: 3px !important;
 }
-::-webkit-scrollbar-thumb:hover { background-color: rgba(74,144,217,0.28) !important; }
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(74,144,217,0.28) !important;
+}
 ::-webkit-scrollbar-corner { background: transparent !important; }
 
 /* =======================================================================
    SELECTION & FOCUS
    ======================================================================= */
-::selection { background-color: rgba(74,144,217,0.3) !important; color: #fff !important; }
-*:focus-visible { outline: 2px solid var(--sn-accent) !important; outline-offset: 2px !important; }
+::selection {
+  background-color: rgba(74,144,217,0.3) !important;
+  color: #fff !important;
+}
+*:focus-visible {
+  outline: 2px solid var(--sn-accent) !important;
+  outline-offset: 2px !important;
+}
 
 /* =======================================================================
    Z-INDEX
