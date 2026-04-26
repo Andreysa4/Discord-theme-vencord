@@ -1,249 +1,903 @@
 /**
- * @name Starry Night (Exact Image & Animation)
- * @author b-chen00 (Original Spicetify Theme) / Ported & Enhanced by Assistant
- * @version 4.0
- * @description Uses the original StarryNight background image with downward animation, exact opacity split from reference.
+ * @name StarryNight
+ * @description A celestial dark theme for Discord inspired by the Spicetify StarryNight theme.
+ * @author Adapted for Discord
+ * @version 1.0.0
  */
 
-/* --- CORE COLOR PALETTE (From Original Spicetify Theme) --- */
+/* ===== ROOT VARIABLES ===== */
 :root {
-    /* Primary Background Colors */
-    --bg-deep: #101215;            /* Deepest Navy (Opaque areas, base for transparent) */
-    --bg-deep-rgb: 16, 18, 21;     /* RGB for rgba() transparency calculations */
+  /* Primary Colors */
+  --starry-bg-primary: #0a0e1a;
+  --starry-bg-secondary: #0f1528;
+  --starry-bg-tertiary: #141c35;
+  --starry-bg-floating: #111a30;
+  --starry-bg-accent: #1a2444;
 
-    --bg-secondary: #15171b;       /* Slightly Lighter (e.g., hover states, text inputs) */
-    --bg-secondary-rgb: 21, 23, 27;
+  /* Text Colors */
+  --starry-text-primary: #e2e8f5;
+  --starry-text-secondary: #8b9cc7;
+  --starry-text-muted: #5b6a8f;
+  --starry-text-link: #7aa2f7;
 
-    --bg-tertiary: #1c1f24;        /* Cards, Modals (even lighter/more distinct) */
-    --bg-tertiary-rgb: 28, 31, 36;
-    
-    /* Accent Color (Electric Blue) */
-    --accent-blue: #4d9fff;
-    --accent-blue-hover: #3b8be0;  /* Slightly darker for hover states */
+  /* Accent Colors */
+  --starry-accent: #7aa2f7;
+  --starry-accent-hover: #89b4fa;
+  --starry-accent-active: #6690e0;
+  --starry-accent-subtle: rgba(122, 162, 247, 0.1);
 
-    /* Text Colors */
-    --text-normal: #b9c1cd;        /* Main body text */
-    --text-muted: #6b7383;         /* Secondary text, hints */
-    --text-header: #ffffff;        /* Brighter for titles */
-    
-    /* Border & Divider Colors */
-    --border-subtle: #282b33;
+  /* Star Colors */
+  --starry-star-1: #c8d6e5;
+  --starry-star-2: #a4b0c5;
+  --starry-star-3: #7aa2f7;
+  --starry-star-4: #bb9af7;
+  --starry-star-5: #f7768e;
+
+  /* Status Colors */
+  --starry-online: #9ece6a;
+  --starry-idle: #e0af68;
+  --starry-dnd: #f7768e;
+  --starry-offline: #5b6a8f;
+  --starry-streaming: #bb9af7;
+
+  /* Misc */
+  --starry-border: rgba(122, 162, 247, 0.08);
+  --starry-border-hover: rgba(122, 162, 247, 0.15);
+  --starry-shadow: rgba(0, 0, 0, 0.5);
+  --starry-scrollbar-thumb: rgba(122, 162, 247, 0.2);
+  --starry-scrollbar-track: transparent;
 }
 
-/* --- 1. GLOBAL BACKGROUND: THE ANIMATED STARRY NIGHT IMAGE --- */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* Ensures it's behind all Discord UI elements */
-
-    /* The actual background image from the Spicetify theme */
-    background-image: url("https://raw.githubusercontent.com/b-chen00/spicetify-themes/master/assets/star.jpg") !important;
-    background-size: cover !important;        /* Ensures the image covers the entire viewport */
-    background-repeat: repeat-y !important;   /* Allows vertical repeating for animation */
-    background-position: center top !important; /* Starts the image centered at the top */
-    background-attachment: fixed !important;  /* Keeps the background fixed relative to the viewport */
-
-    /* Downward animation for the image */
-    animation: starfall_image 60s linear infinite; /* Adjust '60s' for speed */
-    pointer-events: none; /* Allows mouse events to pass through */
-}
-
-/* Keyframes for animating the background image's position downwards */
-@keyframes starfall_image {
-    from { background-position: center top; }
-    to { background-position: center 1000px; } /* Move 1000px down; adjust if needed for seamless loop */
-}
-
-/* --- 2. FONT STYLING (Discord's Native Font) --- */
-/* This ensures consistency across text elements with Discord's default clean font */
+/* ===== GLOBAL BACKGROUND WITH STARS ===== */
 body,
-.root_c05763,
-.chat_d6aed9,
-.sidebar_c4e278,
-.messageContent_cbd271,
-.markup_e0f850 {
-    font-family: 'gg sans', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
-    color: var(--text-normal) !important; /* Default text color */
+.app-3xd6d0,
+.bg-h5JY_x {
+  background: var(--starry-bg-primary) !important;
 }
 
-/* Specific text colors */
-h1, h2, h3, h4, h5, h6,
-.headerText_f296d2,
-.title_f296d2, /* Channel name in header */
-.nameTag_d6edd6 {
-    color: var(--text-header) !important;
-}
-.subtext_d6edd6,
-.placeholder_f296d2,
-.text_cf8c0f, /* Channel topic text */
-.membersGroup_ee8149 { /* Member list headers */
-    color: var(--text-muted) !important;
-}
-
-/* --- 3. DISCORD UI OVERLAYS (Opacity & Split Background) --- */
-
-/* Make core Discord app containers transparent to reveal the global background */
-.appMount_c05763, /* Updated selector for Discord's main app mount */
-.layers_a23bcc,
-.layer_e5e116,
-.baseLayer_d9a8c6 {
-    background: transparent !important;
-}
-
-/* LEFT OPAQUE COLUMN: Server List, Channel List, User Panel */
-.guilds_a4d2d6, /* Server List (leftmost strip) */
-.sidebar_c4e278, /* Entire left sidebar (channels, DMs, settings) */
-.panels_f52e6e { /* User panel at bottom left (voice/video status) */
-    background-color: var(--bg-deep) !important;
-    border-right: 1px solid var(--border-subtle) !important; /* Add divider */
-}
-
-/* SEMI-TRANSPARENT AREAS: Main Chat, Top Bar, Right Sidebar */
-
-/* Main Chat Area */
-.chat_d6aed9 {
-    background-color: rgba(var(--bg-deep-rgb), 0.75) !important; /* 75% opaque deep navy */
-    backdrop-filter: blur(3px) !important; /* Blurs the background image behind */
-}
-
-/* Top Header Bar (Channel Name, Search, Call Controls) */
-.header_f296d2,
-.toolbar_f296d2 {
-    background-color: rgba(var(--bg-deep-rgb), 0.75) !important;
-    backdrop-filter: blur(3px) !important;
-    border-bottom: 1px solid var(--border-subtle) !important;
-}
-
-/* Right Sidebar (Member List, Now Playing) */
-.membersWrap_f6e3c4,
-.members_f46f29 {
-    background-color: rgba(var(--bg-deep-rgb), 0.75) !important;
-    backdrop-filter: blur(3px) !important;
-    border-left: 1px solid var(--border-subtle) !important;
-}
-
-/* Message Input Bar (Chatbox) */
-.channelTextArea_d6aed9 {
-    background-color: rgba(var(--bg-secondary-rgb), 0.8) !important; /* Slightly lighter, more opaque */
-    border-radius: 8px;
-    border: 1px solid var(--border-subtle) !important;
+/* Starry background animation on the main app wrapper */
+#app-mount::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(1px 1px at 10% 15%, var(--starry-star-1) 50%, transparent 100%),
+    radial-gradient(1px 1px at 20% 35%, var(--starry-star-2) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 30% 10%, var(--starry-star-3) 50%, transparent 100%),
+    radial-gradient(1px 1px at 40% 60%, var(--starry-star-1) 50%, transparent 100%),
+    radial-gradient(1px 1px at 50% 25%, var(--starry-star-4) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 60% 80%, var(--starry-star-2) 50%, transparent 100%),
+    radial-gradient(1px 1px at 70% 45%, var(--starry-star-1) 50%, transparent 100%),
+    radial-gradient(1px 1px at 80% 70%, var(--starry-star-3) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 90% 20%, var(--starry-star-5) 50%, transparent 100%),
+    radial-gradient(1px 1px at 5% 85%, var(--starry-star-2) 50%, transparent 100%),
+    radial-gradient(1px 1px at 15% 55%, var(--starry-star-1) 50%, transparent 100%),
+    radial-gradient(1px 1px at 25% 75%, var(--starry-star-4) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 35% 45%, var(--starry-star-1) 50%, transparent 100%),
+    radial-gradient(1px 1px at 45% 90%, var(--starry-star-2) 50%, transparent 100%),
+    radial-gradient(1px 1px at 55% 5%, var(--starry-star-3) 50%, transparent 100%),
+    radial-gradient(1px 1px at 65% 30%, var(--starry-star-1) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 75% 55%, var(--starry-star-5) 50%, transparent 100%),
+    radial-gradient(1px 1px at 85% 15%, var(--starry-star-2) 50%, transparent 100%),
+    radial-gradient(1px 1px at 95% 65%, var(--starry-star-1) 50%, transparent 100%),
+    radial-gradient(1px 1px at 12% 42%, var(--starry-star-4) 50%, transparent 100%),
+    radial-gradient(1px 1px at 22% 92%, var(--starry-star-1) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 32% 62%, var(--starry-star-3) 50%, transparent 100%),
+    radial-gradient(1px 1px at 42% 18%, var(--starry-star-2) 50%, transparent 100%),
+    radial-gradient(1px 1px at 52% 48%, var(--starry-star-1) 50%, transparent 100%),
+    radial-gradient(1px 1px at 62% 72%, var(--starry-star-5) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 72% 8%, var(--starry-star-1) 50%, transparent 100%),
+    radial-gradient(1px 1px at 82% 38%, var(--starry-star-4) 50%, transparent 100%),
+    radial-gradient(1px 1px at 92% 88%, var(--starry-star-2) 50%, transparent 100%),
+    radial-gradient(1px 1px at 8% 68%, var(--starry-star-1) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 18% 28%, var(--starry-star-3) 50%, transparent 100%),
+    radial-gradient(1px 1px at 28% 58%, var(--starry-star-1) 50%, transparent 100%),
+    radial-gradient(1px 1px at 38% 82%, var(--starry-star-2) 50%, transparent 100%),
+    radial-gradient(1px 1px at 48% 12%, var(--starry-star-4) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 58% 52%, var(--starry-star-1) 50%, transparent 100%),
+    radial-gradient(1px 1px at 68% 95%, var(--starry-star-5) 50%, transparent 100%),
+    radial-gradient(1px 1px at 78% 32%, var(--starry-star-1) 50%, transparent 100%),
+    radial-gradient(1px 1px at 88% 52%, var(--starry-star-3) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 98% 42%, var(--starry-star-2) 50%, transparent 100%),
+    radial-gradient(1px 1px at 3% 22%, var(--starry-star-1) 50%, transparent 100%),
+    radial-gradient(1px 1px at 13% 78%, var(--starry-star-4) 50%, transparent 100%);
+  background-color: var(--starry-bg-primary);
+  animation: twinkle 8s ease-in-out infinite alternate;
 }
 
-/* Modals & Popouts (Slightly lighter, generally more opaque for focus) */
-.modal_a2d314,
-.root_f9a4c9,
-.popout_b75d51,
-.container_da4aa7, /* For some settings/popouts */
-.userPanelOuter_x1n26r { /* User profile in chat */
-    background-color: rgba(var(--bg-tertiary-rgb), 0.95) !important; /* Almost opaque tertiary color */
-    backdrop-filter: blur(5px) !important; /* A bit more blur for focus */
-    border-radius: 8px;
-    border: 1px solid var(--border-subtle) !important;
+@keyframes twinkle {
+  0% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.9;
+  }
 }
 
-/* --- 4. ACCENTS, BUTTONS & HIGHLIGHTS --- */
+/* ===== DISCORD VARIABLE OVERRIDES ===== */
+.theme-dark {
+  /* Background colors */
+  --background-primary: var(--starry-bg-primary) !important;
+  --background-secondary: var(--starry-bg-secondary) !important;
+  --background-secondary-alt: var(--starry-bg-tertiary) !important;
+  --background-tertiary: #080c16 !important;
+  --background-accent: var(--starry-accent) !important;
+  --background-floating: var(--starry-bg-floating) !important;
+  --background-nested-floating: var(--starry-bg-tertiary) !important;
+  --background-mobile-primary: var(--starry-bg-primary) !important;
+  --background-mobile-secondary: var(--starry-bg-secondary) !important;
+  --background-modifier-hover: rgba(122, 162, 247, 0.06) !important;
+  --background-modifier-active: rgba(122, 162, 247, 0.1) !important;
+  --background-modifier-selected: rgba(122, 162, 247, 0.12) !important;
+  --background-modifier-accent: var(--starry-border) !important;
+  --background-mentioned: rgba(122, 162, 247, 0.06) !important;
+  --background-mentioned-hover: rgba(122, 162, 247, 0.1) !important;
+  --background-message-hover: rgba(0, 0, 0, 0.15) !important;
 
-/* Primary Brand Buttons (e.g., "Add Server", "Create Channel") */
-.lookFilled_dd4f85.colorBrand_dd4f85,
-.button_dd4f85.colorBrand_dd4f85 {
-    background-color: var(--accent-blue) !important;
-    color: white !important;
-    border: none;
-    box-shadow: 0 4px 15px rgba(77, 159, 255, 0.3); /* Subtle blue glow */
-}
-.lookFilled_dd4f85.colorBrand_dd4f85:hover,
-.button_dd4f85.colorBrand_dd4f85:hover {
-    background-color: var(--accent-blue-hover) !important;
-    box-shadow: 0 0 18px rgba(77, 159, 255, 0.5);
+  /* Text colors */
+  --text-normal: var(--starry-text-primary) !important;
+  --text-muted: var(--starry-text-muted) !important;
+  --text-link: var(--starry-text-link) !important;
+  --text-positive: var(--starry-online) !important;
+  --text-warning: var(--starry-idle) !important;
+  --text-danger: var(--starry-dnd) !important;
+
+  /* Header colors */
+  --header-primary: var(--starry-text-primary) !important;
+  --header-secondary: var(--starry-text-secondary) !important;
+
+  /* Interactive colors */
+  --interactive-normal: var(--starry-text-secondary) !important;
+  --interactive-hover: var(--starry-text-primary) !important;
+  --interactive-active: #ffffff !important;
+  --interactive-muted: var(--starry-text-muted) !important;
+
+  /* Channel colors */
+  --channels-default: var(--starry-text-secondary) !important;
+  --channel-icon: var(--starry-text-secondary) !important;
+  --channel-text-area-placeholder: var(--starry-text-muted) !important;
+
+  /* Deprecated text input */
+  --deprecated-text-input-bg: var(--starry-bg-tertiary) !important;
+  --deprecated-text-input-border: var(--starry-border) !important;
+  --deprecated-text-input-border-hover: var(--starry-border-hover) !important;
+
+  /* Brand colors */
+  --brand-experiment: var(--starry-accent) !important;
+  --brand-experiment-560: var(--starry-accent) !important;
+  --brand-experiment-600: var(--starry-accent-active) !important;
+
+  /* Elevation / Shadows */
+  --elevation-stroke: 0 0 0 1px var(--starry-border) !important;
+  --elevation-low: 0 1px 5px var(--starry-shadow) !important;
+  --elevation-medium: 0 4px 12px var(--starry-shadow) !important;
+  --elevation-high: 0 8px 24px var(--starry-shadow) !important;
+
+  /* Scrollbar */
+  --scrollbar-thin-thumb: var(--starry-scrollbar-thumb) !important;
+  --scrollbar-thin-track: var(--starry-scrollbar-track) !important;
+  --scrollbar-auto-thumb: var(--starry-scrollbar-thumb) !important;
+  --scrollbar-auto-track: var(--starry-scrollbar-track) !important;
+  --scrollbar-auto-scrollbar-color-thumb: var(--starry-scrollbar-thumb) !important;
+  --scrollbar-auto-scrollbar-color-track: var(--starry-scrollbar-track) !important;
+
+  /* Info / Status colors */
+  --info-positive-foreground: var(--starry-online) !important;
+  --info-warning-foreground: var(--starry-idle) !important;
+  --info-danger-foreground: var(--starry-dnd) !important;
+  --status-positive: var(--starry-online) !important;
+  --status-warning: var(--starry-idle) !important;
+  --status-danger: var(--starry-dnd) !important;
+
+  /* Input */
+  --input-background: var(--starry-bg-tertiary) !important;
+  --input-placeholder-text: var(--starry-text-muted) !important;
+
+  /* Activity card */
+  --activity-card-background: var(--starry-bg-secondary) !important;
+
+  /* Misc */
+  --modal-background: var(--starry-bg-secondary) !important;
+  --modal-footer-background: var(--starry-bg-tertiary) !important;
 }
 
-/* General filled buttons */
-.lookFilled_dd4f85 {
-    background-color: var(--bg-tertiary) !important;
-    color: var(--text-normal) !important;
+/* ===== GUILD / SERVER LIST (LEFT SIDEBAR) ===== */
+nav[aria-label="Servers sidebar"] {
+  background-color: #060a14 !important;
 }
 
-/* Links */
-.anchor_f8eabe,
-.channelName_f296d2 {
-    color: var(--accent-blue) !important;
-    text-decoration: none;
-}
-.anchor_f8eabe:hover {
-    text-decoration: underline;
+[class*="wrapper_"] > [class*="listItem_"],
+[class*="guilds_"] {
+  background-color: transparent !important;
 }
 
-/* Selected Channel/Item */
-.item_p9oxjT[aria-checked="true"], /* Settings Toggle */
-.interactiveSelected_d6edd6, /* Selected Channel */
-.modeSelected_f296d2 .content_f296d2 {
-    background-color: var(--accent-blue) !important;
-    color: white !important;
-    border-radius: 4px; /* Soften edges */
+/* Guild icons */
+[class*="wrapper_"] [class*="icon_"] {
+  transition: border-radius 0.3s ease, box-shadow 0.3s ease !important;
 }
 
-/* Hover Effects */
-.button_dd4f85:hover,
-.clickable_f296d2:hover,
-.memberListItem_f46f29:hover,
-.selectableItem_f296d2:hover {
-    background-color: rgba(var(--bg-secondary-rgb), 0.7) !important;
+[class*="wrapper_"] [class*="icon_"]:hover {
+  box-shadow: 0 0 10px rgba(122, 162, 247, 0.3) !important;
 }
 
-/* Server Icon Hover/Selected */
-.wrapper_ef3116.selected_b28756,
-.wrapper_ef3116:hover {
-    background-color: var(--accent-blue) !important;
-}
-.wrapper_ef3116.selected_b28756 circle,
-.wrapper_ef3116:hover circle {
-    fill: var(--bg-deep) !important; /* Inner circle remains dark */
+/* Selected guild pill */
+[class*="pill_"] span[class*="item_"] {
+  background-color: var(--starry-accent) !important;
 }
 
-/* --- 5. SCROLLBARS --- */
+/* Guild separator */
+[class*="guildSeparator_"] {
+  background-color: var(--starry-border) !important;
+}
+
+/* ===== CHANNEL SIDEBAR ===== */
+[class*="sidebar_"] {
+  background-color: var(--starry-bg-secondary) !important;
+}
+
+/* Channel name on hover */
+[class*="containerDefault_"] [class*="wrapper_"]:hover,
+[class*="containerDefault_"]:hover {
+  background-color: rgba(122, 162, 247, 0.06) !important;
+}
+
+/* Selected channel */
+[class*="containerDefault_"][class*="modeSelected_"],
+[class*="containerDefault_"][class*="modeSelected_"] [class*="wrapper_"] {
+  background-color: rgba(122, 162, 247, 0.12) !important;
+}
+
+[class*="containerDefault_"][class*="modeSelected_"] [class*="name_"],
+[class*="containerDefault_"][class*="modeSelected_"] [class*="icon_"] {
+  color: var(--starry-accent) !important;
+}
+
+/* Category headers */
+[class*="containerDefault_"] [class*="iconContainer_"],
+[class*="containerDefault_"] [class*="name_"][class*="overflow_"] {
+  color: var(--starry-text-muted) !important;
+  transition: color 0.2s ease !important;
+}
+
+[class*="containerDefault_"]:hover [class*="name_"][class*="overflow_"] {
+  color: var(--starry-text-secondary) !important;
+}
+
+/* Unread channel indicator */
+[class*="containerDefault_"][class*="modeUnread_"] [class*="name_"] {
+  color: var(--starry-text-primary) !important;
+}
+
+/* ===== SERVER HEADER ===== */
+[class*="header_"][class*="container_"] {
+  background-color: var(--starry-bg-secondary) !important;
+  border-bottom: 1px solid var(--starry-border) !important;
+  box-shadow: none !important;
+}
+
+[class*="header_"][class*="container_"]:hover {
+  background-color: var(--starry-bg-tertiary) !important;
+}
+
+/* ===== TOOLBAR / HEADER BAR ===== */
+[class*="title_"][class*="container_"],
+[class*="chat_"] > [class*="title_"] {
+  background-color: var(--starry-bg-primary) !important;
+  border-bottom: 1px solid var(--starry-border) !important;
+  box-shadow: none !important;
+}
+
+/* Toolbar icons */
+[class*="toolbar_"] [class*="iconWrapper_"] {
+  color: var(--starry-text-muted) !important;
+  transition: color 0.2s ease !important;
+}
+
+[class*="toolbar_"] [class*="iconWrapper_"]:hover {
+  color: var(--starry-accent) !important;
+}
+
+/* ===== CHAT AREA ===== */
+[class*="chat_"] {
+  background-color: var(--starry-bg-primary) !important;
+}
+
+[class*="chatContent_"] {
+  background-color: transparent !important;
+}
+
+/* Messages */
+[class*="message_"][class*="cozy_"] {
+  background-color: transparent !important;
+  border-radius: 6px !important;
+  margin-left: 4px !important;
+  margin-right: 4px !important;
+}
+
+[class*="message_"][class*="cozy_"]:hover {
+  background-color: rgba(122, 162, 247, 0.03) !important;
+}
+
+/* Message divider */
+[class*="divider_"] {
+  border-color: var(--starry-border) !important;
+}
+
+[class*="divider_"] [class*="content_"] {
+  color: var(--starry-text-muted) !important;
+}
+
+/* Unread divider */
+[class*="divider_"][class*="isUnread_"] {
+  border-color: var(--starry-dnd) !important;
+}
+
+[class*="divider_"][class*="isUnread_"] [class*="content_"],
+[class*="divider_"][class*="isUnread_"] [class*="unreadPill_"] {
+  color: var(--starry-dnd) !important;
+  background-color: var(--starry-dnd) !important;
+}
+
+/* ===== MESSAGE INPUT / TEXT AREA ===== */
+[class*="channelTextArea_"] {
+  background-color: transparent !important;
+}
+
+[class*="scrollableContainer_"] {
+  background-color: var(--starry-bg-tertiary) !important;
+  border: 1px solid var(--starry-border) !important;
+  border-radius: 8px !important;
+  transition: border-color 0.2s ease !important;
+}
+
+[class*="scrollableContainer_"]:focus-within {
+  border-color: var(--starry-accent) !important;
+  box-shadow: 0 0 8px rgba(122, 162, 247, 0.15) !important;
+}
+
+/* ===== MENTIONED MESSAGES ===== */
+[class*="message_"][class*="mentioned_"] {
+  background-color: rgba(122, 162, 247, 0.06) !important;
+  border-left: 3px solid var(--starry-accent) !important;
+}
+
+[class*="message_"][class*="mentioned_"]:hover {
+  background-color: rgba(122, 162, 247, 0.1) !important;
+}
+
+/* ===== EMBEDS ===== */
+[class*="embedWrapper_"] {
+  background-color: var(--starry-bg-secondary) !important;
+  border-color: var(--starry-border) !important;
+  border-radius: 6px !important;
+}
+
+/* ===== CODE BLOCKS ===== */
+[class*="markup_"] code {
+  background-color: var(--starry-bg-tertiary) !important;
+  border: 1px solid var(--starry-border) !important;
+  border-radius: 4px !important;
+  color: var(--starry-star-3) !important;
+}
+
+[class*="markup_"] pre {
+  background-color: var(--starry-bg-tertiary) !important;
+  border: 1px solid var(--starry-border) !important;
+  border-radius: 6px !important;
+}
+
+[class*="markup_"] pre code {
+  background-color: transparent !important;
+  border: none !important;
+  color: var(--starry-text-primary) !important;
+}
+
+/* ===== MEMBER LIST ===== */
+[class*="members_"] {
+  background-color: var(--starry-bg-secondary) !important;
+}
+
+[class*="members_"] [class*="member_"] {
+  transition: background-color 0.15s ease !important;
+}
+
+[class*="members_"] [class*="member_"]:hover {
+  background-color: rgba(122, 162, 247, 0.06) !important;
+}
+
+/* Member list category header */
+[class*="members_"] h2[class*="membersGroup_"] {
+  color: var(--starry-text-muted) !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* ===== USER PANEL (BOTTOM LEFT) ===== */
+[class*="panels_"] {
+  background-color: #080c16 !important;
+  border-top: 1px solid var(--starry-border) !important;
+}
+
+[class*="panels_"] [class*="container_"] {
+  background-color: transparent !important;
+}
+
+/* User panel buttons */
+[class*="panels_"] button {
+  color: var(--starry-text-muted) !important;
+  transition: color 0.2s ease, background-color 0.2s ease !important;
+}
+
+[class*="panels_"] button:hover {
+  color: var(--starry-text-primary) !important;
+  background-color: rgba(122, 162, 247, 0.08) !important;
+}
+
+/* ===== BUTTONS ===== */
+/* Primary buttons */
+button[class*="button_"][class*="lookFilled_"][class*="colorBrand_"],
+[class*="button_"][class*="lookFilled_"][class*="colorBrand_"] {
+  background-color: var(--starry-accent) !important;
+  transition: all 0.2s ease !important;
+}
+
+button[class*="button_"][class*="lookFilled_"][class*="colorBrand_"]:hover,
+[class*="button_"][class*="lookFilled_"][class*="colorBrand_"]:hover {
+  background-color: var(--starry-accent-hover) !important;
+  box-shadow: 0 0 12px rgba(122, 162, 247, 0.3) !important;
+}
+
+/* Green / positive buttons */
+button[class*="button_"][class*="lookFilled_"][class*="colorGreen_"] {
+  background-color: var(--starry-online) !important;
+}
+
+/* Red / danger buttons */
+button[class*="button_"][class*="lookFilled_"][class*="colorRed_"] {
+  background-color: var(--starry-dnd) !important;
+}
+
+/* ===== POPOUTS & MODALS ===== */
+[class*="popout_"],
+[class*="userPopoutOuter_"] {
+  background-color: var(--starry-bg-floating) !important;
+  border: 1px solid var(--starry-border) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6) !important;
+  border-radius: 8px !important;
+}
+
+/* User popout banner gradient */
+[class*="userPopoutOuter_"] [class*="banner_"]::after {
+  background: linear-gradient(
+    to bottom,
+    transparent 40%,
+    var(--starry-bg-floating) 100%
+  ) !important;
+}
+
+/* Modal content */
+[class*="modal_"],
+[class*="root_"][class*="fullscreenOnMobile_"],
+[class*="layer_"] [class*="root_"] {
+  background-color: var(--starry-bg-secondary) !important;
+  border: 1px solid var(--starry-border) !important;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* ===== CONTEXT MENUS ===== */
+[class*="menu_"] {
+  background-color: var(--starry-bg-floating) !important;
+  border: 1px solid var(--starry-border) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+  border-radius: 6px !important;
+}
+
+[class*="menu_"] [class*="item_"] {
+  color: var(--starry-text-secondary) !important;
+  border-radius: 4px !important;
+  transition: background-color 0.1s ease, color 0.1s ease !important;
+}
+
+[class*="menu_"] [class*="item_"]:hover,
+[class*="menu_"] [class*="item_"][class*="focused_"] {
+  background-color: var(--starry-accent) !important;
+  color: #ffffff !important;
+}
+
+[class*="menu_"] [class*="separator_"] {
+  border-color: var(--starry-border) !important;
+}
+
+/* Danger items in context menu */
+[class*="menu_"] [class*="item_"][class*="colorDanger_"] {
+  color: var(--starry-dnd) !important;
+}
+
+[class*="menu_"] [class*="item_"][class*="colorDanger_"]:hover {
+  background-color: var(--starry-dnd) !important;
+  color: #ffffff !important;
+}
+
+/* ===== AUTOCOMPLETE / MENTIONS POPUP ===== */
+[class*="autocomplete_"] {
+  background-color: var(--starry-bg-floating) !important;
+  border: 1px solid var(--starry-border) !important;
+}
+
+[class*="autocomplete_"] [class*="selectorSelected_"] {
+  background-color: var(--starry-accent-subtle) !important;
+}
+
+/* ===== TOOLTIPS ===== */
+[class*="tooltip_"] {
+  background-color: var(--starry-bg-floating) !important;
+  border: 1px solid var(--starry-border) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+}
+
+[class*="tooltipPointer_"] {
+  border-top-color: var(--starry-bg-floating) !important;
+}
+
+/* ===== SEARCH BAR ===== */
+[class*="search_"] [class*="searchBar_"] {
+  background-color: var(--starry-bg-tertiary) !important;
+  border: 1px solid var(--starry-border) !important;
+  transition: border-color 0.2s ease !important;
+}
+
+[class*="search_"] [class*="searchBar_"]:focus-within {
+  border-color: var(--starry-accent) !important;
+}
+
+/* Search results */
+[class*="searchResultsWrap_"] {
+  background-color: var(--starry-bg-secondary) !important;
+}
+
+/* ===== ROLE BADGES ===== */
+[class*="role_"] {
+  background-color: var(--starry-bg-tertiary) !important;
+  border-color: var(--starry-border) !important;
+}
+
+/* ===== REACTIONS ===== */
+[class*="reaction_"] {
+  background-color: var(--starry-bg-tertiary) !important;
+  border: 1px solid var(--starry-border) !important;
+  border-radius: 6px !important;
+  transition: all 0.15s ease !important;
+}
+
+[class*="reaction_"]:hover {
+  background-color: var(--starry-bg-accent) !important;
+  border-color: var(--starry-border-hover) !important;
+}
+
+[class*="reaction_"][class*="reactionMe_"] {
+  background-color: rgba(122, 162, 247, 0.15) !important;
+  border-color: var(--starry-accent) !important;
+}
+
+/* ===== SETTINGS ===== */
+[class*="contentRegion_"] {
+  background-color: var(--starry-bg-primary) !important;
+}
+
+[class*="sidebarRegion_"] {
+  background-color: var(--starry-bg-secondary) !important;
+}
+
+[class*="sidebarRegion_"] [class*="side_"] [class*="item_"] {
+  color: var(--starry-text-secondary) !important;
+  border-radius: 4px !important;
+  transition: all 0.15s ease !important;
+}
+
+[class*="sidebarRegion_"] [class*="side_"] [class*="item_"]:hover {
+  background-color: rgba(122, 162, 247, 0.06) !important;
+  color: var(--starry-text-primary) !important;
+}
+
+[class*="sidebarRegion_"] [class*="side_"] [class*="item_"][class*="selected_"] {
+  background-color: rgba(122, 162, 247, 0.12) !important;
+  color: var(--starry-accent) !important;
+}
+
+/* Settings cards */
+[class*="cardPrimary_"],
+[class*="card_"] {
+  background-color: var(--starry-bg-secondary) !important;
+  border: 1px solid var(--starry-border) !important;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 8px !important;
+  height: 8px !important;
+}
+
 ::-webkit-scrollbar-track {
-    background-color: rgba(var(--bg-deep-rgb), 0.5) !important; /* Semi-transparent track */
-    border-color: transparent !important;
+  background: transparent !important;
 }
+
 ::-webkit-scrollbar-thumb {
-    background-color: var(--accent-blue) !important; /* Blue thumb */
-    border-color: transparent !important;
-    border-radius: 4px;
+  background-color: var(--starry-scrollbar-thumb) !important;
+  border-radius: 4px !important;
+  border: 2px solid transparent !important;
+  transition: background-color 0.2s ease !important;
 }
 
-/* --- 6. UNREAD INDICATORS & MENTIONS --- */
-.unread_ee9a91 {
-    background-color: var(--accent-blue) !important;
-    width: 3px !important;
-    height: 100% !important; /* Full height indicator */
-    border-radius: 0 !important;
-    left: 0 !important;
-}
-.mentionButton_b28756 {
-    color: var(--accent-blue) !important;
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(122, 162, 247, 0.35) !important;
 }
 
-/* --- 7. CLEANUP / REMOVE DISCORD'S DEFAULTS --- */
-/* Remove Discord's native blur effects, as we're implementing our own */
-.blurLayer_cba467,
-.theme-dark .container-1oe9L_:not(.container-3baos1),
-.theme-dark .root-g147XH,
-.base_e1286c, /* General base layers */
-.wrapper_c05763 { /* Another common app wrapper */
-    background: transparent !important;
-    opacity: 1 !important; /* Ensure visibility for content, not for background */
-    box-shadow: none !important; /* Remove shadows that might conflict */
+::-webkit-scrollbar-corner {
+  background: transparent !important;
 }
 
-/* --- 8. SEARCH BAR --- */
-.searchBar_f296d2 input {
-    background-color: rgba(var(--bg-tertiary-rgb), 0.8) !important;
-    color: var(--text-normal) !important;
+/* ===== VOICE CONNECTED ===== */
+[class*="activityPanel_"],
+[class*="actionButtons_"] {
+  background-color: transparent !important;
 }
-.searchBar_f296d2 .searchBarComponent_f296d2 {
-    color: var(--text-muted) !important;
+
+/* ===== THREAD / FORUM ===== */
+[class*="container_"][class*="card_"] {
+  background-color: var(--starry-bg-secondary) !important;
+  border: 1px solid var(--starry-border) !important;
+}
+
+/* ===== NOTICE / BANNERS ===== */
+[class*="notice_"] {
+  background-color: var(--starry-accent) !important;
+}
+
+/* ===== NITRO / PREMIUM PROMPTS ===== */
+[class*="premiumPromo_"],
+[class*="upsellContainer_"] {
+  background-color: var(--starry-bg-tertiary) !important;
+  border: 1px solid var(--starry-border) !important;
+}
+
+/* ===== STATUS COLORS ===== */
+rect[fill="#23a55a"],
+[style*="background-color: #23a55a"],
+[style*="background-color: rgb(35, 165, 90)"] {
+  fill: var(--starry-online) !important;
+  background-color: var(--starry-online) !important;
+}
+
+rect[fill="#f0b232"],
+[style*="background-color: #f0b232"],
+[style*="background-color: rgb(240, 178, 50)"] {
+  fill: var(--starry-idle) !important;
+  background-color: var(--starry-idle) !important;
+}
+
+rect[fill="#f23f43"],
+[style*="background-color: #f23f43"],
+[style*="background-color: rgb(242, 63, 67)"] {
+  fill: var(--starry-dnd) !important;
+  background-color: var(--starry-dnd) !important;
+}
+
+/* ===== LINKS ===== */
+[class*="markup_"] a {
+  color: var(--starry-text-link) !important;
+  transition: color 0.15s ease !important;
+}
+
+[class*="markup_"] a:hover {
+  color: var(--starry-accent-hover) !important;
+  text-shadow: 0 0 8px rgba(122, 162, 247, 0.3) !important;
+}
+
+/* ===== TIMESTAMPS ===== */
+[class*="timestamp_"] {
+  color: var(--starry-text-muted) !important;
+}
+
+/* ===== USERNAME STYLING ===== */
+[class*="username_"] {
+  transition: text-shadow 0.2s ease !important;
+}
+
+[class*="username_"]:hover {
+  text-shadow: 0 0 8px currentColor !important;
+}
+
+/* ===== TYPING INDICATOR ===== */
+[class*="typing_"] {
+  background-color: var(--starry-bg-primary) !important;
+}
+
+/* ===== CALL / VOICE CHANNEL ===== */
+[class*="voiceCallWrapper_"],
+[class*="callContainer_"] {
+  background-color: var(--starry-bg-primary) !important;
+}
+
+/* ===== EMOJI PICKER ===== */
+[class*="emojiPicker_"] {
+  background-color: var(--starry-bg-floating) !important;
+  border: 1px solid var(--starry-border) !important;
+}
+
+[class*="emojiPicker_"] [class*="header_"] {
+  background-color: var(--starry-bg-floating) !important;
+  border-bottom: 1px solid var(--starry-border) !important;
+}
+
+[class*="emojiPicker_"] [class*="searchBar_"] {
+  background-color: var(--starry-bg-tertiary) !important;
+}
+
+[class*="emojiPicker_"] [class*="categoryItem_"]:hover {
+  background-color: rgba(122, 162, 247, 0.08) !important;
+}
+
+/* ===== GIF PICKER ===== */
+[class*="contentWrapper_"] {
+  background-color: var(--starry-bg-floating) !important;
+}
+
+/* ===== STICKER PICKER ===== */
+[class*="stickerInspected_"],
+[class*="inspector_"] {
+  background-color: var(--starry-bg-secondary) !important;
+}
+
+/* ===== DRAG AND DROP OVERLAY ===== */
+[class*="uploadDropModal_"] {
+  background-color: rgba(10, 14, 26, 0.85) !important;
+}
+
+[class*="uploadDropModal_"] [class*="inner_"] {
+  border: 2px dashed var(--starry-accent) !important;
+  background-color: rgba(122, 162, 247, 0.05) !important;
+  border-radius: 12px !important;
+}
+
+/* ===== CHANNEL ICON GLOW ON HOVER ===== */
+[class*="containerDefault_"]:hover svg {
+  filter: drop-shadow(0 0 3px rgba(122, 162, 247, 0.4)) !important;
+}
+
+/* ===== MISC IMPROVEMENTS ===== */
+
+/* Remove ugly focus rings and replace with themed ones */
+*:focus-visible {
+  outline: 2px solid var(--starry-accent) !important;
+  outline-offset: 2px !important;
+}
+
+/* Smooth transitions for everything */
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color, box-shadow, color, opacity;
+  transition-duration: 0.15s;
+  transition-timing-function: ease;
+}
+
+/* Prevent transition on specific elements to avoid jank */
+[class*="message_"],
+[class*="avatar_"],
+img,
+video,
+canvas {
+  transition-property: none !important;
+}
+
+/* New pills / badges glow */
+[class*="numberBadge_"] {
+  background-color: var(--starry-dnd) !important;
+  box-shadow: 0 0 8px rgba(247, 118, 142, 0.4) !important;
+}
+
+/* Subtle glow on the home icon */
+[class*="tutorialContainer_"] [class*="childWrapper_"] {
+  background-color: var(--starry-bg-tertiary) !important;
+  transition: all 0.3s ease !important;
+}
+
+[class*="tutorialContainer_"] [class*="childWrapper_"]:hover {
+  background-color: var(--starry-accent) !important;
+  box-shadow: 0 0 15px rgba(122, 162, 247, 0.4) !important;
+}
+
+/* Selection color */
+::selection {
+  background-color: rgba(122, 162, 247, 0.3) !important;
+  color: #ffffff !important;
+}
+
+/* ===== SHOOTING STAR ANIMATION (SUBTLE) ===== */
+#app-mount::after {
+  content: "";
+  position: fixed;
+  top: -2px;
+  left: -100px;
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--starry-accent),
+    var(--starry-star-1),
+    transparent
+  );
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  animation: shootingStar 12s linear infinite;
+  animation-delay: 5s;
+}
+
+@keyframes shootingStar {
+  0% {
+    transform: translate(0, 0) rotate(-35deg);
+    opacity: 0;
+  }
+  2% {
+    opacity: 0.8;
+  }
+  8% {
+    transform: translate(calc(100vw + 200px), calc(40vh)) rotate(-35deg);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Second shooting star with different timing */
+body::after {
+  content: "";
+  position: fixed;
+  top: -2px;
+  right: -100px;
+  width: 60px;
+  height: 1.5px;
+  background: linear-gradient(
+    to left,
+    transparent,
+    var(--starry-star-4),
+    var(--starry-star-1),
+    transparent
+  );
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  animation: shootingStar2 18s linear infinite;
+  animation-delay: 11s;
+}
+
+@keyframes shootingStar2 {
+  0% {
+    transform: translate(0, 0) rotate(25deg);
+    opacity: 0;
+  }
+  1% {
+    opacity: 0.6;
+  }
+  6% {
+    transform: translate(calc(-100vw - 200px), calc(50vh)) rotate(25deg);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
 }
