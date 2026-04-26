@@ -1,255 +1,117 @@
 /**
- * @name Starry Night (Animated & Split)
- * @author b-chen00 (Ported & Enhanced by Assistant)
- * @version 3.0
- * @description Exact Spicetify StarryNight replica with animated stars moving downwards.
+ * @name StarryNight
+ * @author MiMo
+ * @version 2.0
+ * @description Unified dark background + falling stars (use with StarryNight.plugin.js)
  */
 
-/* --- CORE COLORS --- */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap');
+
 :root {
-    /* Primary Background (Deepest Navy) */
-    --bg-deep: #101215;
-    --bg-deep-rgb: 16, 18, 21; /* RGB for rgba() transparency */
-
-    /* Secondary Background (Slightly Lighter for panels/hover) */
-    --bg-secondary: #15171b;
-    --bg-secondary-rgb: 21, 23, 27;
-
-    /* Tertiary Background (Cards, Modals, Input Fields) */
-    --bg-tertiary: #1c1f24;
-    --bg-tertiary-rgb: 28, 31, 36;
-    
-    /* The Electric Star Blue (Accents) */
-    --accent-blue: #4d9fff;
-    --accent-blue-hover: #3b8be0; /* Slightly darker for hover */
-
-    /* Text Colors */
-    --text-normal: #b9c1cd;
-    --text-muted: #6b7383;
-    --text-header: #ffffff; /* Brighter for headers */
-    
-    /* Borders */
-    --border-subtle: #282b33;
+  --starry-bg: #0a1024;
 }
 
-/* --- 1. ANIMATED STAR BACKGROUND ENGINE --- */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* Ensure it's behind everything */
-    
-    /* Layer 1: Base color for solid areas (will be overridden where transparency is needed) */
-    background-color: var(--bg-deep); 
-    
-    /* Layer 2, 3, 4: Generated Starfield using radial gradients */
-    background-image: 
-        radial-gradient(rgba(255,255,255,0.7) 0.5px, transparent 1.5px), /* Brighter, smaller stars */
-        radial-gradient(rgba(255,255,255,0.5) 1px, transparent 2px),    /* Medium stars */
-        radial-gradient(rgba(255,255,255,0.3) 1.5px, transparent 2.5px); /* Fainter, larger stars */
-        
-    /* Different background sizes for parallax effect */
-    background-size: 80px 80px, 120px 120px, 200px 200px;
-    
-    /* Animation for downward movement */
-    animation: starfall 60s linear infinite; /* Adjust duration for desired speed */
-    pointer-events: none; /* Allows clicks through the background */
+/* ===== FONT ===== */
+* {
+  font-family: 'Outfit', 'gg sans', sans-serif !important;
 }
 
-/* Keyframes for stars moving downwards */
-@keyframes starfall {
-    from {
-        background-position: 0 0, 20px 20px, 50px 50px;
-    }
-    to {
-        /* Move stars down by a large enough value to hide visible looping */
-        background-position: 0 1000px, 20px 1020px, 50px 1050px;
-    }
+/* ===== UNIFIED BACKGROUND =====
+   Make EVERY panel transparent so the canvas behind shows through.
+   This is what fixes the "divided in half" look.
+*/
+.appMount_ea7e85,
+.app_ea7e85,
+.layers_ea7e85,
+.layer_ea7e85,
+.container_ee69e0,
+.guilds_c48ade,
+.sidebar_c48ade,
+.base_c48ade,
+.content_c48ade,
+.chat_f75ce0,
+.chatContent_f75ce0,
+.content_f75ce0,
+.container_f75ce0,
+.members_c48ade,
+.panel_c48ade,
+.bg_f75ce0,
+[class*="appMount"],
+[class*="app_"],
+[class*="layers_"],
+[class*="layer_"],
+[class*="guilds"],
+[class*="sidebar_"],
+[class*="base_"],
+[class*="chat_"],
+[class*="chatContent"],
+[class*="content_"],
+[class*="container_"],
+[class*="membersWrap"],
+[class*="panels_"],
+[class*="panel_"] {
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
-/* --- 2. DISCORD LAYOUT OVERRIDES (CRITICAL FOR SPLIT BACKGROUND) --- */
-
-/* Make main app layers transparent to reveal the global starfield */
-.appMount_16260, 
-.layers_a23bcc, 
-.layer_e5e116,
-.baseLayer_d9a8c6 {
-    background: transparent !important;
+/* The ONE solid background, on the body */
+body {
+  background: var(--starry-bg) !important;
 }
 
-/* Leftmost - Server List (Solid Dark) */
-.guilds_a4d2d6 { /* Or .scroller_fea3ef for inner part */
-    background-color: var(--bg-deep) !important;
+/* ===== KEEP FLOATING ELEMENTS OPAQUE =====
+   Modals, popups, tooltips, etc. need their own background
+   so they don't become invisible.
+*/
+[class*="modal_"],
+[class*="root_"][role="dialog"],
+[class*="tooltip_"],
+[class*="autocomplete"],
+[class*="popout_"],
+[class*="menu_"],
+[class*="card_"],
+[class*="quickswitcher"] {
+  background: rgba(13, 22, 51, 0.95) !important;
+  backdrop-filter: blur(12px);
 }
 
-/* Left Sidebar - Channel List (Solid Dark) */
-.sidebar_c4e278, /* Contains channels and user panel */
-.channels_da4aa7,
-.panels_f52e6e { /* User panel at bottom-left */
-    background-color: var(--bg-deep) !important;
+/* Message input — slight tint so it's readable */
+[class*="channelTextArea"] {
+  background: rgba(13, 22, 51, 0.6) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(80, 110, 180, 0.15) !important;
 }
 
-/* Right Sidebar - Member List (Semi-transparent with blur) */
-.membersWrap_f6e3c4,
-.members_f46f29 {
-    background-color: rgba(var(--bg-deep-rgb), 0.75) !important; /* Semi-transparent */
-    backdrop-filter: blur(3px) !important; /* Blur stars for readability */
-    border-left: 1px solid var(--border-subtle); /* Divider */
+/* Top header — slight tint */
+[class*="title_"][class*="container"] {
+  background: rgba(10, 16, 36, 0.7) !important;
+  backdrop-filter: blur(10px);
 }
 
-/* Top Bar - Header (Semi-transparent with blur) */
-.header_f296d2,
-.title_f296d2 {
-    background-color: rgba(var(--bg-deep-rgb), 0.75) !important;
-    backdrop-filter: blur(3px) !important;
-    border-bottom: 1px solid var(--border-subtle);
+/* Message hover */
+[class*="message_"]:hover {
+  background: rgba(30, 50, 120, 0.20) !important;
 }
 
-/* Main Chat Area (Semi-transparent with blur) */
-.chat_d6aed9 {
-    background-color: rgba(var(--bg-deep-rgb), 0.75) !important;
-    backdrop-filter: blur(3px) !important;
+/* Selected channel */
+[class*="containerDefault"][class*="selected"],
+[class*="modeSelected"] {
+  background: rgba(30, 50, 120, 0.40) !important;
 }
 
-/* Content within panels, e.g., messages, user cards */
-.messageContent_cbd271,
-.markup_e0f850 {
-    color: var(--text-normal) !important;
+/* Make sure the canvas (added by plugin) sits behind UI */
+#starry-night-canvas {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
 }
 
-/* Input Bar (Chatbox) */
-.channelTextArea_d6aed9 {
-    background-color: rgba(var(--bg-secondary-rgb), 0.8) !important;
-    border-radius: 8px;
-    border: 1px solid var(--border-subtle) !important;
-}
-
-/* Modals & Popouts (Slightly lighter, still with some transparency/blur if desired) */
-.modal_a2d314,
-.root_f9a4c9,
-.popout_b75d51 {
-    background-color: rgba(var(--bg-tertiary-rgb), 0.9) !important; /* Mostly opaque */
-    backdrop-filter: blur(5px) !important;
-    border-radius: 8px;
-    border: 1px solid var(--border-subtle) !important;
-}
-
-/* --- 3. TEXT & GENERAL STYLING --- */
-h1, h2, h3, h4, h5, h6,
-.headerText_f296d2,
-.nameTag_d6edd6,
-.subtext_d6edd6 {
-    color: var(--text-header) !important; /* Bright white headers */
-}
-
-/* Normal text */
-.messageContent_cbd271,
-.markup_e0f850,
-.wrapper_ef3116 { /* Server names */
-    color: var(--text-normal) !important;
-}
-
-/* Muted text */
-.placeholder_f296d2,
-.text_cf8c0f, /* Channel topic text */
-.membersGroup_ee8149 { /* Member list headers */
-    color: var(--text-muted) !important;
-}
-
-/* Links */
-.anchor_f8eabe,
-.channelName_f296d2 {
-    color: var(--accent-blue) !important;
-    text-decoration: none;
-}
-.anchor_f8eabe:hover {
-    text-decoration: underline;
-}
-
-/* --- 4. BUTTONS & HIGHLIGHTS --- */
-.lookFilled_dd4f85.colorBrand_dd4f85 { /* Primary blue buttons */
-    background-color: var(--accent-blue) !important;
-    color: white !important;
-    border: none;
-    box-shadow: 0 4px 15px rgba(77, 159, 255, 0.3);
-}
-.lookFilled_dd4f85.colorBrand_dd4f85:hover {
-    background-color: var(--accent-blue-hover) !important;
-    box-shadow: 0 0 18px rgba(77, 159, 255, 0.5);
-}
-
-.lookFilled_dd4f85 { /* Default filled buttons */
-    background-color: var(--bg-tertiary) !important;
-    color: var(--text-normal) !important;
-}
-
-/* Selected Channel/Item */
-.item_p9oxjT[aria-checked="true"], /* Settings Toggle */
-.interactiveSelected_d6edd6, /* Selected Channel */
-.modeSelected_f296d2 .content_f296d2 {
-    background-color: var(--accent-blue) !important;
-    color: white !important;
-}
-
-/* Hover effects */
-.button_dd4f85:hover,
-.clickable_f296d2:hover,
-.memberListItem_f46f29:hover,
-.selectableItem_f296d2:hover {
-    background-color: rgba(var(--bg-secondary-rgb), 0.7) !important;
-}
-
-/* Server Icon (Selected/Hover) */
-.wrapper_ef3116.selected_b28756,
-.wrapper_ef3116:hover {
-    background-color: var(--accent-blue) !important;
-}
-.wrapper_ef3116.selected_b28756 circle,
-.wrapper_ef3116:hover circle {
-    fill: var(--bg-deep) !important;
-}
-
-
-/* --- 5. SCROLLBARS --- */
-::-webkit-scrollbar-track {
-    background-color: rgba(var(--bg-deep-rgb), 0.5) !important;
-    border-color: transparent !important;
-}
-::-webkit-scrollbar-thumb {
-    background-color: var(--accent-blue) !important;
-    border-color: transparent !important;
-    border-radius: 4px;
-}
-
-/* --- 6. UNREAD INDICATORS & MENTIONS --- */
-.unread_ee9a91 {
-    background-color: var(--accent-blue) !important;
-    width: 3px !important;
-    height: 100% !important; /* Full height indicator */
-    border-radius: 0 !important;
-    left: 0 !important;
-}
-.mentionButton_b28756 {
-    color: var(--accent-blue) !important;
-}
-
-/* --- 7. MISCELLANEOUS --- */
-/* Remove Discord's default blur behind, as we're using our own */
-.blurLayer_cba467,
-.theme-dark .container-1oe9L_:not(.container-3baos1),
-.theme-dark .root-g147XH {
-    opacity: 0 !important;
-    background: transparent !important;
-}
-
-/* Search Bar Input */
-.searchBar_f296d2 input {
-    background-color: rgba(var(--bg-tertiary-rgb), 0.8) !important;
-    color: var(--text-normal) !important;
-}
-.searchBar_f296d2 .searchBarComponent_f296d2 {
-    color: var(--text-muted) !important;
+/* Push UI above canvas */
+.appMount_ea7e85 > * {
+  position: relative;
+  z-index: 1;
 }
