@@ -2,8 +2,9 @@
  * @name StarryNight
  * @description A celestial deep-space theme for Discord. Starry sky background visible EVERYWHERE.
  *              Identical aesthetic to the Spicetify StarryNight theme.
+ *              Features: static stars, tailed shooting stars (slow), full transparency including voice chat.
  * @author Adapted for Discord
- * @version 3.0.0
+ * @version 4.0.0
  */
 
 /* =======================================================================
@@ -30,8 +31,7 @@
 }
 
 /* =======================================================================
-   STARFIELD BACKGROUND ON HTML - LOWEST LEVEL
-   We put the entire background on <html> so nothing can override it.
+   STARFIELD BACKGROUND ON HTML
    ======================================================================= */
 html {
   background:
@@ -44,7 +44,7 @@ html {
 }
 
 /* =======================================================================
-   STATIC STARS - on html::before
+   STATIC STARS on html::before
    ======================================================================= */
 html::before {
   content: "";
@@ -140,7 +140,7 @@ html::before {
     radial-gradient(1.5px 1.5px at 85% 92%, #a0e8e8 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 96% 90%, #fff 50%, transparent 100%),
 
-    /* === DIM STARS (1px) - dense field === */
+    /* === DIM STARS (1px) === */
     radial-gradient(1px 1px at 1% 1%, #c8d8f0 45%, transparent 100%),
     radial-gradient(1px 1px at 4% 8%, #fff 40%, transparent 100%),
     radial-gradient(1px 1px at 6% 3%, #c8d8f0 45%, transparent 100%),
@@ -289,7 +289,9 @@ html::before {
 }
 
 /* =======================================================================
-   TWINKLING STARS - on html::after
+   TWINKLING / PULSING STARS on html::after
+   These are normal-looking stars that gently pulse (no tails).
+   Slow, peaceful breathing animation.
    ======================================================================= */
 html::after {
   content: "";
@@ -320,64 +322,101 @@ html::after {
     radial-gradient(2px 2px at 2% 34%, #e8a0c8 50%, transparent 100%);
   background-color: transparent;
   background-attachment: fixed;
-  animation: twinkle 4s ease-in-out infinite alternate;
+  animation: gentlePulse 8s ease-in-out infinite alternate;
 }
 
-@keyframes twinkle {
-  0% { opacity: 0.25; }
-  25% { opacity: 0.65; }
-  50% { opacity: 0.35; }
-  75% { opacity: 0.85; }
-  100% { opacity: 0.45; }
+@keyframes gentlePulse {
+  0%   { opacity: 0.3; }
+  33%  { opacity: 0.6; }
+  66%  { opacity: 0.4; }
+  100% { opacity: 0.7; }
 }
 
 /* =======================================================================
-   SHOOTING STARS
+   SHOOTING STARS WITH TAILS - slow, graceful
+   Using body pseudo-elements.
+   Each star is a bright dot with a long fading tail behind it.
    ======================================================================= */
 body::before {
   content: "";
   position: fixed;
-  top: 0; left: -150px;
-  width: 120px; height: 2px;
-  background: linear-gradient(to right, transparent, rgba(160,196,255,0.8), #fff, transparent);
+  top: -5px;
+  left: -200px;
+  width: 180px;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(100, 160, 255, 0) 10%,
+    rgba(100, 160, 255, 0.05) 20%,
+    rgba(130, 180, 255, 0.15) 40%,
+    rgba(160, 200, 255, 0.35) 60%,
+    rgba(200, 220, 255, 0.6) 80%,
+    rgba(230, 240, 255, 0.85) 92%,
+    #fff 100%
+  );
   z-index: 9999;
   pointer-events: none;
   opacity: 0;
-  animation: shoot1 12s linear infinite 4s;
-  border-radius: 50%;
-  box-shadow: 0 0 8px 2px rgba(160,196,255,0.4);
+  animation: shootSlow1 25s linear infinite 5s;
+  border-radius: 0 50% 50% 0;
+  filter: blur(0.2px);
+  box-shadow:
+    180px 0 4px 1px rgba(255, 255, 255, 0.9),
+    180px 0 12px 3px rgba(160, 196, 255, 0.5),
+    180px 0 20px 6px rgba(160, 196, 255, 0.2);
 }
 
 body::after {
   content: "";
   position: fixed;
-  top: 0; right: -150px;
-  width: 80px; height: 1.5px;
-  background: linear-gradient(to left, transparent, rgba(184,160,232,0.7), #fff, transparent);
+  top: -5px;
+  right: -200px;
+  width: 140px;
+  height: 1.5px;
+  background: linear-gradient(
+    to left,
+    transparent 0%,
+    rgba(180, 160, 230, 0) 10%,
+    rgba(180, 160, 230, 0.05) 20%,
+    rgba(180, 160, 230, 0.15) 40%,
+    rgba(200, 180, 240, 0.35) 60%,
+    rgba(220, 210, 250, 0.6) 80%,
+    rgba(240, 235, 255, 0.85) 92%,
+    #fff 100%
+  );
   z-index: 9999;
   pointer-events: none;
   opacity: 0;
-  animation: shoot2 18s linear infinite 10s;
-  border-radius: 50%;
-  box-shadow: 0 0 6px 1px rgba(184,160,232,0.3);
+  animation: shootSlow2 35s linear infinite 18s;
+  border-radius: 50% 0 0 50%;
+  filter: blur(0.2px);
+  box-shadow:
+    -140px 0 4px 1px rgba(255, 255, 255, 0.9),
+    -140px 0 12px 3px rgba(184, 160, 232, 0.5),
+    -140px 0 20px 6px rgba(184, 160, 232, 0.2);
 }
 
-@keyframes shoot1 {
-  0%   { transform: translate(0,0) rotate(-30deg); opacity: 0; }
-  1%   { opacity: 1; }
-  7%   { transform: translate(calc(100vw + 300px), 35vh) rotate(-30deg); opacity: 0; }
+/* Slow shooting star 1: left to right, gentle arc */
+@keyframes shootSlow1 {
+  0%   { transform: translate(0, 0) rotate(-25deg); opacity: 0; }
+  0.5% { opacity: 1; }
+  5%   { opacity: 1; }
+  8%   { transform: translate(calc(100vw + 400px), 30vh) rotate(-25deg); opacity: 0; }
   100% { opacity: 0; }
 }
 
-@keyframes shoot2 {
-  0%   { transform: translate(0,0) rotate(22deg); opacity: 0; }
-  1%   { opacity: 0.8; }
-  5%   { transform: translate(calc(-100vw - 300px), 45vh) rotate(22deg); opacity: 0; }
+/* Slow shooting star 2: right to left, different angle */
+@keyframes shootSlow2 {
+  0%   { transform: translate(0, 0) rotate(18deg); opacity: 0; }
+  0.3% { opacity: 0.85; }
+  4%   { opacity: 0.85; }
+  6%   { transform: translate(calc(-100vw - 400px), 40vh) rotate(18deg); opacity: 0; }
   100% { opacity: 0; }
 }
 
 /* =======================================================================
-   DISCORD VARIABLE OVERRIDES - ALL TRANSPARENT
+   DISCORD VARIABLE OVERRIDES
    ======================================================================= */
 .theme-dark,
 .theme-light {
@@ -439,12 +478,13 @@ body::after {
 }
 
 /* =======================================================================
-   NUCLEAR TRANSPARENCY - EVERY SINGLE PANEL / CONTAINER
-   This is the key section. We target every known Discord class pattern
-   and force transparent backgrounds so html's starfield shows through.
+   NUCLEAR TRANSPARENCY
+   Every Discord panel / container / section → transparent
    ======================================================================= */
 
-/* Catch absolutely everything with common Discord class prefixes */
+/* Use a single massive selector to kill all backgrounds */
+#app-mount,
+#app-mount > div,
 [class*="app_"],
 [class*="appMount"],
 [class*="layers_"],
@@ -476,15 +516,11 @@ body::after {
 [class*="pageWrapper_"],
 [class*="peopleColumn_"],
 [class*="peopleList_"],
-[class*="peopleListItem_"],
 [class*="nowPlayingColumn_"],
 [class*="applicationStore_"],
 [class*="hubContainer_"],
 [class*="directoryContainer_"],
-[class*="searchResultsWrap_"],
 [class*="threadSidebar_"],
-[class*="activityPanel_"],
-[class*="actionButtons_"],
 [class*="typing_"],
 [class*="noChannel_"],
 [class*="emptyPage_"],
@@ -508,22 +544,28 @@ body::after {
 [class*="welcomeCTA_"],
 [class*="wrapper_"],
 [class*="perksModal_"],
-[class*="quickswitcher_"],
-[class*="notice_bar_"],
 [class*="forumPostList_"],
 [class*="uploadArea_"],
-[class*="callContainer_"],
-[class*="voiceCallWrapper_"],
 [class*="noChat_"],
-[class*="video_"],
-[class*="guildIcon_"] {
-  background-color: transparent !important;
-  background: transparent !important;
-}
-
-/* Also target by element + nav */
-#app-mount,
-#app-mount > div,
+[class*="guildIcon_"],
+[class*="settingsContainer_"],
+[class*="userSettingsAccount_"],
+[class*="inspector_"],
+[class*="categoryItem_"],
+[class*="appAsidePanelWrapper_"],
+[class*="notAppAsidePanel_"],
+[class*="channelPanelTitle_"],
+[class*="profilePanel_"],
+[class*="profilePanelScroller_"],
+[class*="userPanelOuter_"],
+[class*="userPanelInner_"],
+[class*="infoScroller_"],
+[class*="userInfoSection_"],
+[class*="connectedAccounts_"],
+[class*="body_"],
+[class*="tabBarContainer_"],
+[class*="peopleTabBar_"],
+[class*="searchResultsWrap_"],
 nav[aria-label="Servers sidebar"],
 nav[aria-label="Servers sidebar"] > ul,
 nav[aria-label="Servers sidebar"] > div {
@@ -531,56 +573,121 @@ nav[aria-label="Servers sidebar"] > div {
   background-color: transparent !important;
 }
 
-/* Settings / account pages  */
-[class*="contentRegion_"] [class*="children_"],
-[class*="settingsContainer_"],
-[class*="userSettingsAccount_"],
-[class*="stickerInspected_"],
-[class*="inspector_"] {
-  background: transparent !important;
-}
+/* =======================================================================
+   VOICE CHAT - FULL TRANSPARENCY
+   This is the big addition. All voice/video containers go transparent.
+   ======================================================================= */
 
-/* Friends list / Home area */
-[class*="peopleColumn_"],
-[class*="tabBar_"],
-[class*="tabBody_"],
-[class*="nowPlayingColumn_"],
-[class*="item_"][class*="themed_"] {
-  background: transparent !important;
-}
-
-/* Guild discovery */
-[class*="pageWrapper_"],
-[class*="scroller_"][class*="fade_"],
-[class*="categoryItem_"] {
-  background: transparent !important;
-}
-
-/* ==== IMPORTANT: Prevent the old #app-mount from painting its own bg ==== */
-#app-mount {
+/* Voice channel main wrappers */
+[class*="callContainer_"],
+[class*="voiceCallWrapper_"],
+[class*="voiceCall_"],
+[class*="wrapper_"][class*="video_"],
+[class*="videoWrapper_"],
+[class*="gridContainer_"],
+[class*="grid_"],
+[class*="centeringWrapper_"],
+[class*="root_"][class*="panel_"],
+[class*="liveLabel_"],
+[class*="newMemberBanner_"],
+[class*="connecting_"] {
   background: transparent !important;
   background-color: transparent !important;
 }
 
+/* Voice connection status bar */
+[class*="connection_"],
+[class*="rtcConnection_"],
+[class*="rtcConnectionStatus_"] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Voice channel info panel */
+[class*="voiceChannelDetails_"],
+[class*="channelInfo_"] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Voice user tiles/cards */
+[class*="voiceUser_"],
+[class*="tileContainer_"],
+[class*="tile_"],
+[class*="participantsContainer_"],
+[class*="participants_"],
+[class*="voiceParticipants_"] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Video player backgrounds */
+[class*="videoContainer_"],
+[class*="videoGrid_"],
+[class*="videoTile_"],
+[class*="noVideoTile_"],
+[class*="pictureInPictureWindow_"],
+[class*="pictureInPicture_"] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Voice controls bar at bottom */
+[class*="actionButtons_"],
+[class*="activityPanel_"],
+[class*="controlsContainer_"],
+[class*="voiceControls_"],
+[class*="bottomControls_"],
+[class*="bottomSection_"] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Voice user avatars container */
+[class*="avatarContainer_"],
+[class*="avatarWrapper_"][class*="speaking_"],
+[class*="voiceAvatar_"] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Stage channel */
+[class*="stageListItem_"],
+[class*="stageSection_"],
+[class*="stageSpeaker_"],
+[class*="audienceSection_"] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Voice user tile - give a subtle glass effect so you can see them */
+[class*="tileContainer_"],
+[class*="tile_"]:not([class*="videoTile_"]),
+[class*="voiceUser_"] {
+  border: 1px solid rgba(74,144,217,0.06) !important;
+  border-radius: 8px !important;
+}
+
+/* Speaking indicator glow */
+[class*="speaking_"] {
+  box-shadow: 0 0 12px rgba(74,144,217,0.3) !important;
+}
+
 /* =======================================================================
-   SUBTLE PANEL DIVIDERS (so you can tell panels apart)
+   SUBTLE PANEL DIVIDERS
    ======================================================================= */
 nav[aria-label="Servers sidebar"] {
   border-right: 1px solid rgba(74,144,217,0.04) !important;
 }
-
 [class*="sidebar_"]:not([class*="threadSidebar_"]) {
   border-right: 1px solid rgba(74,144,217,0.04) !important;
 }
-
 [class*="membersWrap_"] {
   border-left: 1px solid rgba(74,144,217,0.04) !important;
 }
-
 [class*="panels_"] {
   border-top: 1px solid rgba(74,144,217,0.04) !important;
 }
-
 [class*="title_"][class*="container_"],
 [class*="chat_"] > [class*="title_"],
 [class*="header_"][class*="container_"] {
@@ -592,21 +699,18 @@ nav[aria-label="Servers sidebar"] {
    UI ELEMENT STYLING
    ======================================================================= */
 
-/* Channel list items */
+/* Channel list */
 [class*="containerDefault_"]:hover {
   background-color: var(--sn-hover) !important;
 }
-
 [class*="containerDefault_"][class*="modeSelected_"],
 [class*="containerDefault_"][class*="modeSelected_"] [class*="wrapper_"] {
   background-color: var(--sn-selected) !important;
 }
-
 [class*="containerDefault_"][class*="modeSelected_"] [class*="name_"],
 [class*="containerDefault_"][class*="modeSelected_"] [class*="icon_"] {
   color: var(--sn-accent-bright) !important;
 }
-
 [class*="containerDefault_"][class*="modeUnread_"] [class*="name_"] {
   color: var(--sn-text) !important;
 }
@@ -615,11 +719,9 @@ nav[aria-label="Servers sidebar"] {
 [class*="listItem_"] [class*="icon_"]:hover {
   box-shadow: 0 0 12px rgba(74,144,217,0.3) !important;
 }
-
 [class*="pill_"] span[class*="item_"] {
   background-color: var(--sn-accent) !important;
 }
-
 [class*="guildSeparator_"] {
   background-color: rgba(74,144,217,0.06) !important;
 }
@@ -638,7 +740,6 @@ nav[aria-label="Servers sidebar"] {
 [class*="message_"][class*="cozy_"]:hover {
   background-color: rgba(74,144,217,0.03) !important;
 }
-
 [class*="message_"][class*="mentioned_"] {
   background-color: rgba(74,144,217,0.05) !important;
   border-left: 3px solid var(--sn-accent) !important;
@@ -711,7 +812,6 @@ nav[aria-label="Servers sidebar"] {
   box-shadow: 0 8px 32px rgba(0,0,0,0.7) !important;
   backdrop-filter: blur(16px) !important;
 }
-
 [class*="modal_"],
 [class*="root_"][class*="fullscreenOnMobile_"],
 [class*="layer_"] > [class*="root_"] {
@@ -720,7 +820,6 @@ nav[aria-label="Servers sidebar"] {
   box-shadow: 0 12px 48px rgba(0,0,0,0.7) !important;
   backdrop-filter: blur(16px) !important;
 }
-
 [class*="menu_"] {
   background-color: var(--sn-glass-heavy) !important;
   border: 1px solid var(--sn-border) !important;
@@ -779,6 +878,9 @@ nav[aria-label="Servers sidebar"] {
 }
 [class*="search_"] [class*="searchBar_"]:focus-within {
   border-color: var(--sn-accent) !important;
+}
+[class*="searchResultsWrap_"] {
+  background: var(--sn-glass) !important;
 }
 
 /* Toolbar icons */
@@ -895,6 +997,14 @@ button[class*="lookFilled_"][class*="colorRed_"] {
   filter: drop-shadow(0 0 3px rgba(74,144,217,0.35)) !important;
 }
 
+/* Inline style overrides */
+[style*="background-color: var(--background-primary)"],
+[style*="background-color: var(--background-secondary)"],
+[style*="background-color: var(--background-tertiary)"],
+[style*="background-color: var(--background-secondary-alt)"] {
+  background-color: transparent !important;
+}
+
 /* =======================================================================
    SCROLLBAR
    ======================================================================= */
@@ -922,48 +1032,8 @@ button[class*="lookFilled_"][class*="colorRed_"] {
 }
 
 /* =======================================================================
-   Z-INDEX STACKING - ensure UI above stars, popouts above UI
+   Z-INDEX STACKING
    ======================================================================= */
-html::before, html::after {
-  z-index: 0 !important;
-}
-
-#app-mount {
-  position: relative !important;
-  z-index: 1 !important;
-}
-
-body::before, body::after {
-  z-index: 9999 !important;
-}
-
-/* =======================================================================
-   FINAL OVERRIDE: Catch any remaining painted backgrounds
-   Discord sometimes inlines background-color on elements.
-   This uses a wildcard-ish approach.
-   ======================================================================= */
-[style*="background-color: var(--background-primary)"],
-[style*="background-color: var(--background-secondary)"],
-[style*="background-color: var(--background-tertiary)"],
-[style*="background-color: var(--background-secondary-alt)"] {
-  background-color: transparent !important;
-}
-
-/* Catch Discord's main layout wrappers by their data attributes */
-[class*="appAsidePanelWrapper_"],
-[class*="notAppAsidePanel_"],
-[class*="channelPanelTitle_"],
-[class*="resizeHandle_"],
-[class*="profilePanel_"],
-[class*="profilePanelScroller_"],
-[class*="userPanelOuter_"],
-[class*="userPanelInner_"],
-[class*="infoScroller_"],
-[class*="userInfoSection_"],
-[class*="connectedAccounts_"],
-[class*="body_"],
-[class*="tabBarContainer_"],
-[class*="peopleTabBar_"] {
-  background: transparent !important;
-  background-color: transparent !important;
-}
+html::before, html::after { z-index: 0 !important; }
+#app-mount { position: relative !important; z-index: 1 !important; }
+body::before, body::after { z-index: 9999 !important; }
