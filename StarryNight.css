@@ -2,9 +2,10 @@
  * @name StarryNight
  * @description A celestial deep-space theme for Discord. Starry sky background visible EVERYWHERE.
  *              Identical aesthetic to the Spicetify StarryNight theme.
- *              Features: static stars, tailed shooting stars (slow), full transparency including voice chat.
+ *              Features: static stars, slow shooting stars with proper directional tails,
+ *              gentle pulsing stars, full transparency including voice chat.
  * @author Adapted for Discord
- * @version 4.0.0
+ * @version 5.0.0
  */
 
 /* =======================================================================
@@ -53,7 +54,6 @@ html::before {
   z-index: 0;
   pointer-events: none;
   background-image:
-    /* === BRIGHT STARS (2-2.5px) === */
     radial-gradient(2.5px 2.5px at 7% 11%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 22% 5%, #a0c4ff 50%, transparent 100%),
     radial-gradient(2.5px 2.5px at 44% 8%, #fff 50%, transparent 100%),
@@ -78,8 +78,6 @@ html::before {
     radial-gradient(2px 2px at 67% 91%, #fff 50%, transparent 100%),
     radial-gradient(2px 2px at 89% 86%, #a0e8e8 50%, transparent 100%),
     radial-gradient(2.5px 2.5px at 54% 94%, #fff 50%, transparent 100%),
-
-    /* === MEDIUM STARS (1.5px) === */
     radial-gradient(1.5px 1.5px at 2% 6%, #c8d8f0 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 10% 17%, #fff 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 18% 2%, #a0c4ff 50%, transparent 100%),
@@ -139,8 +137,6 @@ html::before {
     radial-gradient(1.5px 1.5px at 72% 96%, #fff 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 85% 92%, #a0e8e8 50%, transparent 100%),
     radial-gradient(1.5px 1.5px at 96% 90%, #fff 50%, transparent 100%),
-
-    /* === DIM STARS (1px) === */
     radial-gradient(1px 1px at 1% 1%, #c8d8f0 45%, transparent 100%),
     radial-gradient(1px 1px at 4% 8%, #fff 40%, transparent 100%),
     radial-gradient(1px 1px at 6% 3%, #c8d8f0 45%, transparent 100%),
@@ -289,9 +285,7 @@ html::before {
 }
 
 /* =======================================================================
-   TWINKLING / PULSING STARS on html::after
-   These are normal-looking stars that gently pulse (no tails).
-   Slow, peaceful breathing animation.
+   GENTLE PULSING STARS on html::after
    ======================================================================= */
 html::after {
   content: "";
@@ -333,86 +327,208 @@ html::after {
 }
 
 /* =======================================================================
-   SHOOTING STARS WITH TAILS - slow, graceful
-   Using body pseudo-elements.
-   Each star is a bright dot with a long fading tail behind it.
+   SHOOTING STARS WITH DIRECTIONAL TAILS
+   
+   How this works:
+   - The element is the TAIL (long gradient bar)
+   - The bright HEAD (circle) is created with box-shadow at the leading edge
+   - The whole thing is rotated with transform to match flight direction
+   - The rotation angle matches the translate direction so the tail
+     trails BEHIND the head perfectly
+   
+   Star 1: flies top-left → bottom-right at -35deg
+   Star 2: flies top-right → bottom-left at 210deg (flipped)
+   Star 3: flies top-center → bottom-right at -20deg (gentle)
+   Star 4: flies right → left at 195deg
+   
+   We use body::before, body::after, and two extra elements via
+   box-shadow tricks on #app-mount for the extra two stars.
    ======================================================================= */
+
+/* --- SHOOTING STAR 1: Top-left to bottom-right, -35° --- */
 body::before {
   content: "";
   position: fixed;
-  top: -5px;
-  left: -200px;
-  width: 180px;
+  /* Start off-screen top-left */
+  top: 5%;
+  left: -220px;
+  /* Tail dimensions */
+  width: 200px;
   height: 2px;
+  /* The tail gradient: transparent at back, bright at front (right edge = head) */
   background: linear-gradient(
     to right,
     transparent 0%,
-    rgba(100, 160, 255, 0) 10%,
-    rgba(100, 160, 255, 0.05) 20%,
-    rgba(130, 180, 255, 0.15) 40%,
-    rgba(160, 200, 255, 0.35) 60%,
-    rgba(200, 220, 255, 0.6) 80%,
-    rgba(230, 240, 255, 0.85) 92%,
+    rgba(100, 160, 255, 0) 5%,
+    rgba(100, 160, 255, 0.02) 15%,
+    rgba(120, 170, 255, 0.06) 25%,
+    rgba(140, 185, 255, 0.12) 38%,
+    rgba(160, 200, 255, 0.22) 50%,
+    rgba(180, 215, 255, 0.38) 62%,
+    rgba(200, 225, 255, 0.55) 74%,
+    rgba(225, 238, 255, 0.75) 86%,
+    rgba(245, 250, 255, 0.92) 95%,
     #fff 100%
   );
+  /* The bright star HEAD at the right edge (leading edge) */
+  box-shadow:
+    /* Core white dot */
+    200px 0 0 1.5px rgba(255, 255, 255, 1),
+    /* Inner glow */
+    200px 0 4px 2px rgba(200, 220, 255, 0.9),
+    /* Mid glow */
+    200px 0 10px 4px rgba(160, 196, 255, 0.5),
+    /* Outer glow */
+    200px 0 20px 8px rgba(130, 175, 255, 0.2);
+  /* Rotate so tail points BEHIND the direction of travel */
+  transform-origin: right center;
+  transform: rotate(-35deg);
   z-index: 9999;
   pointer-events: none;
   opacity: 0;
-  animation: shootSlow1 25s linear infinite 5s;
-  border-radius: 0 50% 50% 0;
-  filter: blur(0.2px);
-  box-shadow:
-    180px 0 4px 1px rgba(255, 255, 255, 0.9),
-    180px 0 12px 3px rgba(160, 196, 255, 0.5),
-    180px 0 20px 6px rgba(160, 196, 255, 0.2);
+  animation: shootDiag1 28s linear infinite 4s;
+  border-radius: 0;
+  filter: blur(0.15px);
 }
 
+@keyframes shootDiag1 {
+  0%    { left: -220px; top: 5%;  opacity: 0; }
+  0.3%  { opacity: 1; }
+  4.5%  { opacity: 1; }
+  6%    { left: calc(100vw + 300px); top: 5%; opacity: 0; }
+  100%  { opacity: 0; }
+}
+
+/* --- SHOOTING STAR 2: Top-right to bottom-left, angled 210° (tail trails right) --- */
 body::after {
   content: "";
   position: fixed;
-  top: -5px;
-  right: -200px;
-  width: 140px;
+  top: 12%;
+  right: -220px;
+  width: 160px;
   height: 1.5px;
+  /* Tail: transparent at right (back), bright at left (front/head) */
   background: linear-gradient(
     to left,
     transparent 0%,
-    rgba(180, 160, 230, 0) 10%,
-    rgba(180, 160, 230, 0.05) 20%,
-    rgba(180, 160, 230, 0.15) 40%,
-    rgba(200, 180, 240, 0.35) 60%,
-    rgba(220, 210, 250, 0.6) 80%,
-    rgba(240, 235, 255, 0.85) 92%,
+    rgba(180, 160, 230, 0) 5%,
+    rgba(180, 160, 230, 0.02) 15%,
+    rgba(185, 165, 235, 0.06) 25%,
+    rgba(190, 175, 240, 0.12) 38%,
+    rgba(200, 185, 245, 0.22) 50%,
+    rgba(210, 200, 248, 0.38) 62%,
+    rgba(225, 215, 252, 0.55) 74%,
+    rgba(238, 230, 255, 0.75) 86%,
+    rgba(248, 245, 255, 0.92) 95%,
     #fff 100%
   );
+  box-shadow:
+    -160px 0 0 1.5px rgba(255, 255, 255, 1),
+    -160px 0 4px 2px rgba(220, 210, 255, 0.9),
+    -160px 0 10px 4px rgba(184, 160, 232, 0.5),
+    -160px 0 20px 8px rgba(170, 150, 220, 0.2);
+  transform-origin: left center;
+  transform: rotate(25deg);
   z-index: 9999;
   pointer-events: none;
   opacity: 0;
-  animation: shootSlow2 35s linear infinite 18s;
-  border-radius: 50% 0 0 50%;
-  filter: blur(0.2px);
+  animation: shootDiag2 38s linear infinite 16s;
+  filter: blur(0.15px);
+}
+
+@keyframes shootDiag2 {
+  0%    { right: -220px; top: 12%; opacity: 0; }
+  0.2%  { opacity: 0.9; }
+  3.5%  { opacity: 0.9; }
+  5%    { right: calc(100vw + 300px); top: 12%; opacity: 0; }
+  100%  { opacity: 0; }
+}
+
+/* --- SHOOTING STAR 3: Gentle shallow angle, top-left to right --- */
+#app-mount::before {
+  content: "";
+  position: fixed;
+  top: 30%;
+  left: -250px;
+  width: 240px;
+  height: 1.5px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(160, 232, 232, 0) 5%,
+    rgba(160, 232, 232, 0.02) 15%,
+    rgba(165, 235, 235, 0.05) 25%,
+    rgba(175, 240, 240, 0.10) 38%,
+    rgba(185, 242, 242, 0.18) 50%,
+    rgba(200, 245, 245, 0.32) 62%,
+    rgba(215, 248, 248, 0.50) 74%,
+    rgba(235, 252, 252, 0.72) 86%,
+    rgba(248, 254, 254, 0.90) 95%,
+    #fff 100%
+  );
   box-shadow:
-    -140px 0 4px 1px rgba(255, 255, 255, 0.9),
-    -140px 0 12px 3px rgba(184, 160, 232, 0.5),
-    -140px 0 20px 6px rgba(184, 160, 232, 0.2);
+    240px 0 0 1px rgba(255, 255, 255, 1),
+    240px 0 3px 1.5px rgba(200, 245, 245, 0.9),
+    240px 0 8px 3px rgba(160, 232, 232, 0.4),
+    240px 0 16px 6px rgba(160, 232, 232, 0.15);
+  transform-origin: right center;
+  transform: rotate(-12deg);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  animation: shootShallow 45s linear infinite 28s;
+  filter: blur(0.15px);
 }
 
-/* Slow shooting star 1: left to right, gentle arc */
-@keyframes shootSlow1 {
-  0%   { transform: translate(0, 0) rotate(-25deg); opacity: 0; }
-  0.5% { opacity: 1; }
-  5%   { opacity: 1; }
-  8%   { transform: translate(calc(100vw + 400px), 30vh) rotate(-25deg); opacity: 0; }
-  100% { opacity: 0; }
+@keyframes shootShallow {
+  0%    { left: -250px; opacity: 0; }
+  0.2%  { opacity: 0.8; }
+  3%    { opacity: 0.8; }
+  4.5%  { left: calc(100vw + 350px); opacity: 0; }
+  100%  { opacity: 0; }
 }
 
-/* Slow shooting star 2: right to left, different angle */
-@keyframes shootSlow2 {
-  0%   { transform: translate(0, 0) rotate(18deg); opacity: 0; }
-  0.3% { opacity: 0.85; }
-  4%   { opacity: 0.85; }
-  6%   { transform: translate(calc(-100vw - 400px), 40vh) rotate(18deg); opacity: 0; }
-  100% { opacity: 0; }
+/* --- SHOOTING STAR 4: Steep angle, top to bottom-right --- */
+#app-mount::after {
+  content: "";
+  position: fixed;
+  top: -100px;
+  left: 35%;
+  width: 130px;
+  height: 1.5px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(232, 160, 200, 0) 5%,
+    rgba(232, 160, 200, 0.02) 15%,
+    rgba(235, 170, 210, 0.06) 28%,
+    rgba(240, 185, 220, 0.14) 42%,
+    rgba(245, 200, 230, 0.28) 56%,
+    rgba(248, 215, 240, 0.48) 70%,
+    rgba(252, 235, 248, 0.72) 84%,
+    rgba(254, 248, 252, 0.90) 94%,
+    #fff 100%
+  );
+  box-shadow:
+    130px 0 0 1px rgba(255, 255, 255, 1),
+    130px 0 3px 1.5px rgba(250, 220, 240, 0.9),
+    130px 0 8px 3px rgba(232, 160, 200, 0.4),
+    130px 0 16px 6px rgba(232, 160, 200, 0.15);
+  transform-origin: right center;
+  transform: rotate(-55deg);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  animation: shootSteep 52s linear infinite 38s;
+  filter: blur(0.15px);
+}
+
+@keyframes shootSteep {
+  0%    { top: -100px; left: 35%; opacity: 0; }
+  0.2%  { opacity: 0.75; }
+  2.5%  { opacity: 0.75; }
+  4%    { top: calc(100vh + 200px); left: 65%; opacity: 0; }
+  100%  { opacity: 0; }
 }
 
 /* =======================================================================
@@ -478,11 +594,8 @@ body::after {
 }
 
 /* =======================================================================
-   NUCLEAR TRANSPARENCY
-   Every Discord panel / container / section → transparent
+   NUCLEAR TRANSPARENCY - EVERYTHING
    ======================================================================= */
-
-/* Use a single massive selector to kill all backgrounds */
 #app-mount,
 #app-mount > div,
 [class*="app_"],
@@ -575,10 +688,7 @@ nav[aria-label="Servers sidebar"] > div {
 
 /* =======================================================================
    VOICE CHAT - FULL TRANSPARENCY
-   This is the big addition. All voice/video containers go transparent.
    ======================================================================= */
-
-/* Voice channel main wrappers */
 [class*="callContainer_"],
 [class*="voiceCallWrapper_"],
 [class*="voiceCall_"],
@@ -590,68 +700,32 @@ nav[aria-label="Servers sidebar"] > div {
 [class*="root_"][class*="panel_"],
 [class*="liveLabel_"],
 [class*="newMemberBanner_"],
-[class*="connecting_"] {
-  background: transparent !important;
-  background-color: transparent !important;
-}
-
-/* Voice connection status bar */
+[class*="connecting_"],
 [class*="connection_"],
 [class*="rtcConnection_"],
-[class*="rtcConnectionStatus_"] {
-  background: transparent !important;
-  background-color: transparent !important;
-}
-
-/* Voice channel info panel */
+[class*="rtcConnectionStatus_"],
 [class*="voiceChannelDetails_"],
-[class*="channelInfo_"] {
-  background: transparent !important;
-  background-color: transparent !important;
-}
-
-/* Voice user tiles/cards */
+[class*="channelInfo_"],
 [class*="voiceUser_"],
 [class*="tileContainer_"],
 [class*="tile_"],
 [class*="participantsContainer_"],
 [class*="participants_"],
-[class*="voiceParticipants_"] {
-  background: transparent !important;
-  background-color: transparent !important;
-}
-
-/* Video player backgrounds */
+[class*="voiceParticipants_"],
 [class*="videoContainer_"],
 [class*="videoGrid_"],
 [class*="videoTile_"],
 [class*="noVideoTile_"],
 [class*="pictureInPictureWindow_"],
-[class*="pictureInPicture_"] {
-  background: transparent !important;
-  background-color: transparent !important;
-}
-
-/* Voice controls bar at bottom */
+[class*="pictureInPicture_"],
 [class*="actionButtons_"],
 [class*="activityPanel_"],
 [class*="controlsContainer_"],
 [class*="voiceControls_"],
 [class*="bottomControls_"],
-[class*="bottomSection_"] {
-  background: transparent !important;
-  background-color: transparent !important;
-}
-
-/* Voice user avatars container */
+[class*="bottomSection_"],
 [class*="avatarContainer_"],
-[class*="avatarWrapper_"][class*="speaking_"],
-[class*="voiceAvatar_"] {
-  background: transparent !important;
-  background-color: transparent !important;
-}
-
-/* Stage channel */
+[class*="voiceAvatar_"],
 [class*="stageListItem_"],
 [class*="stageSection_"],
 [class*="stageSpeaker_"],
@@ -660,7 +734,7 @@ nav[aria-label="Servers sidebar"] > div {
   background-color: transparent !important;
 }
 
-/* Voice user tile - give a subtle glass effect so you can see them */
+/* Voice tile subtle border */
 [class*="tileContainer_"],
 [class*="tile_"]:not([class*="videoTile_"]),
 [class*="voiceUser_"] {
@@ -668,7 +742,7 @@ nav[aria-label="Servers sidebar"] > div {
   border-radius: 8px !important;
 }
 
-/* Speaking indicator glow */
+/* Speaking glow */
 [class*="speaking_"] {
   box-shadow: 0 0 12px rgba(74,144,217,0.3) !important;
 }
@@ -696,10 +770,10 @@ nav[aria-label="Servers sidebar"] {
 }
 
 /* =======================================================================
-   UI ELEMENT STYLING
+   UI ELEMENTS
    ======================================================================= */
 
-/* Channel list */
+/* Channels */
 [class*="containerDefault_"]:hover {
   background-color: var(--sn-hover) !important;
 }
@@ -715,7 +789,7 @@ nav[aria-label="Servers sidebar"] {
   color: var(--sn-text) !important;
 }
 
-/* Guild icons */
+/* Guilds */
 [class*="listItem_"] [class*="icon_"]:hover {
   box-shadow: 0 0 12px rgba(74,144,217,0.3) !important;
 }
@@ -725,8 +799,6 @@ nav[aria-label="Servers sidebar"] {
 [class*="guildSeparator_"] {
   background-color: rgba(74,144,217,0.06) !important;
 }
-
-/* Home icon */
 [class*="tutorialContainer_"] [class*="childWrapper_"] {
   background-color: rgba(74,144,217,0.1) !important;
   transition: all 0.3s ease !important;
@@ -773,7 +845,7 @@ nav[aria-label="Servers sidebar"] {
   border-color: rgba(74,144,217,0.08) !important;
 }
 
-/* Code blocks */
+/* Code */
 [class*="markup_"] code {
   background-color: var(--sn-glass) !important;
   border: 1px solid rgba(74,144,217,0.08) !important;
@@ -802,7 +874,7 @@ nav[aria-label="Servers sidebar"] {
   border-color: var(--sn-accent) !important;
 }
 
-/* Popouts / Modals / Context Menus */
+/* Popouts / Modals */
 [class*="popout_"],
 [class*="userPopoutOuter_"],
 [class*="userProfileOuter_"],
@@ -820,6 +892,8 @@ nav[aria-label="Servers sidebar"] {
   box-shadow: 0 12px 48px rgba(0,0,0,0.7) !important;
   backdrop-filter: blur(16px) !important;
 }
+
+/* Context menus */
 [class*="menu_"] {
   background-color: var(--sn-glass-heavy) !important;
   border: 1px solid var(--sn-border) !important;
@@ -862,7 +936,7 @@ nav[aria-label="Servers sidebar"] {
   background-color: var(--sn-selected) !important;
 }
 
-/* Emoji / GIF pickers */
+/* Pickers */
 [class*="emojiPicker_"],
 [class*="contentWrapper_"][class*="picker_"],
 [class*="stickerInspected_"] {
@@ -883,7 +957,7 @@ nav[aria-label="Servers sidebar"] {
   background: var(--sn-glass) !important;
 }
 
-/* Toolbar icons */
+/* Toolbar */
 [class*="toolbar_"] [class*="iconWrapper_"] {
   color: var(--sn-text-dim) !important;
 }
@@ -906,7 +980,7 @@ button[class*="lookFilled_"][class*="colorRed_"] {
   background-color: var(--sn-red) !important;
 }
 
-/* Settings sidebar items */
+/* Settings */
 [class*="side_"] [class*="item_"]:hover {
   background-color: var(--sn-hover) !important;
 }
@@ -928,7 +1002,7 @@ button[class*="lookFilled_"][class*="colorRed_"] {
   border-color: rgba(74,144,217,0.08) !important;
 }
 
-/* Member list */
+/* Members */
 [class*="members_"] [class*="member_"]:hover {
   background-color: var(--sn-hover) !important;
 }
@@ -950,13 +1024,13 @@ button[class*="lookFilled_"][class*="colorRed_"] {
   text-shadow: 0 0 8px currentColor !important;
 }
 
-/* Notification badge */
+/* Badge */
 [class*="numberBadge_"] {
   background-color: var(--sn-red) !important;
   box-shadow: 0 0 10px rgba(232,80,80,0.5) !important;
 }
 
-/* Drag & drop */
+/* Upload */
 [class*="uploadDropModal_"] {
   background-color: rgba(2,4,10,0.85) !important;
 }
@@ -965,7 +1039,7 @@ button[class*="lookFilled_"][class*="colorRed_"] {
   background-color: rgba(74,144,217,0.05) !important;
 }
 
-/* Unread bar */
+/* Unread */
 [class*="unreadBar_"],
 [class*="newMessagesBar_"] {
   background-color: var(--sn-accent) !important;
@@ -979,13 +1053,13 @@ button[class*="lookFilled_"][class*="colorRed_"] {
   backdrop-filter: blur(8px) !important;
 }
 
-/* Thread / Forum cards */
+/* Cards */
 [class*="container_"][class*="card_"] {
   background-color: var(--sn-glass-light) !important;
   border: 1px solid var(--sn-border) !important;
 }
 
-/* Premium / Nitro */
+/* Nitro */
 [class*="premiumPromo_"],
 [class*="upsellContainer_"] {
   background-color: var(--sn-glass-light) !important;
@@ -1036,4 +1110,5 @@ button[class*="lookFilled_"][class*="colorRed_"] {
    ======================================================================= */
 html::before, html::after { z-index: 0 !important; }
 #app-mount { position: relative !important; z-index: 1 !important; }
+#app-mount::before, #app-mount::after { z-index: 0 !important; }
 body::before, body::after { z-index: 9999 !important; }
