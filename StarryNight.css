@@ -1,198 +1,249 @@
 /**
- * @name StarryNight
- * @author MiMo
- * @version 3.0
- * @description Uniform starry night background with falling stars (pure CSS)
+ * @name Starry Night (Exact Image & Animation)
+ * @author b-chen00 (Original Spicetify Theme) / Ported & Enhanced by Assistant
+ * @version 4.0
+ * @description Uses the original StarryNight background image with downward animation, exact opacity split from reference.
  */
 
-/* ============================================================
-   FONT
-   ============================================================ */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+/* --- CORE COLOR PALETTE (From Original Spicetify Theme) --- */
+:root {
+    /* Primary Background Colors */
+    --bg-deep: #101215;            /* Deepest Navy (Opaque areas, base for transparent) */
+    --bg-deep-rgb: 16, 18, 21;     /* RGB for rgba() transparency calculations */
 
-* {
-  font-family: 'Outfit', 'gg sans', 'Whitney', sans-serif !important;
+    --bg-secondary: #15171b;       /* Slightly Lighter (e.g., hover states, text inputs) */
+    --bg-secondary-rgb: 21, 23, 27;
+
+    --bg-tertiary: #1c1f24;        /* Cards, Modals (even lighter/more distinct) */
+    --bg-tertiary-rgb: 28, 31, 36;
+    
+    /* Accent Color (Electric Blue) */
+    --accent-blue: #4d9fff;
+    --accent-blue-hover: #3b8be0;  /* Slightly darker for hover states */
+
+    /* Text Colors */
+    --text-normal: #b9c1cd;        /* Main body text */
+    --text-muted: #6b7383;         /* Secondary text, hints */
+    --text-header: #ffffff;        /* Brighter for titles */
+    
+    /* Border & Divider Colors */
+    --border-subtle: #282b33;
 }
 
-/* ============================================================
-   MAKE ALL DISCORD PANELS TRANSPARENT
-   so the single background underneath shows through everywhere
-   ============================================================ */
-html,
-body,
-.appMount_ea7e85,
-[class*="appMount"],
-[class*="app_"],
-[class*="layers_"],
-[class*="layer_"]:not([class*="layerContainer"]),
-[class*="baseLayer"],
-[class*="container_"]:not([class*="modal"]):not([class*="popout"]):not([class*="tooltip"]),
-[class*="guilds"],
-[class*="sidebar_"],
-[class*="base_"],
-[class*="content_"]:not([class*="modalContent"]),
-[class*="chat_"],
-[class*="chatContent"],
-[class*="membersWrap"],
-[class*="members_"],
-[class*="panels_"],
-[class*="panel_"]:not([class*="panelContent"]),
-[class*="bg_"],
-[class*="nowPlayingColumn"],
-[class*="container__"][class*="title"] {
-  background: transparent !important;
-  background-color: transparent !important;
-}
-
-/* ============================================================
-   THE ONE SOLID BACKGROUND COLOR
-   ============================================================ */
-html {
-  background: #0a1024 !important;
-}
-
-/* ============================================================
-   STAR LAYER 1 — tiny faint distant stars (slow fall)
-   ============================================================ */
-html::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(1px 1px at 20px 30px,   rgba(255,255,255,0.8), transparent),
-    radial-gradient(1px 1px at 65px 80px,   rgba(255,255,255,0.6), transparent),
-    radial-gradient(1px 1px at 110px 45px,  rgba(255,255,255,0.7), transparent),
-    radial-gradient(1px 1px at 155px 120px, rgba(255,255,255,0.5), transparent),
-    radial-gradient(1px 1px at 200px 60px,  rgba(255,255,255,0.8), transparent),
-    radial-gradient(1px 1px at 235px 145px, rgba(255,255,255,0.6), transparent),
-    radial-gradient(1px 1px at 40px 175px,  rgba(255,255,255,0.7), transparent),
-    radial-gradient(1px 1px at 85px 215px,  rgba(255,255,255,0.5), transparent),
-    radial-gradient(1px 1px at 140px 245px, rgba(255,255,255,0.8), transparent),
-    radial-gradient(1px 1px at 180px 195px, rgba(255,255,255,0.6), transparent),
-    radial-gradient(1px 1px at 220px 270px, rgba(255,255,255,0.7), transparent),
-    radial-gradient(1px 1px at 55px 295px,  rgba(255,255,255,0.5), transparent),
-    radial-gradient(1px 1px at 130px 15px,  rgba(255,255,255,0.7), transparent),
-    radial-gradient(1px 1px at 245px 100px, rgba(255,255,255,0.6), transparent);
-  background-size: 280px 320px;
-  background-repeat: repeat;
-  animation: fall-slow 80s linear infinite;
-}
-
-@keyframes fall-slow {
-  from { background-position: 0 0; }
-  to   { background-position: 0 320px; }
-}
-
-/* ============================================================
-   STAR LAYER 2 — medium stars (medium fall speed)
-   ============================================================ */
-html::after {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(1.4px 1.4px at 50px 60px,    rgba(255,255,240,0.9), transparent),
-    radial-gradient(1.4px 1.4px at 145px 110px,  rgba(255,255,240,0.7), transparent),
-    radial-gradient(1.4px 1.4px at 230px 175px,  rgba(255,255,240,0.8), transparent),
-    radial-gradient(1.4px 1.4px at 90px 240px,   rgba(255,255,240,0.6), transparent),
-    radial-gradient(1.4px 1.4px at 310px 90px,   rgba(255,255,240,0.9), transparent),
-    radial-gradient(1.4px 1.4px at 360px 300px,  rgba(255,255,240,0.7), transparent),
-    radial-gradient(1.4px 1.4px at 180px 370px,  rgba(255,255,240,0.8), transparent),
-    radial-gradient(1.4px 1.4px at 30px 340px,   rgba(255,255,240,0.6), transparent),
-    radial-gradient(1.4px 1.4px at 270px 250px,  rgba(255,255,240,0.7), transparent);
-  background-size: 420px 420px;
-  background-repeat: repeat;
-  animation: fall-medium 50s linear infinite;
-}
-
-@keyframes fall-medium {
-  from { background-position: 0 0; }
-  to   { background-position: 0 420px; }
-}
-
-/* ============================================================
-   STAR LAYER 3 — bright close stars (faster fall)
-   ============================================================ */
+/* --- 1. GLOBAL BACKGROUND: THE ANIMATED STARRY NIGHT IMAGE --- */
 body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(2px 2px at 110px 90px,     rgba(255,255,255,1), transparent),
-    radial-gradient(2px 2px at 320px 220px,    rgba(255,255,255,0.9), transparent),
-    radial-gradient(2px 2px at 470px 110px,    rgba(255,255,255,1), transparent),
-    radial-gradient(2.4px 2.4px at 220px 410px,rgba(255,250,210,1), transparent),
-    radial-gradient(2px 2px at 560px 360px,    rgba(255,255,255,0.9), transparent),
-    radial-gradient(2px 2px at 80px 480px,     rgba(255,255,255,1), transparent),
-    radial-gradient(2.4px 2.4px at 400px 50px, rgba(255,250,210,0.9), transparent);
-  background-size: 620px 540px;
-  background-repeat: repeat;
-  animation: fall-fast 30s linear infinite;
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Ensures it's behind all Discord UI elements */
+
+    /* The actual background image from the Spicetify theme */
+    background-image: url("https://raw.githubusercontent.com/b-chen00/spicetify-themes/master/assets/star.jpg") !important;
+    background-size: cover !important;        /* Ensures the image covers the entire viewport */
+    background-repeat: repeat-y !important;   /* Allows vertical repeating for animation */
+    background-position: center top !important; /* Starts the image centered at the top */
+    background-attachment: fixed !important;  /* Keeps the background fixed relative to the viewport */
+
+    /* Downward animation for the image */
+    animation: starfall_image 60s linear infinite; /* Adjust '60s' for speed */
+    pointer-events: none; /* Allows mouse events to pass through */
 }
 
-@keyframes fall-fast {
-  from { background-position: 0 0; }
-  to   { background-position: 0 540px; }
+/* Keyframes for animating the background image's position downwards */
+@keyframes starfall_image {
+    from { background-position: center top; }
+    to { background-position: center 1000px; } /* Move 1000px down; adjust if needed for seamless loop */
 }
 
-/* ============================================================
-   ENSURE DISCORD UI SITS ABOVE THE STARS
-   ============================================================ */
-.appMount_ea7e85,
-[class*="appMount"] {
-  position: relative !important;
-  z-index: 1 !important;
+/* --- 2. FONT STYLING (Discord's Native Font) --- */
+/* This ensures consistency across text elements with Discord's default clean font */
+body,
+.root_c05763,
+.chat_d6aed9,
+.sidebar_c4e278,
+.messageContent_cbd271,
+.markup_e0f850 {
+    font-family: 'gg sans', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+    color: var(--text-normal) !important; /* Default text color */
 }
 
-/* ============================================================
-   KEEP FLOATING UI READABLE (modals, popouts, tooltips)
-   ============================================================ */
-[class*="modal_"],
-[class*="root_"][role="dialog"],
-[class*="tooltip_"],
-[class*="popout_"],
-[class*="menu_"],
-[class*="autocomplete"],
-[class*="quickswitcher"] {
-  background: rgba(13, 22, 51, 0.97) !important;
-  backdrop-filter: blur(10px);
+/* Specific text colors */
+h1, h2, h3, h4, h5, h6,
+.headerText_f296d2,
+.title_f296d2, /* Channel name in header */
+.nameTag_d6edd6 {
+    color: var(--text-header) !important;
+}
+.subtext_d6edd6,
+.placeholder_f296d2,
+.text_cf8c0f, /* Channel topic text */
+.membersGroup_ee8149 { /* Member list headers */
+    color: var(--text-muted) !important;
 }
 
-/* Chat input — slight tint so text is readable over stars */
-[class*="channelTextArea"] {
-  background: rgba(13, 22, 51, 0.55) !important;
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(80, 110, 180, 0.15) !important;
+/* --- 3. DISCORD UI OVERLAYS (Opacity & Split Background) --- */
+
+/* Make core Discord app containers transparent to reveal the global background */
+.appMount_c05763, /* Updated selector for Discord's main app mount */
+.layers_a23bcc,
+.layer_e5e116,
+.baseLayer_d9a8c6 {
+    background: transparent !important;
 }
 
-/* Top channel header — slight tint */
-[class*="title_"][class*="container"] {
-  background: rgba(10, 16, 36, 0.55) !important;
-  backdrop-filter: blur(10px);
+/* LEFT OPAQUE COLUMN: Server List, Channel List, User Panel */
+.guilds_a4d2d6, /* Server List (leftmost strip) */
+.sidebar_c4e278, /* Entire left sidebar (channels, DMs, settings) */
+.panels_f52e6e { /* User panel at bottom left (voice/video status) */
+    background-color: var(--bg-deep) !important;
+    border-right: 1px solid var(--border-subtle) !important; /* Add divider */
 }
 
-/* Message hover */
-[class*="messageListItem"]:hover,
-[class*="message_"]:hover {
-  background: rgba(30, 50, 120, 0.18) !important;
+/* SEMI-TRANSPARENT AREAS: Main Chat, Top Bar, Right Sidebar */
+
+/* Main Chat Area */
+.chat_d6aed9 {
+    background-color: rgba(var(--bg-deep-rgb), 0.75) !important; /* 75% opaque deep navy */
+    backdrop-filter: blur(3px) !important; /* Blurs the background image behind */
 }
 
-/* Selected channel */
-[class*="modeSelected"] {
-  background: rgba(30, 50, 120, 0.40) !important;
+/* Top Header Bar (Channel Name, Search, Call Controls) */
+.header_f296d2,
+.toolbar_f296d2 {
+    background-color: rgba(var(--bg-deep-rgb), 0.75) !important;
+    backdrop-filter: blur(3px) !important;
+    border-bottom: 1px solid var(--border-subtle) !important;
+}
+
+/* Right Sidebar (Member List, Now Playing) */
+.membersWrap_f6e3c4,
+.members_f46f29 {
+    background-color: rgba(var(--bg-deep-rgb), 0.75) !important;
+    backdrop-filter: blur(3px) !important;
+    border-left: 1px solid var(--border-subtle) !important;
+}
+
+/* Message Input Bar (Chatbox) */
+.channelTextArea_d6aed9 {
+    background-color: rgba(var(--bg-secondary-rgb), 0.8) !important; /* Slightly lighter, more opaque */
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle) !important;
+}
+
+/* Modals & Popouts (Slightly lighter, generally more opaque for focus) */
+.modal_a2d314,
+.root_f9a4c9,
+.popout_b75d51,
+.container_da4aa7, /* For some settings/popouts */
+.userPanelOuter_x1n26r { /* User profile in chat */
+    background-color: rgba(var(--bg-tertiary-rgb), 0.95) !important; /* Almost opaque tertiary color */
+    backdrop-filter: blur(5px) !important; /* A bit more blur for focus */
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle) !important;
+}
+
+/* --- 4. ACCENTS, BUTTONS & HIGHLIGHTS --- */
+
+/* Primary Brand Buttons (e.g., "Add Server", "Create Channel") */
+.lookFilled_dd4f85.colorBrand_dd4f85,
+.button_dd4f85.colorBrand_dd4f85 {
+    background-color: var(--accent-blue) !important;
+    color: white !important;
+    border: none;
+    box-shadow: 0 4px 15px rgba(77, 159, 255, 0.3); /* Subtle blue glow */
+}
+.lookFilled_dd4f85.colorBrand_dd4f85:hover,
+.button_dd4f85.colorBrand_dd4f85:hover {
+    background-color: var(--accent-blue-hover) !important;
+    box-shadow: 0 0 18px rgba(77, 159, 255, 0.5);
+}
+
+/* General filled buttons */
+.lookFilled_dd4f85 {
+    background-color: var(--bg-tertiary) !important;
+    color: var(--text-normal) !important;
+}
+
+/* Links */
+.anchor_f8eabe,
+.channelName_f296d2 {
+    color: var(--accent-blue) !important;
+    text-decoration: none;
+}
+.anchor_f8eabe:hover {
+    text-decoration: underline;
+}
+
+/* Selected Channel/Item */
+.item_p9oxjT[aria-checked="true"], /* Settings Toggle */
+.interactiveSelected_d6edd6, /* Selected Channel */
+.modeSelected_f296d2 .content_f296d2 {
+    background-color: var(--accent-blue) !important;
+    color: white !important;
+    border-radius: 4px; /* Soften edges */
+}
+
+/* Hover Effects */
+.button_dd4f85:hover,
+.clickable_f296d2:hover,
+.memberListItem_f46f29:hover,
+.selectableItem_f296d2:hover {
+    background-color: rgba(var(--bg-secondary-rgb), 0.7) !important;
+}
+
+/* Server Icon Hover/Selected */
+.wrapper_ef3116.selected_b28756,
+.wrapper_ef3116:hover {
+    background-color: var(--accent-blue) !important;
+}
+.wrapper_ef3116.selected_b28756 circle,
+.wrapper_ef3116:hover circle {
+    fill: var(--bg-deep) !important; /* Inner circle remains dark */
+}
+
+/* --- 5. SCROLLBARS --- */
+::-webkit-scrollbar-track {
+    background-color: rgba(var(--bg-deep-rgb), 0.5) !important; /* Semi-transparent track */
+    border-color: transparent !important;
+}
+::-webkit-scrollbar-thumb {
+    background-color: var(--accent-blue) !important; /* Blue thumb */
+    border-color: transparent !important;
+    border-radius: 4px;
+}
+
+/* --- 6. UNREAD INDICATORS & MENTIONS --- */
+.unread_ee9a91 {
+    background-color: var(--accent-blue) !important;
+    width: 3px !important;
+    height: 100% !important; /* Full height indicator */
+    border-radius: 0 !important;
+    left: 0 !important;
+}
+.mentionButton_b28756 {
+    color: var(--accent-blue) !important;
+}
+
+/* --- 7. CLEANUP / REMOVE DISCORD'S DEFAULTS --- */
+/* Remove Discord's native blur effects, as we're implementing our own */
+.blurLayer_cba467,
+.theme-dark .container-1oe9L_:not(.container-3baos1),
+.theme-dark .root-g147XH,
+.base_e1286c, /* General base layers */
+.wrapper_c05763 { /* Another common app wrapper */
+    background: transparent !important;
+    opacity: 1 !important; /* Ensure visibility for content, not for background */
+    box-shadow: none !important; /* Remove shadows that might conflict */
+}
+
+/* --- 8. SEARCH BAR --- */
+.searchBar_f296d2 input {
+    background-color: rgba(var(--bg-tertiary-rgb), 0.8) !important;
+    color: var(--text-normal) !important;
+}
+.searchBar_f296d2 .searchBarComponent_f296d2 {
+    color: var(--text-muted) !important;
 }
