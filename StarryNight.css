@@ -1,0 +1,429 @@
+/**
+ * @name StarryNight (Discord)
+ * @description A Van Gogh Starry Night inspired theme — ported from Spicetify
+ * @author MiMo (original Spicetify concept by b-chen00)
+ * @version 1.0.0
+ */
+
+/* ===== GOOGLE FONT IMPORT ===== */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap');
+
+:root {
+  /* ---- Primary Palette ---- */
+  --bg-primary:        #0b1026;
+  --bg-secondary:      #101838;
+  --bg-tertiary:       #151e47;
+  --bg-accent:         #1a2455;
+  --bg-floating:       #0d1330;
+
+  /* ---- Canvas / Modals ---- */
+  --bg-modifier-hover:     rgba(30, 50, 120, 0.30);
+  --bg-modifier-active:    rgba(30, 50, 120, 0.45);
+  --bg-modifier-selected:  rgba(30, 50, 120, 0.50);
+
+  /* ---- Text ---- */
+  --text-normal:       #c5d0e6;
+  --text-muted:        #7a89ad;
+  --text-link:         #5bc0eb;
+  --header-primary:    #e8efff;
+  --header-secondary:  #8fa3cc;
+
+  /* ---- Accent (the "star gold") ---- */
+  --brand-experiment:       #e6b422;
+  --brand-experiment-560:   #c99a1b;
+  --brand-experiment-hover: #f0c94d;
+  --brand-experiment-active:#d4a519;
+  --brand-glow:             rgba(230, 180, 34, 0.25);
+
+  /* ---- Status ---- */
+  --status-positive:   #43b581;
+  --status-warning:    #faa61a;
+  --status-danger:     #f04747;
+
+  /* ---- Channels & Special ---- */
+  --channel-icon:      #6e84b3;
+  --interactive-normal:#8fa3cc;
+  --interactive-hover: #b4c7e6;
+  --interactive-active:#e8efff;
+  --interactive-muted: #4d5f8a;
+
+  /* ---- Scrollbar ---- */
+  --scrollbar-thin-thumb:  #1a2455;
+  --scrollbar-auto-thumb:  #1a2455;
+  --scrollbar-auto-track:  #0b1026;
+
+  /* ---- Misc ---- */
+  --divider:           rgba(80, 110, 180, 0.12);
+  --elevation-low:     0 1px 0 rgba(6,10,26,0.2), 0 1.5px 0 rgba(6,10,26,0.05), 0 2px 0 rgba(6,10,26,0.05);
+  --elevation-high:    0 8px 16px rgba(0,0,0,0.45);
+
+  /* ---- Font ---- */
+  --font-primary: 'Outfit', 'gg sans', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* ===== GLOBAL FONT ===== */
+* {
+  font-family: var(--font-primary) !important;
+}
+
+/* ===== APP BACKGROUND WITH STARS ===== */
+.appMount_ea7e85 {
+  background: var(--bg-primary) !important;
+}
+
+/* Animated starfield on the chat background */
+.chatContent_f75ce0::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(1px 1px at 10% 15%, rgba(255,255,220,0.7), transparent),
+    radial-gradient(1.2px 1.2px at 25% 35%, rgba(255,255,220,0.6), transparent),
+    radial-gradient(1px 1px at 40% 8%,  rgba(255,255,220,0.5), transparent),
+    radial-gradient(1.5px 1.5px at 55% 42%, rgba(230,240,255,0.7), transparent),
+    radial-gradient(1px 1px at 70% 12%, rgba(255,255,220,0.6), transparent),
+    radial-gradient(1.3px 1.3px at 85% 28%, rgba(255,255,220,0.5), transparent),
+    radial-gradient(1px 1px at 15% 55%, rgba(230,240,255,0.4), transparent),
+    radial-gradient(1.4px 1.4px at 35% 68%, rgba(255,255,220,0.6), transparent),
+    radial-gradient(1px 1px at 50% 75%, rgba(255,255,220,0.5), transparent),
+    radial-gradient(1.2px 1.2px at 65% 82%, rgba(230,240,255,0.4), transparent),
+    radial-gradient(1px 1px at 80% 60%, rgba(255,255,220,0.5), transparent),
+    radial-gradient(1.5px 1.5px at 92% 50%, rgba(255,255,220,0.7), transparent),
+    radial-gradient(1px 1px at 20% 88%, rgba(230,240,255,0.4), transparent),
+    radial-gradient(1.3px 1.3px at 45% 92%, rgba(255,255,220,0.5), transparent),
+    radial-gradient(1px 1px at 75% 95%, rgba(255,255,220,0.6), transparent),
+    radial-gradient(1.1px 1.1px at 8% 72%,  rgba(255,255,220,0.35), transparent),
+    radial-gradient(1px 1px at 60% 25%, rgba(230,240,255,0.5), transparent),
+    radial-gradient(1.4px 1.4px at 30% 20%, rgba(255,255,220,0.45), transparent),
+    radial-gradient(1px 1px at 88% 38%, rgba(255,255,220,0.55), transparent),
+    radial-gradient(1.6px 1.6px at 50% 50%, rgba(230,180,34,0.5), transparent);
+  animation: twinkle 4s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  0%   { opacity: 0.6; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+/* ===== SERVER LIST / SIDEBAR ===== */
+.guilds_c48ade {
+  background: var(--bg-primary) !important;
+  border-right: 1px solid var(--divider) !important;
+}
+
+/* Server pill */
+.pill_c48ade {
+  background: var(--brand-experiment) !important;
+  box-shadow: 0 0 10px var(--brand-glow), 0 0 20px var(--brand-glow) !important;
+}
+
+/* Server icon hover */
+.wrapper_c48ade:hover .childWrapper_c48ade {
+  background: var(--brand-experiment) !important;
+  border-radius: 16px !important;
+}
+
+/* ===== CHANNEL LIST ===== */
+.sidebar_c48ade {
+  background: var(--bg-secondary) !important;
+}
+
+.sidebar_c48ade::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(27,60,140,0.25), transparent 60%),
+    radial-gradient(ellipse at 70% 80%, rgba(30,50,120,0.15), transparent 50%);
+}
+
+/* Channel header */
+.header_c48ade {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Channel categories */
+.containerDefault_c48ade .header_c48ade {
+  color: var(--header-secondary) !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.6875rem;
+  letter-spacing: 0.02em;
+}
+
+/* Channel name */
+.name_c48ade {
+  color: var(--interactive-normal) !important;
+}
+.name_c48ade:hover,
+.name_c48ade.selected_c48ade {
+  color: var(--interactive-active) !important;
+}
+
+/* Voice channel connected */
+.modeConnected_c48ade .name_c48ade {
+  color: var(--status-positive) !important;
+}
+
+/* ===== CHAT AREA ===== */
+.chatContent_f75ce0,
+.content_f75ce0 {
+  background: var(--bg-primary) !important;
+}
+
+/* Chat header */
+.title_f75ce0 {
+  background: rgba(11, 16, 38, 0.85) !important;
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--divider) !important;
+}
+
+.title_f75ce0 h1,
+.title_f75ce0 h3 {
+  color: var(--header-primary) !important;
+}
+
+/* ===== MESSAGES ===== */
+.message_f75ce0 {
+  color: var(--text-normal) !important;
+}
+
+/* Message hover */
+.message_f75ce0:hover {
+  background: var(--bg-modifier-hover) !important;
+}
+
+/* Username colors */
+.username_f75ce0 {
+  color: var(--brand-experiment) !important;
+  font-weight: 600;
+}
+
+/* Bot tag */
+.botTag_f75ce0 {
+  background: var(--brand-experiment) !important;
+  color: var(--bg-primary) !important;
+}
+
+/* Timestamps */
+.timestamp_f75ce0 {
+  color: var(--text-muted) !important;
+}
+
+/* Message links */
+.markup_f75ce0 a {
+  color: var(--text-link) !important;
+}
+
+/* ===== MESSAGE INPUT / TEXTAREA ===== */
+.channelTextArea_f75ce0 {
+  background: var(--bg-tertiary) !important;
+  border: 1px solid var(--divider) !important;
+  border-radius: 12px !important;
+}
+
+.channelTextArea_f75ce0:focus-within {
+  border-color: var(--brand-experiment-560) !important;
+  box-shadow: 0 0 0 2px var(--brand-glow) !important;
+}
+
+/* Placeholder text */
+.placeholder_f75ce0 {
+  color: var(--text-muted) !important;
+}
+
+/* ===== MEMBERS LIST ===== */
+.members_c48ade {
+  background: var(--bg-secondary) !important;
+}
+
+.member_c48ade .name_c48ade {
+  color: var(--interactive-normal) !important;
+}
+.member_c48ade:hover .name_c48ade {
+  color: var(--interactive-hover) !important;
+}
+
+/* Online/offline indicators */
+.status_f75ce0 {
+  border: 3px solid var(--bg-secondary) !important;
+}
+
+/* ===== USER AREA (BOTTOM LEFT) ===== */
+.panel_c48ade {
+  background: var(--bg-tertiary) !important;
+}
+
+.avatar_f75ce0 {
+  border-radius: 50% !important;
+}
+
+.nameTag_c48ade .username_c48ade {
+  color: var(--header-primary) !important;
+}
+
+/* ===== BUTTONS ===== */
+.lookFilled_f75ce0.colorBrand_f75ce0 {
+  background: var(--brand-experiment) !important;
+  color: var(--bg-primary) !important;
+  font-weight: 600;
+}
+.lookFilled_f75ce0.colorBrand_f75ce0:hover {
+  background: var(--brand-experiment-hover) !important;
+}
+
+/* Outline / ghost buttons */
+.lookOutlined_f75ce0.colorBrand_f75ce0 {
+  border-color: var(--brand-experiment) !important;
+  color: var(--brand-experiment) !important;
+}
+
+/* ===== MODALS ===== */
+.root_f75ce0 {
+  background: var(--bg-floating) !important;
+  border-radius: 16px !important;
+  box-shadow: var(--elevation-high) !important;
+}
+
+.modal_f75ce0 .header_f75ce0 {
+  background: transparent !important;
+}
+
+/* ===== SCROLLBARS ===== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-auto-track) !important;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-auto-thumb) !important;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--bg-accent) !important;
+}
+
+/* ===== TOOLTIPS ===== */
+.tooltip_f75ce0 {
+  background: var(--bg-floating) !important;
+  color: var(--text-normal) !important;
+  border: 1px solid var(--divider) !important;
+  box-shadow: var(--elevation-high) !important;
+}
+
+/* ===== MENTIONS ===== */
+.mention_f75ce0 {
+  background: rgba(230, 180, 34, 0.15) !important;
+  color: var(--brand-experiment) !important;
+  font-weight: 500;
+}
+.mention_f75ce0:hover {
+  background: rgba(230, 180, 34, 0.25) !important;
+}
+
+/* ===== EMOJI REACTIONS ===== */
+.reaction_f75ce0 {
+  background: var(--bg-tertiary) !important;
+  border: 1px solid var(--divider) !important;
+}
+.reaction_f75ce0:hover {
+  border-color: var(--brand-experiment-560) !important;
+  background: var(--bg-modifier-hover) !important;
+}
+.reaction_f75ce0.reacted_f75ce0 {
+  background: rgba(230, 180, 34, 0.15) !important;
+  border-color: var(--brand-experiment) !important;
+}
+
+/* ===== CODE BLOCKS ===== */
+.markup_f75ce0 pre {
+  background: rgba(8, 12, 30, 0.7) !important;
+  border: 1px solid var(--divider) !important;
+  border-radius: 8px !important;
+}
+
+.markup_f75ce0 code {
+  background: rgba(15, 22, 50, 0.6) !important;
+  border-radius: 4px;
+  color: #a5d6ff !important;
+}
+
+/* ===== SEARCH / AUTOCOMPLETE ===== */
+.autocomplete_f75ce0 {
+  background: var(--bg-floating) !important;
+  border: 1px solid var(--divider) !important;
+  border-radius: 12px !important;
+}
+
+.searchAnswer_f75ce0,
+.autocompleteRowVertical_f75ce0:hover {
+  background: var(--bg-modifier-hover) !important;
+}
+
+/* ===== NOTIFICATIONS BADGE ===== */
+.badge_c48ade {
+  background: var(--status-danger) !important;
+  box-shadow: 0 0 6px rgba(240, 71, 71, 0.4);
+}
+
+/* ===== UNREAD DOT ===== */
+.unread_c48ade {
+  background: var(--brand-experiment) !important;
+  box-shadow: 0 0 8px var(--brand-glow);
+}
+
+/* ===== SETTINGS / USER SETTINGS ===== */
+.sideBar_c195a3 {
+  background: var(--bg-secondary) !important;
+}
+
+/* ===== VAN GOGH SWIRL EFFECT ON SERVER LIST HOVER ===== */
+.guilds_c48ade::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -20%;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(27, 60, 140, 0.08), transparent 50%),
+    radial-gradient(ellipse at 80% 30%, rgba(30, 70, 150, 0.06), transparent 40%);
+  animation: swirl 20s linear infinite;
+}
+
+@keyframes swirl {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ===== SPLASH / LOADING SCREEN ===== */
+.bg_f75ce0 {
+  background: var(--bg-primary) !important;
+}
+
+/* ===== TOP BAR ---- */
+.container_f75ce0 {
+  background: rgba(11, 16, 38, 0.85) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--divider) !important;
+}
+
+/* ===== REDUCE MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  .chatContent_f75ce0::before {
+    animation: none;
+  }
+  .guilds_c48ade::before {
+    animation: none;
+  }
+}
