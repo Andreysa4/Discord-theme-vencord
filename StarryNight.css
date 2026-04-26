@@ -1,632 +1,119 @@
-/**
- * @name StarryNight
- * @description A celestial deep-space theme for Discord. Uses the exact Spicetify StarryNight image.
- *              Features: Original image background, CSS animated static stars, random brightening stars,
- *              shooting stars falling down with fading tails. Every container transparent.
- *              Voice chat keeps its background. Profile banners and avatars untouched.
- * @author Adapted for Discord
- * @version 10.0.0
- */
-
 /* =======================================================================
-   CSS VARIABLES
+   CSS-ONLY EXOSPHERE BACKGROUND
+   No photo, only the atmospheric sky effect
    ======================================================================= */
-:root {
-  --sn-accent: #4a90d9;
-  --sn-accent-bright: #5ba0ec;
-  --sn-accent-dim: #3a72b0;
-  --sn-text: #e0e6f0;
-  --sn-text-sub: #8898b8;
-  --sn-text-dim: #4a5878;
-  --sn-green: #50c878;
-  --sn-yellow: #e8c050;
-  --sn-red: #e85050;
-  --sn-border: rgba(74, 144, 217, 0.07);
-  --sn-border-hover: rgba(74, 144, 217, 0.14);
-  --sn-glass: rgba(2, 4, 10, 0.55);
-  --sn-glass-heavy: rgba(2, 4, 10, 0.88);
-  --sn-glass-light: rgba(2, 4, 10, 0.3);
-  --sn-hover: rgba(74, 144, 217, 0.06);
-  --sn-active: rgba(74, 144, 217, 0.1);
-  --sn-selected: rgba(74, 144, 217, 0.13);
-}
+html,
+body {
+  background:
+    /* horizon glow */
+    radial-gradient(
+      ellipse 240% 85% at 50% 118%,
+      rgba(70, 135, 255, 0.34) 0%,
+      rgba(38, 96, 220, 0.20) 18%,
+      rgba(18, 52, 145, 0.10) 38%,
+      rgba(8, 22, 70, 0.03) 58%,
+      transparent 72%
+    ),
 
-/* =======================================================================
-   THE ORIGINAL SPICETIFY BACKGROUND IMAGE
-   This gives you the exact black-to-blue exosphere effect perfectly.
-   ======================================================================= */
-html, body {
-  background: url("https://github.com/b-chen00/spicetify-themes/blob/master/StarryNight/images/base.png?raw=true") center/cover no-repeat fixed !important;
+    /* upper atmosphere */
+    radial-gradient(
+      ellipse 180% 60% at 50% 108%,
+      rgba(120, 180, 255, 0.16) 0%,
+      rgba(70, 130, 255, 0.09) 26%,
+      rgba(25, 55, 145, 0.03) 50%,
+      transparent 66%
+    ),
+
+    /* soft atmospheric bloom */
+    radial-gradient(
+      ellipse 130% 40% at 50% 102%,
+      rgba(170, 210, 255, 0.08) 0%,
+      rgba(80, 135, 255, 0.04) 34%,
+      transparent 60%
+    ),
+
+    /* subtle nebula haze */
+    radial-gradient(
+      ellipse 90% 50% at 78% 30%,
+      rgba(70, 90, 180, 0.06) 0%,
+      transparent 72%
+    ),
+
+    radial-gradient(
+      ellipse 70% 45% at 18% 58%,
+      rgba(80, 50, 150, 0.05) 0%,
+      transparent 72%
+    ),
+
+    /* main exosphere gradient */
+    linear-gradient(
+      to bottom,
+      #000000 0%,
+      #000000 7%,
+      #000103 14%,
+      #000207 20%,
+      #010512 28%,
+      #020a1d 36%,
+      #04142d 46%,
+      #082347 58%,
+      #0d3470 72%,
+      #15479d 86%,
+      #1e5cc8 100%
+    ) !important;
+
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+  background-size:
+    115% 102%,
+    110% 101%,
+    106% 100%,
+    120% 110%,
+    120% 110%,
+    100% 100% !important;
+  background-position:
+    50% 100%,
+    50% 100%,
+    50% 100%,
+    78% 30%,
+    18% 58%,
+    50% 50% !important;
   background-color: #000000 !important;
-  min-height: 100vh;
+  min-height: 100vh !important;
+  animation: sn-exosphere-drift 28s ease-in-out infinite alternate;
 }
 
-/* =======================================================================
-   EXTRA CSS STARS (Overlayed on top of the image)
-   ======================================================================= */
-html::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(2.5px 2.5px at 7% 3%, #fff 50%, transparent 100%),
-    radial-gradient(2px 2px at 22% 1%, #a0c4ff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 44% 4%, #fff 50%, transparent 100%),
-    radial-gradient(2px 2px at 66% 2%, #c8d8f0 50%, transparent 100%),
-    radial-gradient(2px 2px at 88% 5%, #ffecd2 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 11% 10%, #a0c4ff 50%, transparent 100%),
-    radial-gradient(2px 2px at 33% 7%, #fff 50%, transparent 100%),
-    radial-gradient(2px 2px at 55% 12%, #b8a0e8 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 77% 8%, #fff 50%, transparent 100%),
-    radial-gradient(2px 2px at 92% 14%, #a0e8e8 50%, transparent 100%),
-    radial-gradient(2px 2px at 4% 18%, #fff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 27% 15%, #ffecd2 50%, transparent 100%),
-    radial-gradient(2px 2px at 49% 20%, #fff 50%, transparent 100%),
-    radial-gradient(2px 2px at 71% 17%, #a0c4ff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 94% 22%, #fff 50%, transparent 100%),
-    radial-gradient(2px 2px at 16% 25%, #e8a0c8 50%, transparent 100%),
-    radial-gradient(2px 2px at 38% 28%, #fff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 60% 24%, #a0c4ff 50%, transparent 100%),
-    radial-gradient(2px 2px at 82% 30%, #fff 50%, transparent 100%),
-    radial-gradient(2px 2px at 7% 33%, #c8d8f0 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 50% 31%, #fff 50%, transparent 100%),
-    radial-gradient(2px 2px at 72% 35%, #b8a0e8 50%, transparent 100%),
-    radial-gradient(2px 2px at 14% 38%, #fff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 41% 42%, #a0c4ff 50%, transparent 100%),
-    radial-gradient(2px 2px at 67% 40%, #fff 50%, transparent 100%),
-    radial-gradient(2px 2px at 89% 45%, #c8d8f0 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 27% 48%, #fff 50%, transparent 100%),
-    radial-gradient(2px 2px at 55% 44%, #ffecd2 50%, transparent 100%),
-    radial-gradient(2px 2px at 78% 50%, #fff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 8% 53%, #a0e8e8 50%, transparent 100%),
-    radial-gradient(2px 2px at 35% 56%, #fff 50%, transparent 100%),
-    radial-gradient(2px 2px at 62% 52%, #a0c4ff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 91% 58%, #fff 50%, transparent 100%),
-    radial-gradient(2px 2px at 20% 55%, #b8a0e8 50%, transparent 100%),
-    radial-gradient(2px 2px at 48% 60%, #fff 50%, transparent 100%),
-    radial-gradient(2px 2px at 10% 65%, #fff 50%, transparent 100%),
-    radial-gradient(2px 2px at 37% 68%, #a0c4ff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 65% 63%, #fff 50%, transparent 100%),
-    radial-gradient(2px 2px at 85% 70%, #c8d8f0 50%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 18% 82%, #fff 40%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 58% 85%, #c8d8f0 40%, transparent 100%),
-    radial-gradient(2px 2px at 80% 83%, #fff 40%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 35% 90%, #a0c4ff 35%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 70% 92%, #fff 30%, transparent 100%);
-  background-color: transparent;
-  background-attachment: fixed;
-  opacity: 0.6; /* Slightly faded so it blends perfectly with the image */
-}
+@keyframes sn-exosphere-drift {
+  0% {
+    background-size:
+      115% 102%,
+      110% 101%,
+      106% 100%,
+      120% 110%,
+      120% 110%,
+      100% 100%;
+    background-position:
+      49% 100%,
+      51% 100%,
+      50% 100%,
+      78% 30%,
+      18% 58%,
+      50% 50%;
+  }
 
-/* =======================================================================
-   BRIGHTENING STARS
-   ======================================================================= */
-html::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(2.5px 2.5px at 14% 8%, #fff 50%, transparent 100%),
-    radial-gradient(2px 2px at 74% 15%, #fff 50%, transparent 100%),
-    radial-gradient(2px 2px at 4% 30%, #a0c4ff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 84% 12%, #fff 50%, transparent 100%),
-    radial-gradient(2px 2px at 29% 22%, #ffecd2 50%, transparent 100%),
-    radial-gradient(2px 2px at 59% 35%, #fff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 19% 55%, #a0c4ff 50%, transparent 100%);
-  background-color: transparent;
-  background-attachment: fixed;
-  animation: brightenA 11s ease-in-out infinite;
+  100% {
+    background-size:
+      119% 104%,
+      113% 102%,
+      108% 101%,
+      124% 112%,
+      124% 112%,
+      100% 100%;
+    background-position:
+      51% 100%,
+      49% 100%,
+      50% 100%,
+      76% 28%,
+      20% 60%,
+      50% 50%;
+  }
 }
-@keyframes brightenA {
-  0%{opacity:.08}8%{opacity:.08}12%{opacity:.95}18%{opacity:.95}25%{opacity:.08}100%{opacity:.08}
-}
-
-#app-mount::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(2px 2px at 34% 18%, #b8a0e8 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 89% 28%, #fff 50%, transparent 100%),
-    radial-gradient(2px 2px at 44% 10%, #a0e8e8 50%, transparent 100%),
-    radial-gradient(2px 2px at 69% 5%, #fff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 94% 40%, #ffecd2 50%, transparent 100%),
-    radial-gradient(2px 2px at 9% 45%, #fff 50%, transparent 100%),
-    radial-gradient(2px 2px at 49% 50%, #a0c4ff 50%, transparent 100%);
-  background-color: transparent;
-  background-attachment: fixed;
-  animation: brightenB 14s ease-in-out infinite 3s;
-}
-@keyframes brightenB {
-  0%{opacity:.06}5%{opacity:.06}10%{opacity:.9}17%{opacity:.9}24%{opacity:.06}100%{opacity:.06}
-}
-
-#app-mount::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(2px 2px at 54% 6%, #fff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 24% 42%, #e8a0c8 50%, transparent 100%),
-    radial-gradient(2px 2px at 64% 48%, #fff 50%, transparent 100%),
-    radial-gradient(2px 2px at 79% 20%, #a0c4ff 50%, transparent 100%),
-    radial-gradient(2.5px 2.5px at 39% 3%, #fff 50%, transparent 100%),
-    radial-gradient(2px 2px at 2% 15%, #b8a0e8 50%, transparent 100%),
-    radial-gradient(2px 2px at 72% 32%, #fff 50%, transparent 100%);
-  background-color: transparent;
-  background-attachment: fixed;
-  animation: brightenC 17s ease-in-out infinite 7s;
-}
-@keyframes brightenC {
-  0%{opacity:.05}4%{opacity:.05}8%{opacity:.85}14%{opacity:.85}20%{opacity:.05}100%{opacity:.05}
-}
-
-/* =======================================================================
-   SHOOTING STARS - FALLING DOWNWARD WITH FADING TAILS
-   ======================================================================= */
-body::before {
-  content: "";
-  position: fixed;
-  top: -10%;
-  left: 15%;
-  width: 2px;
-  height: 190px;
-  background: linear-gradient(to bottom,
-    transparent 0%, rgba(100,160,255,0) 3%, rgba(100,160,255,.01) 10%,
-    rgba(110,168,255,.03) 20%, rgba(125,180,255,.07) 30%, rgba(145,195,255,.14) 42%,
-    rgba(170,210,255,.26) 54%, rgba(195,225,255,.42) 66%, rgba(220,238,255,.62) 78%,
-    rgba(242,248,255,.84) 90%, #fff 100%);
-  box-shadow: 0 190px 0 1.5px #fff, 0 190px 4px 2px rgba(200,220,255,.9),
-    0 190px 10px 4px rgba(160,196,255,.45), 0 190px 22px 8px rgba(130,175,255,.15);
-  transform-origin: bottom center;
-  transform: rotate(-35deg);
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 0;
-  animation: fallDownRight 30s linear infinite 5s;
-  filter: blur(0.1px);
-}
-@keyframes fallDownRight {
-  0%{top:-10%;left:15%;opacity:0}.3%{opacity:1}1.5%{opacity:.9}3%{opacity:.7}
-  4.5%{opacity:.4}5.5%{opacity:.15}6.5%{top:110%;left:55%;opacity:0}100%{opacity:0}
-}
-
-body::after {
-  content: "";
-  position: fixed;
-  top: -8%;
-  right: 20%;
-  width: 1.5px;
-  height: 160px;
-  background: linear-gradient(to bottom,
-    transparent 0%, rgba(180,160,230,0) 3%, rgba(180,160,230,.01) 10%,
-    rgba(185,168,235,.03) 20%, rgba(190,175,240,.07) 30%, rgba(200,188,244,.14) 42%,
-    rgba(212,202,248,.26) 54%, rgba(225,218,252,.42) 66%, rgba(238,232,254,.62) 78%,
-    rgba(248,245,255,.84) 90%, #fff 100%);
-  box-shadow: 0 160px 0 1.5px #fff, 0 160px 4px 2px rgba(220,210,255,.9),
-    0 160px 10px 4px rgba(184,160,232,.45), 0 160px 22px 8px rgba(170,150,220,.15);
-  transform-origin: bottom center;
-  transform: rotate(30deg);
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 0;
-  animation: fallDownLeft 40s linear infinite 18s;
-  filter: blur(0.1px);
-}
-@keyframes fallDownLeft {
-  0%{top:-8%;right:20%;opacity:0}.2%{opacity:.9}1.2%{opacity:.85}2.5%{opacity:.6}
-  3.8%{opacity:.3}4.5%{opacity:.1}5.2%{top:108%;right:60%;opacity:0}100%{opacity:0}
-}
-
-/* =======================================================================
-   DISCORD VARIABLE OVERRIDES
-   ======================================================================= */
-.theme-dark,
-.theme-light {
-  --background-primary: transparent !important;
-  --background-secondary: transparent !important;
-  --background-secondary-alt: transparent !important;
-  --background-tertiary: transparent !important;
-  --background-accent: var(--sn-accent) !important;
-  --background-floating: var(--sn-glass-heavy) !important;
-  --background-nested-floating: var(--sn-glass-heavy) !important;
-  --background-mobile-primary: transparent !important;
-  --background-mobile-secondary: transparent !important;
-  --background-modifier-hover: var(--sn-hover) !important;
-  --background-modifier-active: var(--sn-active) !important;
-  --background-modifier-selected: var(--sn-selected) !important;
-  --background-modifier-accent: var(--sn-border) !important;
-  --background-mentioned: rgba(74,144,217,0.05) !important;
-  --background-mentioned-hover: rgba(74,144,217,0.08) !important;
-  --background-message-hover: rgba(0,0,0,0.06) !important;
-  --channeltextarea-background: var(--sn-glass) !important;
-  --text-normal: var(--sn-text) !important;
-  --text-muted: var(--sn-text-dim) !important;
-  --text-link: var(--sn-accent-bright) !important;
-  --text-positive: var(--sn-green) !important;
-  --text-warning: var(--sn-yellow) !important;
-  --text-danger: var(--sn-red) !important;
-  --header-primary: var(--sn-text) !important;
-  --header-secondary: var(--sn-text-sub) !important;
-  --interactive-normal: var(--sn-text-sub) !important;
-  --interactive-hover: var(--sn-text) !important;
-  --interactive-active: #fff !important;
-  --interactive-muted: var(--sn-text-dim) !important;
-  --channels-default: var(--sn-text-sub) !important;
-  --channel-icon: var(--sn-text-sub) !important;
-  --brand-experiment: var(--sn-accent) !important;
-  --brand-experiment-560: var(--sn-accent) !important;
-  --brand-experiment-600: var(--sn-accent-dim) !important;
-  --scrollbar-thin-thumb: rgba(74,144,217,0.16) !important;
-  --scrollbar-thin-track: transparent !important;
-  --scrollbar-auto-thumb: rgba(74,144,217,0.16) !important;
-  --scrollbar-auto-track: transparent !important;
-  --scrollbar-auto-scrollbar-color-thumb: rgba(74,144,217,0.16) !important;
-  --scrollbar-auto-scrollbar-color-track: transparent !important;
-  --input-background: var(--sn-glass) !important;
-  --input-placeholder-text: var(--sn-text-dim) !important;
-  --activity-card-background: var(--sn-glass) !important;
-  --modal-background: var(--sn-glass-heavy) !important;
-  --modal-footer-background: var(--sn-glass-heavy) !important;
-  --deprecated-text-input-bg: var(--sn-glass) !important;
-  --deprecated-text-input-border: var(--sn-border) !important;
-  --deprecated-text-input-border-hover: var(--sn-border-hover) !important;
-  --info-positive-foreground: var(--sn-green) !important;
-  --info-warning-foreground: var(--sn-yellow) !important;
-  --info-danger-foreground: var(--sn-red) !important;
-  --status-positive: var(--sn-green) !important;
-  --status-warning: var(--sn-yellow) !important;
-  --status-danger: var(--sn-red) !important;
-}
-
-/* =======================================================================
-   TRANSPARENCY - EVERY CONTAINER
-   ======================================================================= */
-#app-mount,
-#app-mount > div,
-[class*="app_"],
-[class*="appMount"],
-[class*="layers_"],
-[class*="layer_"],
-[class*="baseLayer_"],
-[class*="base_"],
-[class*="bg_"],
-[class*="content_"],
-[class*="chat_"],
-[class*="chatContent_"],
-[class*="messagesWrapper_"],
-[class*="sidebar_"],
-[class*="guilds_"],
-[class*="panels_"],
-[class*="panel_"],
-[class*="members_"],
-[class*="membersWrap_"],
-[class*="container_"],
-[class*="privateChannels_"],
-[class*="scroller_"],
-[class*="tree_"],
-[class*="themed_"],
-[class*="contentRegion_"],
-[class*="contentRegionScroller_"],
-[class*="standardSidebarView_"],
-[class*="sidebarRegion_"],
-[class*="sidebarRegionScroller_"],
-[class*="contentColumn_"],
-[class*="pageWrapper_"],
-[class*="peopleColumn_"],
-[class*="peopleList_"],
-[class*="nowPlayingColumn_"],
-[class*="applicationStore_"],
-[class*="hubContainer_"],
-[class*="directoryContainer_"],
-[class*="threadSidebar_"],
-[class*="typing_"],
-[class*="noChannel_"],
-[class*="emptyPage_"],
-[class*="empty_"],
-[class*="homeContainer_"],
-[class*="libraryHeader_"],
-[class*="premiumTab_"],
-[class*="storeWrapper_"],
-[class*="titleBar_"],
-[class*="wordmark_"],
-[class*="toolbar_"],
-[class*="title_"],
-[class*="header_"],
-[class*="headerBar_"],
-[class*="tabBar_"],
-[class*="tabBody_"],
-[class*="searchBar_"],
-[class*="searchHeader_"],
-[class*="searchResult_"],
-[class*="channelTextArea_"],
-[class*="welcomeCTA_"],
-[class*="wrapper_"],
-[class*="perksModal_"],
-[class*="forumPostList_"],
-[class*="uploadArea_"],
-[class*="noChat_"],
-[class*="guildIcon_"],
-[class*="settingsContainer_"],
-[class*="userSettingsAccount_"],
-[class*="inspector_"],
-[class*="categoryItem_"],
-[class*="appAsidePanelWrapper_"],
-[class*="notAppAsidePanel_"],
-[class*="channelPanelTitle_"],
-[class*="profilePanel_"],
-[class*="profilePanelScroller_"],
-[class*="userPanelOuter_"],
-[class*="userPanelInner_"],
-[class*="infoScroller_"],
-[class*="userInfoSection_"],
-[class*="connectedAccounts_"],
-[class*="body_"],
-[class*="tabBarContainer_"],
-[class*="peopleTabBar_"],
-[class*="searchResultsWrap_"],
-nav[aria-label="Servers sidebar"],
-nav[aria-label="Servers sidebar"] > ul,
-nav[aria-label="Servers sidebar"] > div,
-[class*="peopleListItem_"],
-[class*="outer_"],
-[class*="inner_"],
-[class*="mainContent_"],
-[class*="children_"],
-[class*="form_"],
-[class*="channelHeader_"],
-[class*="topic_"],
-[class*="headerChildren_"],
-[class*="upperContainer_"],
-[class*="lowerContainer_"],
-[class*="sectionHeader_"],
-[class*="emptyState_"],
-[class*="friendsEmpty_"],
-[class*="noFriends_"],
-[class*="wumpus_"],
-[class*="imageUploaderInner_"],
-[class*="notice_"],
-[class*="colorDefault_"],
-[class*="lookBlank_"],
-[class*="customColumn_"],
-[class*="contentWrapper_"],
-[class*="listItems_"],
-[class*="listDefault_"],
-[class*="sectionDesign_"],
-[class*="scrollerBase_"],
-[class*="thin_"],
-[class*="fade_"],
-[class*="scrollerContent_"],
-[class*="navRow_"],
-[class*="settingsList_"],
-[class*="background_"],
-[class*="nitroBackground_"],
-[class*="premiumSettings_"],
-[class*="viewBody_"],
-[class*="animatedContainer_"],
-[class*="focusLock_"],
-[class*="root_"],
-[class*="fullWidth_"],
-[class*="detailsWrapper_"],
-[class*="markup_"],
-[class*="messageContent_"],
-[class*="reactions_"],
-[class*="buttonContainer_"],
-[class*="quickswitcher_"],
-[class*="inputWrapper_"],
-[class*="resultFocused_"],
-[class*="option_"],
-[class*="searchOption_"],
-[class*="item_"],
-[class*="gameItem_"],
-[class*="nowPlayingCard_"],
-[class*="nowPlayingAdd_"],
-[class*="connectedAccount_"],
-[class*="accountList_"],
-[class*="settingsSection_"],
-[class*="socialLinks_"],
-[class*="game_"],
-[class*="row_"],
-[class*="labelRow_"],
-[class*="card_"],
-[class*="cardHeader_"],
-[class*="cardBody_"],
-[class*="feature_"],
-[class*="featureHeader_"],
-[class*="closeButton_"],
-[class*="flex_"],
-[class*="horizontal_"],
-[class*="vertical_"],
-main, aside, section, nav,
-[role="tabpanel"], [role="tablist"], [role="list"],
-[role="complementary"], [role="navigation"], [role="main"] {
-  background: transparent !important;
-  background-color: transparent !important;
-}
-
-[style*="background-color: var(--background-primary)"],
-[style*="background-color: var(--background-secondary)"],
-[style*="background-color: var(--background-tertiary)"],
-[style*="background-color: var(--background-secondary-alt)"] {
-  background-color: transparent !important;
-}
-
-/* =======================================================================
-   VOICE CHANNEL LIST - transparent (just the channel listing in sidebar)
-   ======================================================================= */
-[class*="containerDefault_"][class*="voice_"],
-[class*="containerDefault_"] [class*="voiceUsers_"],
-[class*="voiceUsers_"],
-[class*="voiceUser_"],
-[class*="listDefault_"] [class*="voice_"] {
-  background: transparent !important;
-  background-color: transparent !important;
-}
-
-/* =======================================================================
-   VOICE CHAT / CALL - KEEP OPAQUE
-   The actual voice/video call UI when connected stays dark.
-   ======================================================================= */
-[class*="callContainer_"],
-[class*="voiceCallWrapper_"],
-[class*="voiceCall_"],
-[class*="videoWrapper_"],
-[class*="gridContainer_"],
-[class*="grid_"][class*="video_"],
-[class*="centeringWrapper_"],
-[class*="videoContainer_"],
-[class*="videoGrid_"],
-[class*="pictureInPictureWindow_"],
-[class*="pictureInPicture_"],
-[class*="stageSection_"],
-[class*="stageSpeaker_"],
-[class*="audienceSection_"] {
-  background: #0a0e1a !important;
-  background-color: #0a0e1a !important;
-}
-[class*="videoTile_"],
-[class*="noVideoTile_"],
-[class*="tileContainer_"],
-[class*="tile_"][class*="voice_"],
-[class*="tile_"][class*="video_"] {
-  background: #0e1525 !important;
-  background-color: #0e1525 !important;
-}
-[class*="tileContainer_"] {
-  border: 1px solid rgba(74,144,217,0.06) !important;
-  border-radius: 8px !important;
-}
-[class*="controlsContainer_"],
-[class*="voiceControls_"],
-[class*="bottomControls_"],
-[class*="bottomSection_"] {
-  background: #080c16 !important;
-  background-color: #080c16 !important;
-}
-[class*="speaking_"] {
-  box-shadow: 0 0 12px rgba(74,144,217,0.3) !important;
-}
-[class*="connection_"],
-[class*="rtcConnection_"],
-[class*="rtcConnectionStatus_"] {
-  background: transparent !important;
-  background-color: transparent !important;
-}
-
-/* =======================================================================
-   SUBTLE PANEL DIVIDERS
-   ======================================================================= */
-nav[aria-label="Servers sidebar"] { border-right: 1px solid rgba(74,144,217,0.04) !important; }
-[class*="sidebar_"]:not([class*="threadSidebar_"]) { border-right: 1px solid rgba(74,144,217,0.04) !important; }
-[class*="membersWrap_"] { border-left: 1px solid rgba(74,144,217,0.04) !important; }
-[class*="panels_"] { border-top: 1px solid rgba(74,144,217,0.04) !important; }
-[class*="title_"][class*="container_"],
-[class*="chat_"] > [class*="title_"],
-[class*="header_"][class*="container_"] {
-  border-bottom: 1px solid rgba(74,144,217,0.04) !important;
-  box-shadow: none !important;
-}
-
-/* =======================================================================
-   UI ELEMENTS
-   ======================================================================= */
-[class*="containerDefault_"]:hover { background-color: var(--sn-hover) !important; }
-[class*="containerDefault_"][class*="modeSelected_"],
-[class*="containerDefault_"][class*="modeSelected_"] [class*="wrapper_"] { background-color: var(--sn-selected) !important; }
-[class*="containerDefault_"][class*="modeSelected_"] [class*="name_"],
-[class*="containerDefault_"][class*="modeSelected_"] [class*="icon_"] { color: var(--sn-accent-bright) !important; }
-[class*="containerDefault_"][class*="modeUnread_"] [class*="name_"] { color: var(--sn-text) !important; }
-[class*="listItem_"] [class*="icon_"]:hover { box-shadow: 0 0 12px rgba(74,144,217,0.3) !important; }
-[class*="pill_"] span[class*="item_"] { background-color: var(--sn-accent) !important; }
-[class*="guildSeparator_"] { background-color: rgba(74,144,217,0.06) !important; }
-[class*="tutorialContainer_"] [class*="childWrapper_"] { background-color: rgba(74,144,217,0.1) !important; transition: all 0.3s ease !important; }
-[class*="tutorialContainer_"] [class*="childWrapper_"]:hover { background-color: var(--sn-accent) !important; box-shadow: 0 0 20px rgba(74,144,217,0.4) !important; }
-[class*="message_"][class*="cozy_"]:hover { background-color: rgba(74,144,217,0.03) !important; }
-[class*="message_"][class*="mentioned_"] { background-color: rgba(74,144,217,0.05) !important; border-left: 3px solid var(--sn-accent) !important; }
-[class*="message_"][class*="mentioned_"]:hover { background-color: rgba(74,144,217,0.08) !important; }
-[class*="divider_"] { border-color: rgba(74,144,217,0.06) !important; }
-[class*="divider_"][class*="isUnread_"] { border-color: var(--sn-red) !important; }
-[class*="scrollableContainer_"] { background-color: var(--sn-glass) !important; border: 1px solid rgba(74,144,217,0.08) !important; border-radius: 8px !important; }
-[class*="scrollableContainer_"]:focus-within { border-color: rgba(74,144,217,0.3) !important; box-shadow: 0 0 12px rgba(74,144,217,0.1) !important; }
-[class*="embedWrapper_"] { background-color: var(--sn-glass) !important; border-color: rgba(74,144,217,0.08) !important; }
-[class*="markup_"] code { background-color: var(--sn-glass) !important; border: 1px solid rgba(74,144,217,0.08) !important; color: #a0c4ff !important; }
-[class*="markup_"] pre { background-color: var(--sn-glass) !important; border: 1px solid rgba(74,144,217,0.08) !important; }
-[class*="markup_"] pre code { background: transparent !important; border: none !important; color: var(--sn-text) !important; }
-[class*="reaction_"] { background-color: var(--sn-glass-light) !important; border: 1px solid rgba(74,144,217,0.08) !important; }
-[class*="reaction_"]:hover { background-color: var(--sn-active) !important; }
-[class*="reaction_"][class*="reactionMe_"] { background-color: rgba(74,144,217,0.15) !important; border-color: var(--sn-accent) !important; }
-
-/* Popouts & Modals */
-[class*="popout_"], [class*="userPopoutOuter_"], [class*="userProfileOuter_"], [class*="userProfileModal_"] {
-  background-color: var(--sn-glass-heavy) !important; border: 1px solid var(--sn-border) !important; box-shadow: 0 8px 32px rgba(0,0,0,0.7) !important; backdrop-filter: blur(16px) !important;
-}
-[class*="modal_"], [class*="root_"][class*="fullscreenOnMobile_"], [class*="layer_"] > [class*="root_"] {
-  background-color: var(--sn-glass-heavy) !important; border: 1px solid var(--sn-border) !important; box-shadow: 0 12px 48px rgba(0,0,0,0.7) !important; backdrop-filter: blur(16px) !important;
-}
-[class*="menu_"] { background-color: var(--sn-glass-heavy) !important; border: 1px solid var(--sn-border) !important; box-shadow: 0 8px 24px rgba(0,0,0,0.6) !important; backdrop-filter: blur(16px) !important; }
-[class*="menu_"] [class*="item_"] { color: var(--sn-text-sub) !important; border-radius: 4px !important; }
-[class*="menu_"] [class*="item_"]:hover, [class*="menu_"] [class*="item_"][class*="focused_"] { background-color: var(--sn-accent) !important; color: #fff !important; }
-[class*="menu_"] [class*="separator_"] { border-color: rgba(74,144,217,0.06) !important; }
-[class*="menu_"] [class*="item_"][class*="colorDanger_"]:hover { background-color: var(--sn-red) !important; }
-[class*="tooltip_"] { background-color: var(--sn-glass-heavy) !important; border: 1px solid var(--sn-border) !important; backdrop-filter: blur(12px) !important; }
-[class*="tooltipPointer_"] { border-top-color: var(--sn-glass-heavy) !important; }
-[class*="autocomplete_"] { background-color: var(--sn-glass-heavy) !important; border: 1px solid var(--sn-border) !important; backdrop-filter: blur(16px) !important; }
-[class*="autocomplete_"] [class*="selectorSelected_"] { background-color: var(--sn-selected) !important; }
-[class*="emojiPicker_"], [class*="contentWrapper_"][class*="picker_"], [class*="stickerInspected_"], [class*="expressionPicker_"] {
-  background-color: var(--sn-glass-heavy) !important; border: 1px solid var(--sn-border) !important; backdrop-filter: blur(16px) !important;
-}
-
-/* Misc UI */
-[class*="search_"] [class*="searchBar_"] { background-color: var(--sn-glass) !important; border: 1px solid rgba(74,144,217,0.08) !important; }
-[class*="search_"] [class*="searchBar_"]:focus-within { border-color: var(--sn-accent) !important; }
-[class*="searchResultsWrap_"] { background: var(--sn-glass) !important; }
-[class*="toolbar_"] [class*="iconWrapper_"] { color: var(--sn-text-dim) !important; }
-[class*="toolbar_"] [class*="iconWrapper_"]:hover { color: var(--sn-accent-bright) !important; }
-button[class*="lookFilled_"][class*="colorBrand_"] { background-color: var(--sn-accent) !important; }
-button[class*="lookFilled_"][class*="colorBrand_"]:hover { background-color: var(--sn-accent-bright) !important; box-shadow: 0 0 15px rgba(74,144,217,0.35) !important; }
-button[class*="lookFilled_"][class*="colorGreen_"] { background-color: var(--sn-green) !important; }
-button[class*="lookFilled_"][class*="colorRed_"] { background-color: var(--sn-red) !important; }
-[class*="side_"] [class*="item_"]:hover { background-color: var(--sn-hover) !important; }
-[class*="side_"] [class*="item_"][class*="selected_"] { background-color: var(--sn-selected) !important; color: var(--sn-accent-bright) !important; }
-[class*="cardPrimary_"], [class*="card_"]:not([class*="embedWrapper_"]) { background-color: var(--sn-glass-light) !important; border: 1px solid var(--sn-border) !important; }
-[class*="role_"] { background-color: var(--sn-glass-light) !important; border-color: rgba(74,144,217,0.08) !important; }
-[class*="members_"] [class*="member_"]:hover { background-color: var(--sn-hover) !important; }
-[class*="members_"] h2[class*="membersGroup_"] { color: var(--sn-text-dim) !important; }
-[class*="markup_"] a { color: var(--sn-accent-bright) !important; }
-[class*="markup_"] a:hover { color: #7cc0ff !important; text-shadow: 0 0 8px rgba(74,144,217,0.4) !important; }
-[class*="username_"]:hover { text-shadow: 0 0 8px currentColor !important; }
-[class*="numberBadge_"] { background-color: var(--sn-red) !important; box-shadow: 0 0 10px rgba(232,80,80,0.5) !important; }
-[class*="uploadDropModal_"] { background-color: rgba(2,4,10,0.85) !important; }
-[class*="uploadDropModal_"] [class*="inner_"] { border: 2px dashed var(--sn-accent) !important; background-color: rgba(74,144,217,0.05) !important; }
-[class*="unreadBar_"], [class*="newMessagesBar_"] { background-color: var(--sn-accent) !important; box-shadow: 0 0 12px rgba(74,144,217,0.3) !important; }
-[class*="jumpToPresentBar_"] { background-color: var(--sn-glass-heavy) !important; border: 1px solid var(--sn-border) !important; backdrop-filter: blur(8px) !important; }
-[class*="container_"][class*="card_"] { background-color: var(--sn-glass-light) !important; border: 1px solid var(--sn-border) !important; }
-[class*="premiumPromo_"], [class*="upsellContainer_"] { background-color: var(--sn-glass-light) !important; border: 1px solid var(--sn-border) !important; }
-[class*="containerDefault_"]:hover svg { filter: drop-shadow(0 0 3px rgba(74,144,217,0.35)) !important; }
-
-/* =======================================================================
-   SCROLLBAR
-   ======================================================================= */
-::-webkit-scrollbar { width: 6px !important; height: 6px !important; }
-::-webkit-scrollbar-track { background: transparent !important; }
-::-webkit-scrollbar-thumb { background-color: rgba(74,144,217,0.14) !important; border-radius: 3px !important; }
-::-webkit-scrollbar-thumb:hover { background-color: rgba(74,144,217,0.28) !important; }
-::-webkit-scrollbar-corner { background: transparent !important; }
-::selection { background-color: rgba(74,144,217,0.3) !important; color: #fff !important; }
-*:focus-visible { outline: 2px solid var(--sn-accent) !important; outline-offset: 2px !important; }
-
-/* =======================================================================
-   Z-INDEX
-   ======================================================================= */
-html::before, html::after { z-index: 0 !important; }
-#app-mount { position: relative !important; z-index: 1 !important; }
-#app-mount::before, #app-mount::after { z-index: 0 !important; }
-body::before, body::after { z-index: 9999 !important; }
